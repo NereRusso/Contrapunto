@@ -9,40 +9,37 @@ public class NarrationManager : MonoBehaviour
     private AudioClip lastNarrationClip;
     private bool isPlayingNarration;
 
+    // — ¡Nuevo flag! habilita/disables el E
+    [HideInInspector]
+    public bool repeatEnabled = true;
+
     private void Awake()
     {
-        // Singleton para acceso global
         if (Instance == null)
             Instance = this;
         else
-        {
             Destroy(gameObject);
-            return;
-        }
     }
 
     private void Update()
     {
-        // Verifica si terminó de reproducirse
+        // Detectar fin de reproducción
         if (isPlayingNarration && !narrationSource.isPlaying)
-        {
             isPlayingNarration = false;
-        }
 
-        // Repetir última narración con E
-        if (Input.GetKeyDown(KeyCode.E) && !isPlayingNarration && lastNarrationClip != null)
+        // Repetir última narración con E, solo si repeatEnabled == true
+        if (repeatEnabled &&
+            Input.GetKeyDown(KeyCode.E) &&
+            !isPlayingNarration &&
+            lastNarrationClip != null)
         {
             PlayNarration(lastNarrationClip);
         }
     }
 
-    /// <summary>
-    /// Llama esto cada vez que se reproduzca una nueva narración
-    /// </summary>
     public void PlayNarration(AudioClip clip)
     {
         if (clip == null) return;
-
         lastNarrationClip = clip;
         narrationSource.Stop();
         narrationSource.clip = clip;
@@ -50,3 +47,4 @@ public class NarrationManager : MonoBehaviour
         isPlayingNarration = true;
     }
 }
+

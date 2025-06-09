@@ -19,11 +19,13 @@ public class TerminalMal : MonoBehaviour
     public TextMeshProUGUI fullTextDisplay;
     public TMP_InputField inputField;
     public Button enterButton;
+    [Tooltip("Arrastrá aquí el Scroll Rect que contiene el TextMeshProUGUI")]
+    public ScrollRect scrollRect;
 
     [Header("Video y Narración")]
     public GameObject videoPanel;
     public VideoPlayer videoPlayer;
-    public AudioClip audio2Nere;   // AudioSource para la narración
+    public AudioClip audio2Nere;   // Narración
 
     [Header("Texto Completo")]
     [TextArea(5, 20)]
@@ -39,25 +41,35 @@ public class TerminalMal : MonoBehaviour
     public float screenCloseSpeed = 2f;
     public float cameraMoveSpeed = 2f;
     public float cameraReturnSpeed = 2f;
-    public int contextWindow = 10;
+
+    [Header("Scroll Animation")]
+    [Tooltip("Duración en segundos del smooth scroll")]
+    public float scrollAnimDuration = 0.3f;
+
+    [Header("Glitch Scramble Settings")]
+    [Tooltip("Tiempo total del ciclo scramble ? correcto")]
+    public float glitchCycleDuration = 0.4f;
+    [Tooltip("Proporción de tiempo que dura el scramble vs el texto correcto")]
+    [Range(0, 1)]
+    public float scrambleRatio = 0.25f;
 
     [Header("Extra")]
     public GameObject objectToDisable;
 
     // Internals
-    bool hasActivated = false;
-    bool screenOpening = false;
-    bool movingCamera = false;
-    Vector3 screenTargetScale;
-    FirstPersonController playerController;
-    int currentWordIndex = 0;
-
-    Vector3 originalCamPosition;
-    Quaternion originalCamRotation;
+    private Coroutine glitchCoroutine;
+    private bool hasActivated = false;
+    private bool screenOpening = false;
+    private bool movingCamera = false;
+    private Vector3 screenTargetScale;
+    private FirstPersonController playerController;
+    private int currentWordIndex = 0;
+    private Vector3 originalCamPosition;
+    private Quaternion originalCamRotation;
 
     void Start()
     {
-        // Preparar pantalla cerrada
+        // Preparamos la pantalla cerrada
         screenTargetScale = screenCanvas.transform.localScale;
         screenCanvas.transform.localScale = Vector3.zero;
         screenCanvas.SetActive(false);
@@ -148,48 +160,70 @@ public class TerminalMal : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(inputField.gameObject);
         inputField.ActivateInputField();
 
+        // Deshabilitar la tecla E de repetición global
+        NarrationManager.Instance.repeatEnabled = false;
+
         ShowCurrentGlitchWord();
     }
 
     void ShowCurrentGlitchWord()
     {
-        var words = fullText.Split(' ');
-        int n = words.Length;
-        int target = -1;
-
-        // Buscar la palabra glitch
-        for (int i = 0; i < n; i++)
+        if (currentWordIndex >= glitchWords.Length)
         {
-            var clean = words[i].Trim(',', '.', '!', '?', ':', ';');
-            if (currentWordIndex < glitchWords.Length &&
-                clean.Equals(glitchWords[currentWordIndex], StringComparison.OrdinalIgnoreCase))
-            {
-                target = i;
-                break;
-            }
-        }
-
-        var sb = new System.Text.StringBuilder();
-        if (target < 0)
-        {
+            // Si ya no hay más palabras, mostramos todo el texto sin highlight
             fullTextDisplay.text = fullText;
             return;
         }
 
-        int start = Mathf.Max(0, target - contextWindow);
-        int end = Mathf.Min(n, target + contextWindow + 1);
-
-        if (start > 0) sb.Append("... ");
-        for (int i = start; i < end; i++)
+        // 1) Busca el índice de la palabra objetivo
+        string target = glitchWords[currentWordIndex];
+        string[] words = fullText.Split(' ');
+        int n = words.Length;
+        int targetIdx = -1;
+        for (int i = 0; i < n; i++)
         {
-            if (i == target)
-                sb.Append($"<color=#FF00FF><b>{words[i]}</b></color> ");
-            else
-                sb.Append(words[i] + " ");
+            var clean = words[i].Trim(',', '.', '!', '?', ':', ';');
+            if (clean.Equals(target, StringComparison.OrdinalIgnoreCase))
+            {
+                targetIdx = i;
+                break;
+            }
         }
-        if (end < n) sb.Append("...");
 
-        fullTextDisplay.text = sb.ToString();
+        // 2) Resaltado estático en BLANCO
+        if (targetIdx >= 0)
+            words[targetIdx] = $"<color=#FFFFFF><b>{words[targetIdx]}</b></color>";
+
+        fullTextDisplay.text = string.Join(" ", words);
+
+        // 3) Scroll suave hasta la palabra
+        if (targetIdx >= 0 && scrollRect != null)
+            StartCoroutine(ScrollToGlitchWord(targetIdx, n));
+
+        // 4) Arrancamos el coroutine de scramble glitch con colores rojo, verde o azul
+        if (glitchCoroutine != null)
+            StopCoroutine(glitchCoroutine);
+        glitchCoroutine = StartCoroutine(AnimateScramble(targetIdx, target, n));
+    }
+
+    IEnumerator ScrollToGlitchWord(int targetIndex, int totalWords)
+    {
+        // Esperar un frame para que el layout se actualice
+        yield return null;
+
+        float targetNormalized = 1f - (targetIndex / (float)(totalWords - 1));
+        float startNormalized = scrollRect.verticalNormalizedPosition;
+        float elapsed = 0f;
+
+        while (elapsed < scrollAnimDuration)
+        {
+            elapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsed / scrollAnimDuration);
+            scrollRect.verticalNormalizedPosition = Mathf.Lerp(startNormalized, targetNormalized, t);
+            yield return null;
+        }
+
+        scrollRect.verticalNormalizedPosition = targetNormalized;
     }
 
     void CheckWord()
@@ -221,7 +255,7 @@ public class TerminalMal : MonoBehaviour
     {
         videoPanel.SetActive(true);
         videoPlayer.Play();
-        NarrationManager.Instance.PlayNarration(audio2Nere);                               // ? Reproduce la narración simultánea
+        NarrationManager.Instance.PlayNarration(audio2Nere);
         videoPlayer.loopPointReached += _ => StartCoroutine(CloseCanvasCoroutine());
     }
 
@@ -253,6 +287,7 @@ public class TerminalMal : MonoBehaviour
         }
 
         // 3) Restaurar jugador y cámara original
+        NarrationManager.Instance.repeatEnabled = true;
         eventCamera.gameObject.SetActive(false);
         playerCamera.gameObject.SetActive(true);
         if (playerController != null)
@@ -261,5 +296,50 @@ public class TerminalMal : MonoBehaviour
         // 4) Desactivar el objeto extra en escena
         if (objectToDisable != null)
             objectToDisable.SetActive(true);
+    }
+
+    IEnumerator AnimateScramble(int targetIndex, string originalWord, int totalWords)
+    {
+        var baseWords = fullText.Split(' ');
+        float scrambleTime = glitchCycleDuration * scrambleRatio;
+        float correctTime = glitchCycleDuration - scrambleTime;
+        // Solo rojo, verde y azul
+        // Ejemplo con dos tonos propios
+        Color[] glitchColors = new Color[] {
+    new Color(1f, 0.2f, 0.2f),    // rojo fuerte
+    new Color(0.1f, 0.8f, 0.5f),  // verde-agua
+    new Color(0.8f, 0.3f, 1f)     // violeta
+};
+
+        System.Random rng = new System.Random();
+
+        while (currentWordIndex < glitchWords.Length &&
+               glitchWords[currentWordIndex].Equals(originalWord, StringComparison.OrdinalIgnoreCase))
+        {
+            // 1) Scramble de letras
+            char[] arr = originalWord.ToCharArray();
+            for (int i = 0; i < arr.Length; i++)
+            {
+                int j = rng.Next(i, arr.Length);
+                (arr[i], arr[j]) = (arr[j], arr[i]);
+            }
+            string scrambled = new string(arr);
+
+            // 2) Color glitch (RGB puro)
+            Color randC = glitchColors[UnityEngine.Random.Range(0, glitchColors.Length)];
+            string hex = ColorUtility.ToHtmlStringRGB(randC);
+            baseWords[targetIndex] = $"<color=#{hex}><b>{scrambled}</b></color>";
+            fullTextDisplay.text = string.Join(" ", baseWords);
+            yield return new WaitForSeconds(scrambleTime);
+
+            // 3) Restaurar en blanco
+            baseWords[targetIndex] = $"<color=#FFFFFF><b>{originalWord}</b></color>";
+            fullTextDisplay.text = string.Join(" ", baseWords);
+            yield return new WaitForSeconds(correctTime);
+        }
+
+        // Al salir, asegurar el blanco final
+        baseWords[targetIndex] = $"<color=#FFFFFF><b>{originalWord}</b></color>";
+        fullTextDisplay.text = string.Join(" ", baseWords);
     }
 }
