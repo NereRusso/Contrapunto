@@ -2,6 +2,8 @@ using UnityEngine;
 using UnityEngine.Video;
 using StarterAssets;
 using UnityEngine.InputSystem;
+using System.Collections;
+using System.Collections.Generic;
 
 public class CilindroInteract : MonoBehaviour
 {
@@ -9,7 +11,13 @@ public class CilindroInteract : MonoBehaviour
     public VideoPlayer videoPlayer;
     public GameObject player;
     public GameObject logoTp;
-    public Canvas canvasCilindro; // añadimos referencia al Canvas también
+    public Canvas canvasCilindro;
+
+    [Header("Videos que deben reanudarse al finalizar")]
+    public List<VideoPlayer> videosAReactivar = new List<VideoPlayer>();
+
+    [Header("FadeScreen para detener glitches")]
+    public FadeScreen fadeScreen; // Referencia al script que maneja el glitch
 
     private FirstPersonController fpsController;
     private StarterAssetsInputs starterInputs;
@@ -67,6 +75,25 @@ public class CilindroInteract : MonoBehaviour
             logoTp.SetActive(true);
 
         if (canvasCilindro != null)
-            canvasCilindro.gameObject.SetActive(false); // ahora también ocultamos el canvas
+            canvasCilindro.gameObject.SetActive(false);
+
+        // ? Reactivar videos pausados o glitch
+        RestaurarVideos();
+    }
+
+    void RestaurarVideos()
+    {
+        if (fadeScreen != null)
+        {
+            fadeScreen.StopAllGlitching(); // Detenemos las corutinas que hacían StepForward()
+        }
+
+        foreach (var vp in videosAReactivar)
+        {
+            if (vp != null)
+            {
+                vp.Play(); // Volvemos a reproducir normalmente
+            }
+        }
     }
 }

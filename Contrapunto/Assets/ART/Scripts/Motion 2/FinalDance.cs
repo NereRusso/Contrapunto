@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Video;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class FinalDance : MonoBehaviour
 {
@@ -12,7 +13,7 @@ public class FinalDance : MonoBehaviour
     public GameObject canvasDDR;
 
     [Header("Video Felicitaciones")]
-    public GameObject canvasFelicitaciones; // NUEVO  Este es el canvas que contiene el RawImage
+    public GameObject canvasFelicitaciones;
     public VideoPlayer videoFelicitaciones;
     public RawImage rawImageVideo;
 
@@ -20,6 +21,12 @@ public class FinalDance : MonoBehaviour
     public GameObject player;
     public GameObject objetoParaHabilitar;
     public AudioClip audio2Mili;
+
+    [Header("Videos que se deben reactivar al volver al mapa")]
+    public List<VideoPlayer> videosAReactivar;
+
+    [Header("Referencias externas")]
+    public MotionDosManager motionDosManager;
 
     void Awake()
     {
@@ -65,6 +72,19 @@ public class FinalDance : MonoBehaviour
         if (audio2Mili != null)
         {
             NarrationManager.Instance.PlayNarration(audio2Mili);
+        }
+
+        // ?? Restaurar videos glitch y pausados desde MotionDosManager
+        if (motionDosManager != null)
+        {
+            motionDosManager.RestaurarTodosVideos();
+        }
+
+        // ? Si tenés videos extra definidos en esta escena
+        foreach (var video in videosAReactivar)
+        {
+            if (video != null)
+                video.Play();
         }
     }
 }
