@@ -55,10 +55,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Power: 4
+    - _Power: 6
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _ScrollSpeed: 0.05
+    - _ScrollSpeed: 0.15
     m_Colors:
     - _HologramTiling: {r: 3, g: 3, b: 0, a: 0}
   m_BuildTextureStacks: []

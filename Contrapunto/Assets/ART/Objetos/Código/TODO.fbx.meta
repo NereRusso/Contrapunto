@@ -7,6 +7,11 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: Pisos
+    second: {fileID: 2100000, guid: 60a6a38883cd23c40a567e0db53b3f60, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: be1
     second: {fileID: 2100000, guid: 38ea7ff3f32e230408abc85998930499, type: 2}
   - first:
@@ -24,6 +29,11 @@ ModelImporter:
       assembly: UnityEngine.CoreModule
       name: be4
     second: {fileID: 2100000, guid: ea62e790c1e1fd3419decce2a7a3a653, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: borde piso
+    second: {fileID: 2100000, guid: a11dcd54b9f74a04cba4569725005fbb, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
