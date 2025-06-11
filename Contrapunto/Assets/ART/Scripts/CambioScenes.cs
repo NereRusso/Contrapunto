@@ -5,7 +5,7 @@ using StarterAssets;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-public class CambioScenes: MonoBehaviour
+public class CambioSceneVideoSimple : MonoBehaviour
 {
     [Header("Nombre de la escena a cargar")]
     public string sceneName;
@@ -21,7 +21,7 @@ public class CambioScenes: MonoBehaviour
     public GameObject sonidoAmbiente;
     public GameObject logoAmbiente;
 
-    public float fadeDuration = 2f;
+    public float fadeTime = 1f; // cuánto tarda el fade, independiente de la duración del video
 
     private FirstPersonController fpsController;
     private StarterAssetsInputs starterInputs;
@@ -54,7 +54,7 @@ public class CambioScenes: MonoBehaviour
         if (videoImage != null)
         {
             Color c = videoImage.color;
-            videoImage.color = new Color(c.r, c.g, c.b, 0f); // opacidad 0
+            videoImage.color = new Color(c.r, c.g, c.b, 0f); // empieza invisible
         }
     }
 
@@ -73,39 +73,37 @@ public class CambioScenes: MonoBehaviour
         if (sonidoAmbienteSource != null) sonidoAmbienteSource.Stop();
         if (logoAmbienteSource != null) logoAmbienteSource.Stop();
 
-        StartCoroutine(FadeInVideo());
-    }
-
-    System.Collections.IEnumerator FadeInVideo()
-    {
-        float timer = 0f;
-
         if (videoPlayer != null && videoImage != null)
         {
             videoPlayer.gameObject.SetActive(true);
             videoPlayer.Play();
             videoPlayer.loopPointReached += OnVideoFinished;
 
-            while (timer < fadeDuration)
-            {
-                float t = timer / fadeDuration;
-
-                // Fade del RawImage del video
-                Color c = videoImage.color;
-                videoImage.color = new Color(c.r, c.g, c.b, t);
-
-                timer += Time.deltaTime;
-                yield return null;
-            }
-
-            // Asegurar visibilidad total al final
-            Color finalColor = videoImage.color;
-            videoImage.color = new Color(finalColor.r, finalColor.g, finalColor.b, 1f);
+            StartCoroutine(FadeVideoInDuringPlayback());
         }
         else
         {
             LoadScene();
         }
+    }
+
+    System.Collections.IEnumerator FadeVideoInDuringPlayback()
+    {
+        float timer = 0f;
+
+        while (timer < fadeTime)
+        {
+            float alpha = timer / fadeTime;
+            Color c = videoImage.color;
+            videoImage.color = new Color(c.r, c.g, c.b, alpha);
+
+            timer += Time.deltaTime;
+            yield return null;
+        }
+
+        // Asegurar visibilidad total al final del fade
+        Color finalColor = videoImage.color;
+        videoImage.color = new Color(finalColor.r, finalColor.g, finalColor.b, 1f);
     }
 
     void OnVideoFinished(VideoPlayer vp)

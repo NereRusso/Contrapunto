@@ -23,7 +23,7 @@ public class CambioSceneAudio : MonoBehaviour
 
     [Header("Narración")]
     public AudioSource audioNarracion;
-    public float fadeDuration = 2f;
+    public float fadeDuration = 1f; // FADE SOLO DURA EL PRIMER SEGUNDO DEL VIDEO
 
     private FirstPersonController fpsController;
     private StarterAssetsInputs starterInputs;
@@ -75,10 +75,21 @@ public class CambioSceneAudio : MonoBehaviour
         if (sonidoAmbienteSource != null) sonidoAmbienteSource.Stop();
         if (logoAmbienteSource != null) logoAmbienteSource.Stop();
 
-        StartCoroutine(FadeInVideoAndNarration());
+        if (videoPlayer != null && videoImage != null)
+        {
+            videoPlayer.gameObject.SetActive(true);
+            videoPlayer.Play();
+            videoPlayer.loopPointReached += OnVideoFinished;
+
+            StartCoroutine(FadeInWhilePlaying());
+        }
+        else
+        {
+            LoadScene();
+        }
     }
 
-    System.Collections.IEnumerator FadeInVideoAndNarration()
+    System.Collections.IEnumerator FadeInWhilePlaying()
     {
         float timer = 0f;
 
@@ -88,39 +99,28 @@ public class CambioSceneAudio : MonoBehaviour
             audioNarracion.Play();
         }
 
-        if (videoPlayer != null && videoImage != null)
+        while (timer < fadeDuration)
         {
-            videoPlayer.gameObject.SetActive(true);
-            videoPlayer.Play();
-            videoPlayer.loopPointReached += OnVideoFinished;
+            float t = timer / fadeDuration;
 
-            while (timer < fadeDuration)
-            {
-                float t = timer / fadeDuration;
+            // Fade del video
+            Color c = videoImage.color;
+            videoImage.color = new Color(c.r, c.g, c.b, t);
 
-                // Fade del RawImage del video
-                Color c = videoImage.color;
-                videoImage.color = new Color(c.r, c.g, c.b, t);
-
-                // Fade del volumen de la narración
-                if (audioNarracion != null)
-                    audioNarracion.volume = Mathf.Lerp(1f, 0f, t);
-
-                timer += Time.deltaTime;
-                yield return null;
-            }
-
-            // Asegurar 100% visibilidad y volumen 0
-            Color finalColor = videoImage.color;
-            videoImage.color = new Color(finalColor.r, finalColor.g, finalColor.b, 1f);
-
+            // Fade del volumen de la narración
             if (audioNarracion != null)
-                audioNarracion.Stop();
+                audioNarracion.volume = Mathf.Lerp(1f, 0f, t);
+
+            timer += Time.deltaTime;
+            yield return null;
         }
-        else
-        {
-            LoadScene();
-        }
+
+        // Asegurar visibilidad total
+        Color finalColor = videoImage.color;
+        videoImage.color = new Color(finalColor.r, finalColor.g, finalColor.b, 1f);
+
+        if (audioNarracion != null)
+            audioNarracion.Stop();
     }
 
     void OnVideoFinished(VideoPlayer vp)

@@ -33,7 +33,7 @@ public class FadeScreen : MonoBehaviour
         //gameObject.SetActive(false);
 
         // Esperamos 1 segundo más
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(2f);
 
         // ?? Pausamos ciertos videos
         foreach (var vp in videosToPause)
