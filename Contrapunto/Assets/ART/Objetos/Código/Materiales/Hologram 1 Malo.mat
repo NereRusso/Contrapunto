@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-2762281724496465912
+--- !u!114 &-5836511428245610133
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
@@ -20,8 +20,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Hologram1
-  m_Shader: {fileID: -6465566751694194690, guid: eb6f4bbf5f9dab540968e683e31ae231,
+  m_Name: Hologram 1 Malo
+  m_Shader: {fileID: -6465566751694194690, guid: a036048469d9e1143affaee57358ed7b,
     type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -37,8 +37,12 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _FlickerTexture:
+        m_Texture: {fileID: 2800000, guid: 65d3aee9d81ba694a835dbf682ae4d20, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _ScanLines:
-        m_Texture: {fileID: 2800000, guid: e40944738e78936408fc6d6220fe2daa, type: 3}
+        m_Texture: {fileID: 2800000, guid: 723d85fdc7abcc54ea14491d7a22bd40, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -58,7 +62,8 @@ Material:
     - _Power: 6
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _ScrollSpeed: 0.15
+    - _ScrollSpeed: 0.05
+    - _VaertexO: 0.02
     m_Colors:
-    - _HologramTiling: {r: 3, g: 3, b: 0, a: 0}
+    - _HologramTiling: {r: 5, g: 5, b: 0, a: 0}
   m_BuildTextureStacks: []

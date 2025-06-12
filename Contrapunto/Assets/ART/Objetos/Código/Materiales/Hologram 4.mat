@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-7914395545364458984
+--- !u!114 &-3075436296425636410
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
@@ -20,8 +20,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Piso
-  m_Shader: {fileID: -6465566751694194690, guid: 9eaaa38d5919ce84cb39b125a99acec6,
+  m_Name: Hologram 4
+  m_Shader: {fileID: -6465566751694194690, guid: ec2823d07dbf2cf47ae3eeed074be9c7,
     type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -60,5 +60,5 @@ Material:
     - _QueueOffset: 0
     - _ScrollSpeed: 0.15
     m_Colors:
-    - _HologramTiling: {r: 1, g: 1, b: 0, a: 0}
+    - _HologramTiling: {r: 3, g: 3, b: 0, a: 0}
   m_BuildTextureStacks: []
