@@ -635,7 +635,7 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
+  m_Color: {r: 0.7169812, g: 0.7169812, b: 0.7169812, a: 1}
   m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
@@ -1874,6 +1874,213 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.0010854487, y: 0.0017316513, z: 0.004353125}
   m_Center: {x: 0.00015576533, y: 0.00000053269525, z: 0.0005683859}
+--- !u!23 &814643854 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7418775188311772098, guid: 4aa93b4370c588346bc7481234aa6e68,
+    type: 3}
+  m_PrefabInstance: {fileID: 855587778}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &827072275
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 827072278}
+  - component: {fileID: 827072276}
+  - component: {fileID: 827072277}
+  m_Layer: 0
+  m_Name: Luz mal
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!108 &827072276
+Light:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 827072275}
+  m_Enabled: 1
+  serializedVersion: 10
+  m_Type: 2
+  m_Shape: 0
+  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Intensity: 1
+  m_Range: 2.0590808
+  m_SpotAngle: 30
+  m_InnerSpotAngle: 21.80208
+  m_CookieSize: 10
+  m_Shadows:
+    m_Type: 0
+    m_Resolution: -1
+    m_CustomResolution: -1
+    m_Strength: 1
+    m_Bias: 0.05
+    m_NormalBias: 0.4
+    m_NearPlane: 0.2
+    m_CullingMatrixOverride:
+      e00: 1
+      e01: 0
+      e02: 0
+      e03: 0
+      e10: 0
+      e11: 1
+      e12: 0
+      e13: 0
+      e20: 0
+      e21: 0
+      e22: 1
+      e23: 0
+      e30: 0
+      e31: 0
+      e32: 0
+      e33: 1
+    m_UseCullingMatrixOverride: 0
+  m_Cookie: {fileID: 0}
+  m_DrawHalo: 0
+  m_Flare: {fileID: 0}
+  m_RenderMode: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RenderingLayerMask: 1
+  m_Lightmapping: 4
+  m_LightShadowCasterMode: 0
+  m_AreaSize: {x: 1, y: 1}
+  m_BounceIntensity: 1
+  m_ColorTemperature: 6570
+  m_UseColorTemperature: 0
+  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_UseBoundingSphereOverride: 0
+  m_UseViewFrustumForShadowCasterCull: 1
+  m_ShadowRadius: 0
+  m_ShadowAngle: 0
+--- !u!114 &827072277
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 827072275}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 3
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_RenderingLayers: 1
+  m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_ShadowRenderingLayers: 1
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+  m_SoftShadowQuality: 0
+--- !u!4 &827072278
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 827072275}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 26.616, y: 0.428, z: 91.82}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &838284468
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 838284469}
+  - component: {fileID: 838284471}
+  - component: {fileID: 838284470}
+  m_Layer: 0
+  m_Name: estrella (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &838284469
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 838284468}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 855587784}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!23 &838284470
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 838284468}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: e9d0e0302f2745542b84c6f217f64f0f, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &838284471
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 838284468}
+  m_Mesh: {fileID: -8476198886873662586, guid: 4aa93b4370c588346bc7481234aa6e68, type: 3}
 --- !u!1001 &855587778
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1969,7 +2176,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 4aa93b4370c588346bc7481234aa6e68,
+        type: 3}
+      insertIndex: 3
+      addedObject: {fileID: 838284469}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 4aa93b4370c588346bc7481234aa6e68,
         type: 3}
@@ -2030,41 +2241,55 @@ MonoBehaviour:
   videoPanel: {fileID: 1956657835}
   videoPlayer: {fileID: 1956657837}
   audio2Nere: {fileID: 8300000, guid: 5b13bc2115e19d04da7b140401721401, type: 3}
-  fullText: 'Lorem ipsum dolor sit amet consectetur adipiscing elit, lacus diam arcu
-    suspendisse risus ridiculus, in nunc montes at imperdiet non. Interdum praesent
-    tempus duis himenaeos aenean dui consequat nec, massa a aliquam litora curae
-    habitant nulla, venenatis arcu sem suscipit montes class molestie. Tincidunt
-    dui integer elementum sed in dignissim proin, iaculis class litora luctus eget
-    curabitur dictumst urna, tempor lectus euismod hendrerit hac tortor.
-
-    Sodales
-    tempor varius tristique inceptos pharetra semper enim nisi sapien natoque, orci
-    ultrices massa integer ut nam convallis eros fermentum, hendrerit mauris sagittis
-    penatibus maecenas ornare placerat libero augue. Taciti pretium maecenas mauris
-    tincidunt penatibus ullamcorper molestie sollicitudin diam suscipit, tortor velit
-    nulla torquent a duis malesuada fusce augue pulvinar, mus id venenatis senectus
-    luctus lectus nisl sem sapien. Duis vehicula fames a cum velit cursus magna nascetur,
-    libero purus nulla integer ac vivamus porta, phasellus aliquam mattis curae malesuada
-    tempus nisi.
-
-    Laoreet accumsan faucibus lectus lobortis tristique ut himenaeos
-    elementum congue, cursus ultrices dui orci erat duis sociosqu tempor, pharetra
-    dapibus enim venenatis sollicitudin suscipit massa urna. Proin dictum lacus semper
-    urna nulla rhoncus mattis sociosqu netus fermentum, aliquet posuere sed accumsan
-    nullam dui torquent sem eleifend, phasellus congue est fringilla mi ultrices
-    gravida class arcu. Augue dis felis platea dapibus sem blandit, mauris scelerisque
-    etiam conubia eros duis orci, nisi tortor consequat tempor rhoncus. Tempus posuere
-    tellus praesent nascetur ac ultrices sollicitudin netus augue, sociosqu pellentesque
-    rhoncus porttitor libero himenaeos maecenas nisi magnis diam, phasellus fames
-    sem viverra sociis tristique arcu eros. contrapunto'
+  fullText: "<title> contrapunto </title>\r\n</head>\r\n<body>\r\n\r\n<!-- CURSOR
+    (afuera del wrapper) -->\r\n<img src=\"resource/images/sintesis1.png\" alt=\"sintesis\"
+    id=\"cursor-img\">\r\n\r\n< div id=\"next-section\">\r\n    <div class=\"contenedor-cielo\">\r\n     
+    <video autoplay muted loop playsinline id=\"background-video-next\">\r\n       
+    <source src=\"resource/videos/cielo_loop.mp4\" type=\"video/mp4\" />\r\n     
+    </video>\r\n    </ div >\r\n\r\n    <div class=\"contenedor-imagenes\">\r\n           
+    <img src=\"resource/images/sintesis-completa.png\" alt=\"fusion\" class=\"imagen1\"
+    />\r\n            < div class=\"imagenes2\">\r\n            <img src=\"resource/images/mili.png\"
+    alt=\"mili\" class=\"imagen2 mili\">\r\n            <img src=\"resource/images/rena.png\"
+    alt=\"rena\" class=\"imagen2 rena\">\r\n            <img src=\"resource/images/marti.png\"
+    alt=\"marti\" class=\"imagen2 marti\">\r\n            <img src=\"resource/images/nere.png\"
+    alt=\"nere\" class=\"imagen2 nere\">\r\n            </ div >\r\n    </div>\r\n</
+    div >\n\n<div id=\"motion-graphics\" class=\"motion-graphics\" data-dot=\"4\">\r\n                   
+    <h2 class=\"texto-izquierda\">MOTION</h2>\r\n                    <h2 class=\"texto-derecha\">GRAPHICS</h2>\r\n           
+    \r\n                < div class=\"contenedor-carousel\">\r\n                   
+    <div class=\"video-carousel\">\r\n                        <div class=\"arrastra-item\"><span>&lt;
+    ARRASTR\xC1 &gt;</span></ div >\r\n\r\n                        <div class=\"video-item\"><video
+    src=\"resource/videos/m1_p.mp4\"  muted playsinline></video></div>\r\n                       
+    <div class=\"video-item\"><video src=\"resource/videos/m2_p.mp4\"  muted playsinline></video></div>\r\n                       
+    < div class=\"video-item\"><video src=\"resource/videos/m3_p.mp4\"  muted playsinline></video></
+    div >\r\n                        <div class=\"video-item\"><video src=\"resource/videos/m4_p.mp4\" 
+    muted playsinline></video></div>\r\n                        <div class=\"video-item\"><video
+    src=\"resource/videos/m5_p.mp4\"  muted playsinline></video></div>\r\n                       
+    < div class=\"video-item\"><video src=\"resource/videos/m6_p.mp4\"  muted playsinline></video></
+    div >\r\n                        <div class=\"video-item\"><video src=\"resource/videos/m7_p.mp4\" 
+    muted playsinline></video></div>\r\n                        <div class=\"video-item\"><video
+    src=\"resource/videos/m8_p.mp4\"  muted playsinline></video></div>\r\n                       
+    <div class=\"video-item\"><video src=\"resource/videos/m9_p.mp4\"  muted playsinline></video></div>\r\n                       
+    <div class=\"video-item\"><video src=\"resource/videos/m10_p.mp4\"  muted playsinline></video></div>\r\n                       
+    <div class=\"video-item\"><video src=\"resource/videos/m11_p.mp4\"  muted playsinline></video></div>\r\n                       
+    <div class=\"video-item\"><video src=\"resource/videos/m12_p.mp4\"  muted playsinline></video></div>\r\n                       
+    <div class=\"video-item\"><video src=\"resource/videos/m13_p.mp4\"  muted playsinline></video></
+    div >        \r\n                    </div>\r\n                </ div >\r\n           
+    </div>\n\n<section class=\"contenedor-3d\" data-dot=\"7\">\r\n               
+    <img src=\"resource/images/sintesis-rosa.png\" alt=\"sintesis-rosa\" class=\"imagen-png-centrada\">\r\n\r\n               
+    < div class=\"texto-scroll-contenedor\">\r\n                    <div class=\"scroll-palabras\">\r\n                     
+    <h2>MODELADO</h2>\r\n                      <h2 id=\"italic\">TEXTURIZADO</h2>\r\n                     
+    <h2> ANIMACI\xD3N </h2>\r\n                    </ div >\r\n                </div>\r\n\r\n               
+    <img src=\"resource/images/3D.png\" alt=\"3D\" class=\"img-3d-extra\" />\r\n           
+    </section>\n\n< script src=\"https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/gsap.min.js\"></script>\r\n<
+    script src=\"https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/ScrollTrigger.min.js\"></
+    script >\r\n<script src=\"https://assets.codepen.io/16327/ScrollSmoother.min.js\"></
+    script >\r\n< script type=\"module\" src=\"java.js\"></script>"
   glitchWords:
-  - dolor
-  - consequat
-  - montes
-  - elementum
-  - gravida
-  - eros
   - contrapunto
+  - "ARRASTR\xC1"
+  - div
+  - "ANIMACI\xD3N"
+  - script
   errorSound: {fileID: 1747153200}
   interactionDistance: 5
   screenOpenSpeed: 2
@@ -2080,7 +2305,18 @@ MonoBehaviour:
   - {r: 0, g: 0, b: 1, a: 1}
   minPendingInterval: 0.05
   maxPendingInterval: 0.15
+  objetoOriginalRenderer: {fileID: 814643854}
+  objetoNuevoRenderer: {fileID: 838284470}
+  luzACambiar: {fileID: 827072276}
+  nuevoColorLuz: {r: 0, g: 1, b: 0.041609526, a: 0}
+  duracionTransicion: 2
   objectToDisable: {fileID: 1284042091}
+--- !u!4 &855587784 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 4aa93b4370c588346bc7481234aa6e68,
+    type: 3}
+  m_PrefabInstance: {fileID: 855587778}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &866268902
 GameObject:
   m_ObjectHideFlags: 0
@@ -4045,7 +4281,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -4072,8 +4308,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 0.3
-  m_fontSizeBase: 0.3
+  m_fontSize: 0.15
+  m_fontSizeBase: 0.15
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 1
@@ -5018,6 +5254,7 @@ SceneRoots:
   - {fileID: 165052852}
   - {fileID: 366938540}
   - {fileID: 1315879525}
+  - {fileID: 827072278}
   - {fileID: 855587778}
   - {fileID: 756607024}
   - {fileID: 642937667}

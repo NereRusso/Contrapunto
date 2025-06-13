@@ -62,12 +62,23 @@ public class TerminalMal : MonoBehaviour
     [Tooltip("Intervalo máximo entre glitches de palabras pendientes")]
     public float maxPendingInterval = 0.15f;
 
+    [Header("Cambio de material y luz")]
+    [Tooltip("Renderer del objeto original (material actual)")]
+    public Renderer objetoOriginalRenderer;
+
+    [Tooltip("Renderer del objeto con el material nuevo")]
+    public Renderer objetoNuevoRenderer;
+
+    public Light luzACambiar;
+    public Color nuevoColorLuz;
+    public float duracionTransicion = 2f;
+
     [Header("Extra")]
     public GameObject objectToDisable;
 
     // Internals
     private string[] baseWords;
-    private int[] glitchPositions;
+    private List<int>[] glitchPositions;    // cada glitchWords[k] ? lista de índices en baseWords
     private List<int> writtenPositions = new List<int>();
     private Dictionary<int, string> pendingScramble = new Dictionary<int, string>();
     private Coroutine currentGlitchCoroutine;
@@ -152,7 +163,8 @@ public class TerminalMal : MonoBehaviour
         originalCamPosition = playerCamera.transform.position;
         originalCamRotation = playerCamera.transform.rotation;
 
-        if (playerController != null) playerController.enabled = false;
+        if (playerController != null)
+            playerController.enabled = false;
         playerCamera.gameObject.SetActive(false);
 
         eventCamera.transform.position = originalCamPosition;
@@ -162,30 +174,39 @@ public class TerminalMal : MonoBehaviour
 
         NarrationManager.Instance.repeatEnabled = false;
 
-        // Preparamos baseWords y posiciones de glitch
+        // Partimos baseWords y calculamos todas las ocurrencias
         baseWords = fullText.Split(' ');
-        glitchPositions = new int[glitchWords.Length];
+        glitchPositions = new List<int>[glitchWords.Length];
         for (int k = 0; k < glitchWords.Length; k++)
         {
-            glitchPositions[k] = Array.FindIndex(baseWords, w =>
-                w.Trim(',', '.', '!', '?', ':', ';')
-                 .Equals(glitchWords[k], StringComparison.OrdinalIgnoreCase));
+            glitchPositions[k] = new List<int>();
+            for (int i = 0; i < baseWords.Length; i++)
+            {
+                if (baseWords[i].Trim(',', '.', '!', '?', ':', ';')
+                    .Equals(glitchWords[k], StringComparison.OrdinalIgnoreCase))
+                {
+                    glitchPositions[k].Add(i);
+                }
+            }
         }
 
-        // Limpiamos estado previo
         writtenPositions.Clear();
         pendingScramble.Clear();
 
-        // Iniciamos coroutines para palabras pendientes
-        for (int g = currentWordIndex + 1; g < glitchWords.Length; g++)
+        // Iniciamos GlitchPending para todas las ocurrencias >= current, incluidas duplicadas
+        for (int k = currentWordIndex; k < glitchWords.Length; k++)
         {
-            int pos = glitchPositions[g];
-            if (pos >= 0)
-                StartCoroutine(GlitchPending(pos, glitchWords[g]));
+            for (int j = 0; j < glitchPositions[k].Count; j++)
+            {
+                int pos = glitchPositions[k][j];
+                // si es la primera ocurrencia de la actual, la maneja GlitchCurrent
+                if (k == currentWordIndex && j == 0) continue;
+                StartCoroutine(GlitchPending(pos, k));
+            }
         }
 
-        // Iniciamos glitch de la palabra actual
-        if (currentGlitchCoroutine != null) StopCoroutine(currentGlitchCoroutine);
+        // Inicia GlitchCurrent (solo primera ocurrencia)
+        StopCoroutineIfNeeded(ref currentGlitchCoroutine);
         currentGlitchCoroutine = StartCoroutine(GlitchCurrent());
 
         ScrollToCurrentWord();
@@ -194,7 +215,7 @@ public class TerminalMal : MonoBehaviour
 
     IEnumerator GlitchCurrent()
     {
-        System.Random rng = new System.Random();
+        var rng = new System.Random();
         float scrambleTime = glitchCycleDuration * scrambleRatio;
         float correctTime = glitchCycleDuration - scrambleTime;
 
@@ -202,12 +223,12 @@ public class TerminalMal : MonoBehaviour
         {
             string orig = glitchWords[currentWordIndex];
 
-            // Fase "correcto": palabra actual en blanco
+            // fase blanco
             currentMarkup = $"<color=#FFFFFF><b>{orig}</b></color>";
             UpdateDisplay();
             yield return new WaitForSeconds(correctTime);
 
-            // Fase "glitch": scramble + color
+            // fase glitch
             char[] arr = orig.ToCharArray();
             for (int i = 0; i < arr.Length; i++)
             {
@@ -222,18 +243,17 @@ public class TerminalMal : MonoBehaviour
             yield return new WaitForSeconds(scrambleTime);
         }
 
-        // Al terminar, quitamos markup
         currentMarkup = null;
         UpdateDisplay();
     }
 
-    IEnumerator GlitchPending(int pos, string orig)
+    IEnumerator GlitchPending(int pos, int wordIndex)
     {
-        System.Random rng = new System.Random();
-        while (Array.IndexOf(glitchWords, orig) > currentWordIndex)
+        var rng = new System.Random();
+        // <-- aquí cambiamos a >= para que las duplicadas sigan glitcheando incluso al seleccionar
+        while (wordIndex >= currentWordIndex)
         {
-            // scramble
-            char[] arr = orig.ToCharArray();
+            char[] arr = glitchWords[wordIndex].ToCharArray();
             for (int i = 0; i < arr.Length; i++)
             {
                 int j = rng.Next(i, arr.Length);
@@ -243,7 +263,6 @@ public class TerminalMal : MonoBehaviour
             Color c = glitchColors[UnityEngine.Random.Range(0, glitchColors.Length)];
             string hex = ColorUtility.ToHtmlStringRGB(c);
 
-            // guardamos en pendingScramble
             pendingScramble[pos] = $"<color=#{hex}><b>{scr}</b></color>";
             UpdateDisplay();
 
@@ -251,9 +270,7 @@ public class TerminalMal : MonoBehaviour
             yield return new WaitForSeconds(wait);
         }
 
-        // Al ser escrita, removemos
-        if (pendingScramble.ContainsKey(pos))
-            pendingScramble.Remove(pos);
+        pendingScramble.Remove(pos);
         UpdateDisplay();
     }
 
@@ -264,32 +281,31 @@ public class TerminalMal : MonoBehaviour
         {
             if (writtenPositions.Contains(i))
             {
-                // Ya escrita: versión limpia
                 disp[i] = baseWords[i];
             }
-            else if (currentWordIndex < glitchPositions.Length &&
-                     i == glitchPositions[currentWordIndex] &&
-                     currentMarkup != null)
+            else if (currentMarkup != null &&
+         currentWordIndex < glitchPositions.Length &&
+         glitchPositions[currentWordIndex].Count > 0 &&
+         i == glitchPositions[currentWordIndex][0])
             {
-                // palabra actual
                 disp[i] = currentMarkup;
             }
+
             else if (pendingScramble.ContainsKey(i))
             {
-                // pending scramble
                 disp[i] = pendingScramble[i];
             }
-            // resto queda baseWords[i]
         }
         fullTextDisplay.text = string.Join(" ", disp);
     }
 
     void ScrollToCurrentWord()
     {
-        if (currentWordIndex < glitchPositions.Length)
+        if (currentWordIndex < glitchPositions.Length &&
+            glitchPositions[currentWordIndex].Count > 0)
         {
-            int idx = glitchPositions[currentWordIndex];
-            if (idx >= 0 && scrollRect != null)
+            int idx = glitchPositions[currentWordIndex][0];
+            if (scrollRect != null)
                 StartCoroutine(SmoothScroll(idx, baseWords.Length));
         }
     }
@@ -314,8 +330,9 @@ public class TerminalMal : MonoBehaviour
         string entered = inputField.text.Trim();
         if (entered.Equals(glitchWords[currentWordIndex], StringComparison.OrdinalIgnoreCase))
         {
-            // marcamos como escrito
-            writtenPositions.Add(glitchPositions[currentWordIndex]);
+            foreach (int pos in glitchPositions[currentWordIndex])
+                writtenPositions.Add(pos);
+
             currentMarkup = null;
             UpdateDisplay();
 
@@ -327,7 +344,6 @@ public class TerminalMal : MonoBehaviour
                 PlayVideoAndClose();
                 return;
             }
-
             ScrollToCurrentWord();
             inputField.ActivateInputField();
         }
@@ -357,6 +373,7 @@ public class TerminalMal : MonoBehaviour
             screenCanvas.transform.localScale = Vector3.Lerp(from, Vector3.zero, t);
             yield return null;
         }
+
         screenCanvas.SetActive(false);
         videoPanel.SetActive(false);
         videoPlayer.Stop();
@@ -375,10 +392,76 @@ public class TerminalMal : MonoBehaviour
         NarrationManager.Instance.repeatEnabled = true;
         eventCamera.gameObject.SetActive(false);
         playerCamera.gameObject.SetActive(true);
-        if (playerController != null)
-            playerController.enabled = true;
+        if (playerController != null) playerController.enabled = true;
 
         if (objectToDisable != null)
             objectToDisable.SetActive(true);
+
+        // Transición de opacidad entre objetos
+        if (objetoOriginalRenderer != null && objetoNuevoRenderer != null)
+            StartCoroutine(CruceMaterialObjetos(objetoOriginalRenderer, objetoNuevoRenderer, duracionTransicion));
+
+        // Transición suave de luz
+        if (luzACambiar != null)
+            StartCoroutine(TransicionarLuzColor(luzACambiar, nuevoColorLuz, duracionTransicion));
+    }
+
+
+    IEnumerator CruceMaterialObjetos(Renderer original, Renderer nuevo, float duracion)
+    {
+        Material matOriginal = original.material;
+        Material matNuevo = nuevo.material;
+
+        Color colorOrig = matOriginal.color;
+        Color colorNuevo = matNuevo.color;
+
+        // Asegurarse que ambos objetos estén activos durante la transición
+        original.gameObject.SetActive(true);
+        nuevo.gameObject.SetActive(true);
+
+        float t = 0f;
+        while (t < 1f)
+        {
+            t += Time.deltaTime / duracion;
+            float alphaOrig = Mathf.Lerp(1f, 0f, t);
+            float alphaNuevo = Mathf.Lerp(0f, 1f, t);
+
+            matOriginal.color = new Color(colorOrig.r, colorOrig.g, colorOrig.b, alphaOrig);
+            matNuevo.color = new Color(colorNuevo.r, colorNuevo.g, colorNuevo.b, alphaNuevo);
+
+            yield return null;
+        }
+
+        // Dejar solo el nuevo visible
+        matOriginal.color = new Color(colorOrig.r, colorOrig.g, colorOrig.b, 0f);
+        matNuevo.color = new Color(colorNuevo.r, colorNuevo.g, colorNuevo.b, 1f);
+
+        original.gameObject.SetActive(false);  // ?? Desactivar el viejo
+        nuevo.gameObject.SetActive(true);      // ?? Asegurar que el nuevo quede activo
+    }
+
+
+
+
+    IEnumerator TransicionarLuzColor(Light luz, Color destino, float duracion)
+    {
+        Color inicio = luz.color;
+        float t = 0f;
+        while (t < 1f)
+        {
+            t += Time.deltaTime / duracion;
+            luz.color = Color.Lerp(inicio, destino, t);
+            yield return null;
+        }
+    }
+
+
+    void StopCoroutineIfNeeded(ref Coroutine coroutine)
+    {
+        if (coroutine != null)
+        {
+            StopCoroutine(coroutine);
+            coroutine = null;
+        }
     }
 }
