@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 54607e0ac27ef244eab8e8e6d4f1874d
+guid: f7aa498957a00064f9a689a109db2fae
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -8,12 +8,12 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: amarillo
-    second: {fileID: 2100000, guid: 9b168a7da05fce44d8a0abe6ddfba88c, type: 2}
+    second: {fileID: 2100000, guid: 27536692bb873584e8760071376d73d2, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: fucsia
-    second: {fileID: 2100000, guid: ad3d403645c7df44797cff9e700598a9, type: 2}
+    second: {fileID: 2100000, guid: 40ac3e814c0f5854ca2e9e46dca4fe65, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
