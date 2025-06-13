@@ -63,7 +63,7 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ScrollSpeed: 0.05
-    - _VaertexO: 0.02
+    - _VaertexO: 0.1
     m_Colors:
     - _HologramTiling: {r: 5, g: 5, b: 0, a: 0}
   m_BuildTextureStacks: []
