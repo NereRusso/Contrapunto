@@ -358,10 +358,19 @@ public class TerminalMal : MonoBehaviour
     void PlayVideoAndClose()
     {
         videoPanel.SetActive(true);
+
+        // ?? Detener glitch en textos flotantes
+        FloatingTextGlitcher[] glitchers = FindObjectsOfType<FloatingTextGlitcher>();
+        foreach (var g in glitchers)
+        {
+            g.StopGlitchAndType();
+        }
+
         videoPlayer.Play();
         NarrationManager.Instance.PlayNarration(audio2Nere);
         videoPlayer.loopPointReached += _ => StartCoroutine(CloseCanvasCoroutine());
     }
+
 
     IEnumerator CloseCanvasCoroutine()
     {
