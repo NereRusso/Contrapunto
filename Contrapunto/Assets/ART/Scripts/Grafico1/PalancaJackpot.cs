@@ -1,143 +1,118 @@
 using UnityEngine;
-using TMPro;
 using System.Collections;
 
-public class PalancaJackpot : MonoBehaviour
+public class PalancaJackpotFisico : MonoBehaviour
 {
-    [Header("Referencias a los TextMeshPro")]
-    public TMP_Text letterText;
-    public TMP_Text numberText;
-    public TMP_Text symbolText;
+    [Header("Ruedas físicas")]
+    public Transform ruedaLetra;
+    public Transform ruedaSimbolo;
+    public Transform ruedaNumero;
 
-    [Header("Objeto especial para activar cuando se complete todo")]
+    public Animator animator;   // referencia al Animator
+
+    [Header("Activación final")]
     public GameObject specialObject;
 
     private bool isRolling = false;
     private bool isJackpotCompleted = false;
 
+    private Coroutine spinLetra, spinSimbolo, spinNumero;
+
+    private readonly float[] alternativas = new float[] { 78f, 145f, 222f, 292f };
+    private const float resultadoCorrecto = 0f;
+
     void OnMouseDown()
     {
         if (!isRolling && !isJackpotCompleted)
         {
-            StartCoroutine(StartJackpot());
+            animator.SetTrigger("PlayClick");     // dispara la animación
+            StartCoroutine(StartJackpot());       // y luego sigue con las ruedas
         }
     }
+
 
     IEnumerator StartJackpot()
     {
         isRolling = true;
 
-        // Lanzar en paralelo todas
-        Coroutine letterCoroutine = StartCoroutine(RollSingle(letterText, GetRandomLetter, GetFixedLetter, JackpotManager.Instance.forceLetterC, 0.2f));
-        Coroutine numberCoroutine = StartCoroutine(RollSingle(numberText, GetRandomNumber, GetFixedNumber, JackpotManager.Instance.forceNumber12, 0.4f));
-        Coroutine symbolCoroutine = StartCoroutine(RollSingle(symbolText, GetRandomSymbol, GetFixedSymbol, JackpotManager.Instance.forceSymbolStar, 0.6f));
+        // 1. Arrancan todas a full
+        spinLetra = StartCoroutine(GirarLibre(ruedaLetra));
+        spinSimbolo = StartCoroutine(GirarLibre(ruedaSimbolo));
+        spinNumero = StartCoroutine(GirarLibre(ruedaNumero));
 
-        // Esperar que terminen todas
-        yield return letterCoroutine;
-        yield return numberCoroutine;
-        yield return symbolCoroutine;
+        // 2. Tras 1.2s frenamos una a una
+        yield return new WaitForSeconds(1.2f);
+        StopCoroutine(spinLetra);
+        yield return StartCoroutine(FrenarSoloDiff(ruedaLetra, JackpotManager.Instance.forceLetterC));
 
-        // Chequear si es el resultado final (C, 12, ?)
-        if (letterText.text == "C" && numberText.text == "12" && symbolText.text == "\u2726")
+        yield return new WaitForSeconds(0.4f);
+        StopCoroutine(spinSimbolo);
+        yield return StartCoroutine(FrenarSoloDiff(ruedaSimbolo, JackpotManager.Instance.forceSymbolStar));
+
+        yield return new WaitForSeconds(0.4f);
+        StopCoroutine(spinNumero);
+        yield return StartCoroutine(FrenarSoloDiff(ruedaNumero, JackpotManager.Instance.forceNumber12));
+
+        // 3. Comprobamos jackpot
+        if (JackpotManager.Instance.forceLetterC &&
+            JackpotManager.Instance.forceSymbolStar &&
+            JackpotManager.Instance.forceNumber12)
         {
-            // Jackpot completado!
             isJackpotCompleted = true;
-
-            if (specialObject != null)
-                specialObject.SetActive(true);
-
-            Debug.Log("Jackpot completo! Desactivando palanca.");
+            if (specialObject != null) specialObject.SetActive(true);
+            Debug.Log("¡Jackpot completo!");
         }
 
         isRolling = false;
     }
 
-    IEnumerator RollSingle(TMP_Text textElement, System.Func<string> randomGenerator, System.Func<string> fixedResultGetter, bool isFixed, float totalDuration)
+    // Giro infinito a velocidad constante
+    IEnumerator GirarLibre(Transform rueda)
     {
+        const float spinSpeed = 720f;
+        while (true)
+        {
+            rueda.localEulerAngles += new Vector3(0, 0, -spinSpeed * Time.deltaTime);
+            yield return null;
+        }
+    }
+
+    // Frenado suave recorriendo solo la diff exacta
+    IEnumerator FrenarSoloDiff(Transform rueda, bool forceCorrect)
+    {
+        // 1?? Elegir destino exacto
+        float destinoZ = forceCorrect
+            ? resultadoCorrecto
+            : alternativas[Random.Range(0, alternativas.Length)];
+
+        // 2?? Normalizar posición actual y calcular diff horario
+        float zNorm = (rueda.localEulerAngles.z % 360f + 360f) % 360f;
+        float diff = (zNorm - destinoZ + 360f) % 360f;
+
+        // 3?? Definir ángulo de inicio y fin
+        float startZ = rueda.localEulerAngles.z;
+        float endZ = startZ - diff; // al restar diff, Unity lo muestra como destinoZ
+
+        // 4?? Calcular duración (velocidad = 720°/s, pero mínimo 0.5s)
+        float spinSpeed = 720f;
+        float baseDur = diff / spinSpeed;
+        float duration = Mathf.Max(baseDur, 0.5f);
         float elapsed = 0f;
 
-        // Fase de giro
-        while (elapsed < totalDuration)
+        // 5?? Ease-out cuadrático sin snap final
+        while (elapsed < duration)
         {
             elapsed += Time.deltaTime;
-
-            // Siempre random durante el giro
-            textElement.text = randomGenerator();
-
-            yield return new WaitForSeconds(0.05f);
+            float t = Mathf.Clamp01(elapsed / duration);
+            float eased = 1f - (1f - t) * (1f - t);
+            float z = Mathf.Lerp(startZ, endZ, eased);
+            rueda.localEulerAngles = new Vector3(0, 0, z);
+            yield return null;
         }
 
-        // Resultado final
-        if (isFixed)
-        {
-            textElement.text = fixedResultGetter();
-        }
-        else
-        {
-            textElement.text = randomGenerator();
-        }
+        // 6?? Ajuste final exacto para eliminar cualquier float error
+        rueda.localEulerAngles = new Vector3(0, 0, endZ);
     }
 
-    // -----------------------
-    // Funciones Random
-    // -----------------------
 
-    string GetRandomLetter()
-    {
-        char letter;
-        do
-        {
-            letter = (char)('A' + Random.Range(0, 26));
-        } while (letter == 'C');
-        return letter.ToString();
-    }
-
-    string GetRandomNumber()
-    {
-        int number;
-        do
-        {
-            number = Random.Range(0, 100);
-        } while (number == 12);
-        return number.ToString();
-    }
-
-    string GetRandomSymbol()
-    {
-        char symbol;
-        do
-        {
-            int block = Random.Range(0, 4);
-            int code;
-            switch (block)
-            {
-                case 0: code = Random.Range(33, 48); break;
-                case 1: code = Random.Range(58, 65); break;
-                case 2: code = Random.Range(91, 97); break;
-                default: code = Random.Range(123, 127); break;
-            }
-            symbol = (char)code;
-        }
-        while (symbol == '\u2726' || char.IsLetterOrDigit(symbol));
-        return symbol.ToString();
-    }
-
-    // -----------------------
-    // Funciones Fijas
-    // -----------------------
-
-    string GetFixedLetter()
-    {
-        return "C";
-    }
-
-    string GetFixedNumber()
-    {
-        return "12";
-    }
-
-    string GetFixedSymbol()
-    {
-        return "\u2726"; // Unicode ?
-    }
 }
