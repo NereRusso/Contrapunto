@@ -24,9 +24,6 @@ EditorBuildSettings:
     path: Assets/Scenes/SceneGrafico2.unity
     guid: de36bb951132e474aae0dcb6b1725c89
   - enabled: 1
-    path: Assets/Scenes/SceneCodigo2.unity
-    guid: 873a10e71fc74884aa9f13e1045a5b58
-  - enabled: 1
     path: Assets/Scenes/SceneContrapunto.unity
     guid: 0f2800f73e233f54ca8d90dd72df4a81
   m_configObjects: {}
