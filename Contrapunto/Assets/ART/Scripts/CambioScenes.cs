@@ -75,6 +75,7 @@ public class CambioSceneVideoSimple : MonoBehaviour
 
         if (videoPlayer != null && videoImage != null)
         {
+            videoImage.gameObject.SetActive(true);
             videoPlayer.gameObject.SetActive(true);
             videoPlayer.Play();
             videoPlayer.loopPointReached += OnVideoFinished;
