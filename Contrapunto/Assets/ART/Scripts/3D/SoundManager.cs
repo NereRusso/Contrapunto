@@ -8,7 +8,7 @@ public class SoundManager : MonoBehaviour
     public AudioClip pickupClip;
     public AudioClip errorClip;
     public AudioClip successClip;
-    public AudioClip audio3Reni;
+    public AudioClip audio2Reni;
 
     private void Awake()
     {
@@ -42,9 +42,9 @@ public class SoundManager : MonoBehaviour
 
     public void PlayFinalNarration()
     {
-        if (audio3Reni != null)
+        if (audio2Reni != null)
         {
-            NarrationManager.Instance.PlayNarration(audio3Reni);
+            NarrationManager.Instance.PlayNarration(audio2Reni);
         }
     }
 }
