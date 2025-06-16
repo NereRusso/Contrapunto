@@ -2199,6 +2199,7 @@ MonoBehaviour:
   targetNoiseAmount: 50
   targetGlitchStrength: 100
   targetScanLinesStrength: 1
+  audio4Marti: {fileID: 8300000, guid: 7bae0165b9ac46148918c922ec7a5afa, type: 3}
 --- !u!65 &619394751
 BoxCollider:
   m_ObjectHideFlags: 0
