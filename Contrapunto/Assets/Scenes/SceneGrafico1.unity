@@ -2064,17 +2064,17 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 12e7f2856c921824d9953080b6cd30f4,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -66.488
+      value: -74.03
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 12e7f2856c921824d9953080b6cd30f4,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.043
+      value: 1.04
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 12e7f2856c921824d9953080b6cd30f4,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 69.727
+      value: 46.95
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 12e7f2856c921824d9953080b6cd30f4,
         type: 3}
@@ -2195,10 +2195,11 @@ MonoBehaviour:
   glitchFeature: {fileID: -1456214410746216193, guid: c40be3174f62c4acf8c1216858c64956,
     type: 2}
   glitchController: {fileID: 1473674244}
-  glitchDuration: 2
+  glitchDuration: 1
   targetNoiseAmount: 50
   targetGlitchStrength: 100
   targetScanLinesStrength: 1
+  audio4Marti: {fileID: 8300000, guid: 7bae0165b9ac46148918c922ec7a5afa, type: 3}
 --- !u!65 &619394751
 BoxCollider:
   m_ObjectHideFlags: 0
