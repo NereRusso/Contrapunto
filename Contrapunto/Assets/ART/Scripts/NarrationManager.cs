@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;        // <-- TextMeshPro
+using TMPro;
 using UnityEngine.InputSystem;
 
 public class NarrationManager : MonoBehaviour
@@ -14,7 +14,9 @@ public class NarrationManager : MonoBehaviour
     private bool isPlayingNarration;
 
     [Header("Subtítulos UI")]
-    public TextMeshProUGUI subtitleText;  // Asignar en el Inspector
+    public TextMeshProUGUI subtitleText;              // Asignar en el Inspector
+    public CanvasGroup subtitleBackgroundGroup;       // CanvasGroup del fondo (asignar en el Inspector)
+    public float backgroundFadeDuration = 0.5f;       // Duración del fade del fondo
 
     [System.Serializable]
     public class ClipSubtitle
@@ -63,17 +65,14 @@ public class NarrationManager : MonoBehaviour
         narrationSource.Play();
         isPlayingNarration = true;
 
-        // Lanzar subtítulo
         ShowSubtitleForClip(clip);
     }
 
     private void ShowSubtitleForClip(AudioClip clip)
     {
-        // Detener corrutina anterior si existe
         if (subtitleCoroutine != null)
             StopCoroutine(subtitleCoroutine);
 
-        // Buscar el texto
         var entry = subtitles.Find(s => s.clip == clip);
         if (entry != null && subtitleText != null)
         {
@@ -83,14 +82,38 @@ public class NarrationManager : MonoBehaviour
 
     private IEnumerator SubtitleRoutine(string text, float duration)
     {
-        subtitleText.gameObject.SetActive(false);  // ?? Primero ocultamos
-        subtitleText.text = text;                  // ?? Recién ahí seteamos el nuevo texto
-        subtitleText.gameObject.SetActive(true);   // ??? Y lo mostramos limpio
+        // Fade in del fondo antes del texto
+        if (subtitleBackgroundGroup != null)
+            yield return StartCoroutine(FadeCanvasGroup(subtitleBackgroundGroup, 0f, 1f, backgroundFadeDuration));
+
+        // Espera medio segundo más antes de mostrar texto
+        yield return new WaitForSeconds(backgroundFadeDuration);
+
+        subtitleText.text = text;
+        subtitleText.gameObject.SetActive(true);
 
         yield return new WaitForSeconds(duration);
 
         subtitleText.text = "";
         subtitleText.gameObject.SetActive(false);
+
+        // Fade out del fondo al terminar
+        if (subtitleBackgroundGroup != null)
+            yield return StartCoroutine(FadeCanvasGroup(subtitleBackgroundGroup, 1f, 0f, backgroundFadeDuration));
     }
 
+    private IEnumerator FadeCanvasGroup(CanvasGroup group, float start, float end, float duration)
+    {
+        float elapsed = 0f;
+        group.alpha = start;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            group.alpha = Mathf.Lerp(start, end, elapsed / duration);
+            yield return null;
+        }
+
+        group.alpha = end;
+    }
 }
