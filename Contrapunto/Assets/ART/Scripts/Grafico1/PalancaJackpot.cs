@@ -12,6 +12,8 @@ public class PalancaJackpotFisico : MonoBehaviour
 
     [Header("Activación final")]
     public GameObject specialObject;
+    [Header("Narración")]
+    public AudioClip audio3Marti;
 
     private bool isRolling = false;
     private bool isJackpotCompleted = false;
@@ -59,6 +61,8 @@ public class PalancaJackpotFisico : MonoBehaviour
             JackpotManager.Instance.forceNumber12)
         {
             isJackpotCompleted = true;
+            if(audio3Marti != null)
+        NarrationManager.Instance.PlayNarration(audio3Marti);
             if (specialObject != null) specialObject.SetActive(true);
             Debug.Log("¡Jackpot completo!");
         }
