@@ -5035,7 +5035,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 516c0dd6ed9ed6c45a331ad22401eded, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ambientClip: {fileID: 8300000, guid: 59823c7870aca8f4dadfa460e566d23a, type: 3}
+  ambientClip: {fileID: 8300000, guid: d856e7cea60aa864198cada96c16a814, type: 3}
   playerTransform: {fileID: 914884578}
   maxDistance: 20
   maxVolume: 1
@@ -7705,7 +7705,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 59823c7870aca8f4dadfa460e566d23a, type: 3}
+  m_audioClip: {fileID: 8300000, guid: d856e7cea60aa864198cada96c16a814, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1

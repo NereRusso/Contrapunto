@@ -36,6 +36,11 @@ public class TerminalMal : MonoBehaviour
     public string[] glitchWords;
     public AudioSource errorSound;
 
+    [Header("Sonidos Extra")]
+    public AudioClip clickActivacionSound;
+    public AudioClip teclaSound;
+    public AudioSource audioSource;
+
     [Header("Animaciones")]
     public float interactionDistance = 5f;
     public float screenOpenSpeed = 2f;
@@ -103,6 +108,8 @@ public class TerminalMal : MonoBehaviour
 
         videoPanel.SetActive(false);
         enterButton.onClick.AddListener(CheckWord);
+
+        inputField.onValueChanged.AddListener(OnInputChanged);
     }
 
     void Update()
@@ -156,6 +163,9 @@ public class TerminalMal : MonoBehaviour
 
     void ActivateScreen()
     {
+        if (audioSource && clickActivacionSound)
+            audioSource.PlayOneShot(clickActivacionSound);
+
         hasActivated = true;
         screenOpening = true;
         screenCanvas.SetActive(true);
@@ -272,6 +282,12 @@ public class TerminalMal : MonoBehaviour
 
         pendingScramble.Remove(pos);
         UpdateDisplay();
+    }
+
+    void OnInputChanged(string currentText)
+    {
+        if (audioSource && teclaSound)
+            audioSource.PlayOneShot(teclaSound);
     }
 
     void UpdateDisplay()

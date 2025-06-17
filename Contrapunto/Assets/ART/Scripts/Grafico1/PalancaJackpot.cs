@@ -8,12 +8,18 @@ public class PalancaJackpotFisico : MonoBehaviour
     public Transform ruedaSimbolo;
     public Transform ruedaNumero;
 
-    public Animator animator;   // referencia al Animator
+    public Animator animator;
 
     [Header("Activación final")]
     public GameObject specialObject;
+
     [Header("Narración")]
     public AudioClip audio3Marti;
+
+    [Header("Sonidos combinados")]
+    public AudioSource audioSource;
+    public AudioClip sonidoCompletoWin;   // incluye ruedas + éxito
+    public AudioClip sonidoCompletoFail;  // incluye ruedas + falla
 
     private bool isRolling = false;
     private bool isJackpotCompleted = false;
@@ -27,22 +33,39 @@ public class PalancaJackpotFisico : MonoBehaviour
     {
         if (!isRolling && !isJackpotCompleted)
         {
-            animator.SetTrigger("PlayClick");     // dispara la animación
-            StartCoroutine(StartJackpot());       // y luego sigue con las ruedas
+            animator.SetTrigger("PlayClick");
+            StartCoroutine(StartJackpot());
         }
     }
-
 
     IEnumerator StartJackpot()
     {
         isRolling = true;
 
-        // 1. Arrancan todas a full
+        // ¿Se completa el jackpot?
+        bool esJackpot = JackpotManager.Instance.forceLetterC &&
+                         JackpotManager.Instance.forceSymbolStar &&
+                         JackpotManager.Instance.forceNumber12;
+
+        // ?? Elegir y reproducir sonido con leve delay
+        if (audioSource)
+        {
+            AudioClip clipElegido = esJackpot ? sonidoCompletoWin : sonidoCompletoFail;
+            if (clipElegido != null)
+            {
+                audioSource.clip = clipElegido;
+                audioSource.PlayDelayed(0.05f); // suena un pelito antes del giro
+            }
+        }
+
+        // Esperar menos de lo normal para que el giro parezca seguir al sonido
+        yield return new WaitForSeconds(0.03f); // leve respiro
+
+        // Iniciar giros
         spinLetra = StartCoroutine(GirarLibre(ruedaLetra));
         spinSimbolo = StartCoroutine(GirarLibre(ruedaSimbolo));
         spinNumero = StartCoroutine(GirarLibre(ruedaNumero));
 
-        // 2. Tras 1.2s frenamos una a una
         yield return new WaitForSeconds(1.2f);
         StopCoroutine(spinLetra);
         yield return StartCoroutine(FrenarSoloDiff(ruedaLetra, JackpotManager.Instance.forceLetterC));
@@ -55,22 +78,21 @@ public class PalancaJackpotFisico : MonoBehaviour
         StopCoroutine(spinNumero);
         yield return StartCoroutine(FrenarSoloDiff(ruedaNumero, JackpotManager.Instance.forceNumber12));
 
-        // 3. Comprobamos jackpot
-        if (JackpotManager.Instance.forceLetterC &&
-            JackpotManager.Instance.forceSymbolStar &&
-            JackpotManager.Instance.forceNumber12)
+        // Activación final si ganó
+        if (esJackpot)
         {
             isJackpotCompleted = true;
-            if(audio3Marti != null)
-        NarrationManager.Instance.PlayNarration(audio3Marti);
-            if (specialObject != null) specialObject.SetActive(true);
-            Debug.Log("¡Jackpot completo!");
+
+            if (audio3Marti != null)
+                NarrationManager.Instance.PlayNarration(audio3Marti);
+
+            if (specialObject != null)
+                specialObject.SetActive(true);
         }
 
         isRolling = false;
     }
 
-    // Giro infinito a velocidad constante
     IEnumerator GirarLibre(Transform rueda)
     {
         const float spinSpeed = 720f;
@@ -81,29 +103,23 @@ public class PalancaJackpotFisico : MonoBehaviour
         }
     }
 
-    // Frenado suave recorriendo solo la diff exacta
     IEnumerator FrenarSoloDiff(Transform rueda, bool forceCorrect)
     {
-        // 1?? Elegir destino exacto
         float destinoZ = forceCorrect
             ? resultadoCorrecto
             : alternativas[Random.Range(0, alternativas.Length)];
 
-        // 2?? Normalizar posición actual y calcular diff horario
         float zNorm = (rueda.localEulerAngles.z % 360f + 360f) % 360f;
         float diff = (zNorm - destinoZ + 360f) % 360f;
 
-        // 3?? Definir ángulo de inicio y fin
         float startZ = rueda.localEulerAngles.z;
-        float endZ = startZ - diff; // al restar diff, Unity lo muestra como destinoZ
+        float endZ = startZ - diff;
 
-        // 4?? Calcular duración (velocidad = 720°/s, pero mínimo 0.5s)
         float spinSpeed = 720f;
         float baseDur = diff / spinSpeed;
         float duration = Mathf.Max(baseDur, 0.5f);
         float elapsed = 0f;
 
-        // 5?? Ease-out cuadrático sin snap final
         while (elapsed < duration)
         {
             elapsed += Time.deltaTime;
@@ -114,9 +130,6 @@ public class PalancaJackpotFisico : MonoBehaviour
             yield return null;
         }
 
-        // 6?? Ajuste final exacto para eliminar cualquier float error
         rueda.localEulerAngles = new Vector3(0, 0, endZ);
     }
-
-
 }

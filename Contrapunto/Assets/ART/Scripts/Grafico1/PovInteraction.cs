@@ -6,12 +6,25 @@ public class PovInteraction : MonoBehaviour
     public GameObject player;
     public GameObject visorController;
 
+    [Header("Audio al hacer click")]
+    public AudioSource clickSound;  // Asigná el AudioSource con el sonido en el Inspector
+
     private bool hasBeenClicked = false;
 
     void OnMouseDown()
     {
-        if (hasBeenClicked) return;   // si ya lo clickeaste, no hace nada
+        if (hasBeenClicked) return;
         hasBeenClicked = true;
+
+        // Reproducir sonido de click
+        if (clickSound != null)
+        {
+            clickSound.Play();
+        }
+        else
+        {
+            Debug.LogWarning("No se asignó ningún AudioSource para el sonido de click.");
+        }
 
         // Activo el modo visor
         player.SetActive(false);
@@ -19,7 +32,6 @@ public class PovInteraction : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
-        // Opcional: desactivar este script para no procesar nada más
         this.enabled = false;
     }
 }

@@ -1894,7 +1894,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 59823c7870aca8f4dadfa460e566d23a, type: 3}
+  m_audioClip: {fileID: 8300000, guid: d856e7cea60aa864198cada96c16a814, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -4414,7 +4414,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 516c0dd6ed9ed6c45a331ad22401eded, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ambientClip: {fileID: 8300000, guid: 59823c7870aca8f4dadfa460e566d23a, type: 3}
+  ambientClip: {fileID: 8300000, guid: d856e7cea60aa864198cada96c16a814, type: 3}
   playerTransform: {fileID: 1781127230}
   maxDistance: 20
   maxVolume: 1
@@ -4505,7 +4505,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   totalCubes: 4
-  pickupSound: {fileID: 8300000, guid: e2beab8e364d7f8468701af7638d2873, type: 3}
+  pickupSound: {fileID: 8300000, guid: 18bada7b70169a548a3f298b579a125e, type: 3}
   audioMili3: {fileID: 8300000, guid: ff632af0c0d3df541bf9078e5c9f623b, type: 3}
 --- !u!4 &1640989933
 Transform:
