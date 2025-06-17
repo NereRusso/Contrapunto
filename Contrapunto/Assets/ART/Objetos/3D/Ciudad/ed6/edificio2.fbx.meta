@@ -3,7 +3,37 @@ guid: cd990652489ef0d41aae3725b41b08af
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: baranda
+    second: {fileID: 2100000, guid: ccf4871a8085a344c90ea44197b4e524, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: cilindro1
+    second: {fileID: 2100000, guid: f313bfd1d53b1fc4d912334292b6cc50, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: cilindro2
+    second: {fileID: 2100000, guid: 90ce0cbd9b4848347b682af37312965b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: cilindro3
+    second: {fileID: 2100000, guid: f1c579e734331fd4cb529e41a66f3310, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: piso
+    second: {fileID: 2100000, guid: 57c9ad49f035eb040a523aa3130aafba, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: ventanas
+    second: {fileID: 2100000, guid: c1c820a2e8469e84ea7f3511431d56b9, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
