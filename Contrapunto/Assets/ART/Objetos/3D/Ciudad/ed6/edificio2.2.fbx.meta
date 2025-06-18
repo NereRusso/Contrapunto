@@ -18,7 +18,7 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: cilindro2
-    second: {fileID: 2100000, guid: 10a0ce604be0ef24e9cf3ca44abcaba9, type: 2}
+    second: {fileID: 2100000, guid: c10090f44fd252c46ab44be83ae562c7, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
