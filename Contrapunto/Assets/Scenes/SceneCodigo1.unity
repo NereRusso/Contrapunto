@@ -9301,7 +9301,7 @@ MonoBehaviour:
   errorSound: {fileID: 1747153200}
   clickActivacionSound: {fileID: 8300000, guid: 475b2d6569a8e804f87c89fd3d7d25ad,
     type: 3}
-  teclaSound: {fileID: 8300000, guid: ed379ae268853ed419643022cd01af34, type: 3}
+  teclaSound: {fileID: 8300000, guid: 8b868470a9be4274b8ebaedb96342eff, type: 3}
   audioSource: {fileID: 1818626232}
   interactionDistance: 5
   screenOpenSpeed: 2
@@ -25009,7 +25009,7 @@ Transform:
   m_GameObject: {fileID: 7094977339289116131}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.0057412707, z: -0, w: 0.99998355}
-  m_LocalPosition: {x: 48.9, y: -8.97, z: 70.15}
+  m_LocalPosition: {x: 48.9, y: -8.97, z: 31.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
