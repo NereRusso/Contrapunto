@@ -2,19 +2,36 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using StarterAssets;
+using UnityEngine.InputSystem;
 
 public class TresDManager : MonoBehaviour
 {
-    public FirstPersonController playerController;
+    [Header("Referencias")]
+    public GameObject playerObject; // el GameObject raíz del jugador
     public CanvasGroup fadeCanvas;
     public float fadeDuration = 1.5f;
     public float delayBeforeFade = 1.0f;
 
-    public AudioClip audio1Reni; // solo el sonido de narración
+    [Header("Narración")]
+    public AudioClip audio1Reni;
+
+    // Scripts a desactivar temporalmente
+    private FirstPersonController movementScript;
+    private StarterAssetsInputs inputScript;
+    private PlayerInput playerInput;
 
     private void Start()
     {
-        playerController.enabled = false;
+        // Obtener los scripts del jugador
+        movementScript = playerObject.GetComponent<FirstPersonController>();
+        inputScript = playerObject.GetComponent<StarterAssetsInputs>();
+        playerInput = playerObject.GetComponent<PlayerInput>();
+
+        // Desactivar todos los controles
+        if (movementScript != null) movementScript.enabled = false;
+        if (inputScript != null) inputScript.enabled = false;
+        if (playerInput != null) playerInput.enabled = false;
+
         StartCoroutine(FadeIn());
     }
 
@@ -36,11 +53,17 @@ public class TresDManager : MonoBehaviour
         fadeCanvas.alpha = 0;
         fadeCanvas.blocksRaycasts = false;
 
-        playerController.enabled = true;
-
+        // Empieza la narración y esperamos que termine para activar controles
         if (audio1Reni != null)
         {
-            NarrationManager.Instance.PlayNarration(audio1Reni);
+            NarrationManager.Instance.PlayNarration(audio1Reni, OnNarrationEnded);
         }
+    }
+
+    void OnNarrationEnded()
+    {
+        if (movementScript != null) movementScript.enabled = true;
+        if (inputScript != null) inputScript.enabled = true;
+        if (playerInput != null) playerInput.enabled = true;
     }
 }

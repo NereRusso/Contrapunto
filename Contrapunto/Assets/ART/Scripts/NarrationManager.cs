@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,9 +15,9 @@ public class NarrationManager : MonoBehaviour
     private bool isPlayingNarration;
 
     [Header("Subtítulos UI")]
-    public TextMeshProUGUI subtitleText;              // Asignar en el Inspector
-    public CanvasGroup subtitleBackgroundGroup;       // CanvasGroup del fondo (asignar en el Inspector)
-    public float backgroundFadeDuration = 0.5f;       // Duración del fade del fondo
+    public TextMeshProUGUI subtitleText;
+    public CanvasGroup subtitleBackgroundGroup;
+    public float backgroundFadeDuration = 0.5f;
 
     [System.Serializable]
     public class ClipSubtitle
@@ -68,7 +69,20 @@ public class NarrationManager : MonoBehaviour
         ShowSubtitleForClip(clip);
     }
 
-    private void ShowSubtitleForClip(AudioClip clip)
+    public void PlayNarration(AudioClip clip, Action onComplete)
+    {
+        if (clip == null) return;
+
+        lastNarrationClip = clip;
+        narrationSource.Stop();
+        narrationSource.clip = clip;
+        narrationSource.Play();
+        isPlayingNarration = true;
+
+        ShowSubtitleForClip(clip, onComplete);
+    }
+
+    private void ShowSubtitleForClip(AudioClip clip, Action onComplete = null)
     {
         if (subtitleCoroutine != null)
             StopCoroutine(subtitleCoroutine);
@@ -76,17 +90,20 @@ public class NarrationManager : MonoBehaviour
         var entry = subtitles.Find(s => s.clip == clip);
         if (entry != null && subtitleText != null)
         {
-            subtitleCoroutine = StartCoroutine(SubtitleRoutine(entry.subtitle, clip.length));
+            subtitleCoroutine = StartCoroutine(SubtitleRoutine(entry.subtitle, clip.length, onComplete));
+        }
+        else if (onComplete != null)
+        {
+            // Si no hay subtítulo pero queremos que igual se llame al final
+            StartCoroutine(CallbackAfterDelay(clip.length, onComplete));
         }
     }
 
-    private IEnumerator SubtitleRoutine(string text, float duration)
+    private IEnumerator SubtitleRoutine(string text, float duration, Action onComplete = null)
     {
-        // Fade in del fondo antes del texto
         if (subtitleBackgroundGroup != null)
             yield return StartCoroutine(FadeCanvasGroup(subtitleBackgroundGroup, 0f, 1f, backgroundFadeDuration));
 
-        // Espera medio segundo más antes de mostrar texto
         yield return new WaitForSeconds(backgroundFadeDuration);
 
         subtitleText.text = text;
@@ -97,9 +114,16 @@ public class NarrationManager : MonoBehaviour
         subtitleText.text = "";
         subtitleText.gameObject.SetActive(false);
 
-        // Fade out del fondo al terminar
         if (subtitleBackgroundGroup != null)
             yield return StartCoroutine(FadeCanvasGroup(subtitleBackgroundGroup, 1f, 0f, backgroundFadeDuration));
+
+        onComplete?.Invoke();
+    }
+
+    private IEnumerator CallbackAfterDelay(float delay, Action callback)
+    {
+        yield return new WaitForSeconds(delay);
+        callback?.Invoke();
     }
 
     private IEnumerator FadeCanvasGroup(CanvasGroup group, float start, float end, float duration)

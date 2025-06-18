@@ -488,7 +488,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1e10e94524716747aa6a42661def30d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerController: {fileID: 914884577}
+  playerObject: {fileID: 1675757697}
   fadeCanvas: {fileID: 1123065997}
   fadeDuration: 1.5
   delayBeforeFade: 1
@@ -3955,6 +3955,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 453084650579209848, guid: 035bf1ba97d19214580cfe6f5a29fdc3,
         type: 3}
+      propertyPath: JumpHeight
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 453084650579209848, guid: 035bf1ba97d19214580cfe6f5a29fdc3,
+        type: 3}
       propertyPath: SprintSpeed
       value: 10
       objectReference: {fileID: 0}
@@ -4133,18 +4138,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 914884575}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &914884577 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 453084650579209848, guid: 035bf1ba97d19214580cfe6f5a29fdc3,
-    type: 3}
-  m_PrefabInstance: {fileID: 914884575}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1675757697}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 55919ac34a26952479f3fc91f777b2fa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &914884578 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 937451010987979973, guid: 035bf1ba97d19214580cfe6f5a29fdc3,

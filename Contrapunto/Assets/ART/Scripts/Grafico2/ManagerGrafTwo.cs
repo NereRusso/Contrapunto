@@ -2,19 +2,36 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using StarterAssets;
+using UnityEngine.InputSystem;
 
 public class ManagerGrafTwo : MonoBehaviour
 {
-    public FirstPersonController playerController;
+    [Header("Referencias")]
+    public GameObject playerObject; // ? arrastrá el objeto raíz del jugador
     public CanvasGroup fadeCanvas;
     public float fadeDuration = 1.5f;
     public float delayBeforeFade = 1.0f;
 
-    public AudioClip audio1Marti; // solo el sonido de narración
+    [Header("Narración")]
+    public AudioClip audio1Marti;
+
+    // Scripts del jugador
+    private FirstPersonController movementScript;
+    private StarterAssetsInputs inputScript;
+    private PlayerInput playerInput;
 
     private void Start()
     {
-        playerController.enabled = false;
+        // Obtener los scripts del jugador
+        movementScript = playerObject.GetComponent<FirstPersonController>();
+        inputScript = playerObject.GetComponent<StarterAssetsInputs>();
+        playerInput = playerObject.GetComponent<PlayerInput>();
+
+        // Desactivar control completo
+        if (movementScript != null) movementScript.enabled = false;
+        if (inputScript != null) inputScript.enabled = false;
+        if (playerInput != null) playerInput.enabled = false;
+
         StartCoroutine(FadeIn());
     }
 
@@ -36,11 +53,18 @@ public class ManagerGrafTwo : MonoBehaviour
         fadeCanvas.alpha = 0;
         fadeCanvas.blocksRaycasts = false;
 
-        playerController.enabled = true;
-
+        // Iniciar narración
         if (audio1Marti != null)
         {
-            NarrationManager.Instance.PlayNarration(audio1Marti);
+            NarrationManager.Instance.PlayNarration(audio1Marti, OnNarrationEnded);
         }
+    }
+
+    void OnNarrationEnded()
+    {
+        // Habilitar controles
+        if (movementScript != null) movementScript.enabled = true;
+        if (inputScript != null) inputScript.enabled = true;
+        if (playerInput != null) playerInput.enabled = true;
     }
 }

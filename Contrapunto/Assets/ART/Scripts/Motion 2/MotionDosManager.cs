@@ -3,11 +3,13 @@ using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 using StarterAssets;
+using UnityEngine.InputSystem;
 using UnityEngine.Video;
 
 public class MotionDosManager : MonoBehaviour
 {
-    public FirstPersonController playerController;
+    [Header("Jugador y Fade")]
+    public GameObject playerObject; // <-- arrastrá el GameObject raíz del jugador
     public CanvasGroup fadeCanvas;
     public float fadeDuration = 1.5f;
     public float delayBeforeFade = 1.0f;
@@ -22,16 +24,31 @@ public class MotionDosManager : MonoBehaviour
 
     private List<Coroutine> glitchCoroutines = new List<Coroutine>();
 
+    // Scripts del jugador
+    private FirstPersonController movementScript;
+    private StarterAssetsInputs inputScript;
+    private PlayerInput playerInput;
+
     private void Start()
     {
-        // ?? Frenar videos antes del fade
+        // Buscar scripts del jugador
+        movementScript = playerObject.GetComponent<FirstPersonController>();
+        inputScript = playerObject.GetComponent<StarterAssetsInputs>();
+        playerInput = playerObject.GetComponent<PlayerInput>();
+
+        // Desactivar controles
+        if (movementScript != null) movementScript.enabled = false;
+        if (inputScript != null) inputScript.enabled = false;
+        if (playerInput != null) playerInput.enabled = false;
+
+        // Pausar videos normales
         foreach (var vp in videosPausados)
         {
             if (vp != null)
                 vp.Pause();
         }
 
-        // ?? Activar glitch en videos antes del fade
+        // Iniciar glitch en videos
         foreach (var vp in videosConGlitch)
         {
             if (vp != null)
@@ -42,8 +59,7 @@ public class MotionDosManager : MonoBehaviour
             }
         }
 
-        // Luego recién hacemos el fade in
-        playerController.enabled = false;
+        // Empezar fade in
         StartCoroutine(FadeIn());
     }
 
@@ -65,12 +81,18 @@ public class MotionDosManager : MonoBehaviour
         fadeCanvas.alpha = 0;
         fadeCanvas.blocksRaycasts = false;
 
-        playerController.enabled = true;
-
+        // Reproducir narración, controles se activan cuando termina
         if (audio1Mili != null)
         {
-            NarrationManager.Instance.PlayNarration(audio1Mili);
+            NarrationManager.Instance.PlayNarration(audio1Mili, OnNarrationEnded);
         }
+    }
+
+    void OnNarrationEnded()
+    {
+        if (movementScript != null) movementScript.enabled = true;
+        if (inputScript != null) inputScript.enabled = true;
+        if (playerInput != null) playerInput.enabled = true;
     }
 
     private IEnumerator PlaySteppedVideo(VideoPlayer vp)

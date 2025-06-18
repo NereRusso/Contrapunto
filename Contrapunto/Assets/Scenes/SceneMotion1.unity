@@ -2673,6 +2673,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 453084650579209848, guid: 035bf1ba97d19214580cfe6f5a29fdc3,
         type: 3}
+      propertyPath: JumpHeight
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 453084650579209848, guid: 035bf1ba97d19214580cfe6f5a29fdc3,
+        type: 3}
       propertyPath: SprintSpeed
       value: 10
       objectReference: {fileID: 0}
@@ -3500,12 +3505,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1425508713}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1035995846 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7094977340588366727, guid: 035bf1ba97d19214580cfe6f5a29fdc3,
-    type: 3}
-  m_PrefabInstance: {fileID: 805301059}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1037668563
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4271,13 +4270,13 @@ MonoBehaviour:
   videoPlayer: {fileID: 1764264896}
   videoScreen: {fileID: 1764264897}
   videoCanvas: {fileID: 275891750}
-  playerController: {fileID: 1035995846}
+  playerController: {fileID: 1781127224}
   mainCamera: {fileID: 1362834856}
   screenFader: {fileID: 1981642640}
-  fadeDuration: 1.5
-  waitBeforeFadeOut: 0.5
   audioMili1: {fileID: 8300000, guid: ec8f6d409850a3d40b731278d524f43a, type: 3}
   sonidoAmbiente: {fileID: 820772579}
+  fadeDuration: 1.5
+  waitBeforeFadeOut: 0.5
 --- !u!4 &1503838544
 Transform:
   m_ObjectHideFlags: 0
