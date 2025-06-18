@@ -1,93 +1,84 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.Video;
+using UnityEngine.UI;
 using StarterAssets;
 using UnityEngine.InputSystem;
-using UnityEngine.Rendering.Universal;
 
 public class ManagerCod1 : MonoBehaviour
 {
     [Header("Jugador")]
-    public GameObject playerObject; // ? arrastrá el objeto raíz
+    public GameObject playerObject;
 
-    [Header("Glitch URP Feature")]
-    public ScriptableRendererFeature glitchFeature;
-
-    [Header("Control de rampa de glitch")]
-    public GlitchController glitchController;
-    public float delayBeforeGlitch = 1f;
-    public float glitchDuration = 1.5f;
-
-    [Header("Valores iniciales de glitch")]
-    [Range(0f, 100f)] public float startNoiseAmount = 50f;
-    [Range(0f, 100f)] public float startGlitchStrength = 100f;
-    [Range(0f, 1f)] public float startScanLinesStrength = 1f;
+    [Header("Video Intro")]
+    public RawImage videoImage;        // Texture = RenderTexture (IntroRT)
+    public VideoPlayer videoPlayer;    // Render Mode = RenderTexture, Target Texture = IntroRT
+    public float videoDelay = 1f;
 
     [Header("Narración")]
     public AudioClip audio1Nere;
 
-    // Scripts del jugador
-    private FirstPersonController movementScript;
-    private StarterAssetsInputs inputScript;
-    private PlayerInput playerInput;
+    // Referencias al jugador
+    FirstPersonController movementScript;
+    StarterAssetsInputs inputScript;
+    PlayerInput playerInput;
 
-    private void Start()
+    void Start()
     {
-        // Buscar los scripts de control
         movementScript = playerObject.GetComponent<FirstPersonController>();
         inputScript = playerObject.GetComponent<StarterAssetsInputs>();
         playerInput = playerObject.GetComponent<PlayerInput>();
 
-        // Desactivar controles del jugador
-        if (movementScript != null) movementScript.enabled = false;
-        if (inputScript != null) inputScript.enabled = false;
-        if (playerInput != null) playerInput.enabled = false;
+        // Desactivar controles
+        movementScript.enabled = false;
+        inputScript.enabled = false;
+        playerInput.enabled = false;
 
-        // Iniciar glitch
-        StartCoroutine(IntroGlitch());
+        // Asegurarnos de que la RawImage arranque oculta
+        videoImage.gameObject.SetActive(false);
+
+        StartCoroutine(PlayIntroVideo());
     }
 
-    IEnumerator IntroGlitch()
+    IEnumerator PlayIntroVideo()
     {
-        yield return new WaitForSeconds(delayBeforeGlitch);
+        yield return new WaitForSeconds(videoDelay);
 
-        if (glitchFeature != null)
-            glitchFeature.SetActive(true);
+        // Mostrar el RawImage
+        videoImage.gameObject.SetActive(true);
 
-        // Seteo valores iniciales
-        glitchController.noiseAmount = startNoiseAmount;
-        glitchController.glitchStrength = startGlitchStrength;
-        glitchController.scanLinesStrength = startScanLinesStrength;
+        // Preparar el VideoPlayer
+        videoPlayer.Prepare();
+        yield return new WaitWhile(() => !videoPlayer.isPrepared);
 
-        float elapsed = 0f;
-        while (elapsed < glitchDuration)
-        {
-            elapsed += Time.deltaTime;
-            float t = elapsed / glitchDuration;
+        // Asegurarnos de que la RawImage use el RenderTexture
+        videoImage.texture = videoPlayer.targetTexture;
 
-            glitchController.noiseAmount = Mathf.Lerp(startNoiseAmount, 0f, t);
-            glitchController.glitchStrength = Mathf.Lerp(startGlitchStrength, 0f, t);
-            glitchController.scanLinesStrength = Mathf.Lerp(startScanLinesStrength, 0f, t);
+        // Suscribirse al evento de fin de vídeo
+        videoPlayer.loopPointReached += OnVideoFinished;
 
-            yield return null;
-        }
+        // Iniciar reproducción
+        videoPlayer.Play();
+    }
 
-        // Asegurar cero y desactivar glitch
-        glitchController.noiseAmount = 0f;
-        glitchController.glitchStrength = 0f;
-        glitchController.scanLinesStrength = 0f;
+    void OnVideoFinished(VideoPlayer vp)
+    {
+        // Nos desuscribimos para evitar llamadas repetidas
+        vp.loopPointReached -= OnVideoFinished;
 
-        if (glitchFeature != null)
-            glitchFeature.SetActive(false);
+        // Ocultar la RawImage
+        videoImage.gameObject.SetActive(false);
 
-        // Reproducir narración, controles se activan al final
+        // Llamar a la narración
         if (audio1Nere != null)
             NarrationManager.Instance.PlayNarration(audio1Nere, OnNarrationEnded);
     }
 
     void OnNarrationEnded()
     {
-        if (movementScript != null) movementScript.enabled = true;
-        if (inputScript != null) inputScript.enabled = true;
-        if (playerInput != null) playerInput.enabled = true;
+        // Re-activar controles del jugador
+        movementScript.enabled = true;
+        inputScript.enabled = true;
+        playerInput.enabled = true;
     }
 }
