@@ -25,7 +25,6 @@ public class InputFlechas : MonoBehaviour
     public float puntosPorPerfecto = 5f;
     public float puntosPorBien = 2f;
 
-
     void Awake()
     {
         instance = this;
@@ -73,27 +72,29 @@ public class InputFlechas : MonoBehaviour
                 if (distancia <= rangoPerfecto)
                 {
                     MostrarFeedback("PERFECTO", puntosPorPerfecto);
+                    GameManagerDDR.Instance.ReproducirSonidoAcierto();  // ?? Perfecto
                     Destroy(flecha.gameObject);
                     return;
                 }
                 else if (distancia <= rangoBueno)
                 {
                     MostrarFeedback("BIEN", puntosPorBien);
+                    GameManagerDDR.Instance.ReproducirSonidoAcierto();  // ?? Bien
                     Destroy(flecha.gameObject);
                     return;
                 }
             }
         }
 
-        // No hacemos nada si no hay flechas  No es fallo
+        // Si no encontró flechas acertadas: fallo
+        MostrarFallo(direccion);
     }
-
 
     public void MostrarFallo(FlechaMovimiento.Direccion direccion)
     {
         MostrarFeedback("FALLO", 0);
+        GameManagerDDR.Instance.ReproducirSonidoFallo();  // ?? Fallo
     }
-
 
     void MostrarFeedback(string texto, float puntos = 0)
     {
@@ -102,23 +103,17 @@ public class InputFlechas : MonoBehaviour
         CancelInvoke(nameof(EsconderFeedback));
         Invoke(nameof(EsconderFeedback), 0.5f);
 
-        // Sumar puntos si corresponde
         if (puntos > 0)
         {
             barraRendimiento.value += puntos;
 
-            // Limitar que no se pase de 100 y detectar si se llenó
             if (barraRendimiento.value >= barraRendimiento.maxValue)
             {
                 barraRendimiento.value = barraRendimiento.maxValue;
-
-                //Llamar al final del juego
                 FinalDance.instance.FinDelJuego();
             }
         }
     }
-
-
 
     void EsconderFeedback()
     {

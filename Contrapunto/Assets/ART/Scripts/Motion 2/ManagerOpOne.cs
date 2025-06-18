@@ -17,6 +17,29 @@ public class GameManagerDDR : MonoBehaviour
     public TextMeshProUGUI contadorTexto; // O TextMeshProUGUI si usás TMP
 
     public FlechaSpawner arrowSpawner;
+    public static GameManagerDDR Instance;
+
+    [Header("Efectos de sonido")]
+    public AudioSource audioSource;
+    public AudioClip sonidoAcierto;
+    public AudioClip sonidoFallo;
+
+    void Awake()
+    {
+        Instance = this;
+    }
+
+    public void ReproducirSonidoAcierto()
+    {
+        if (sonidoAcierto != null)
+            audioSource.PlayOneShot(sonidoAcierto);
+    }
+
+    public void ReproducirSonidoFallo()
+    {
+        if (sonidoFallo != null)
+            audioSource.PlayOneShot(sonidoFallo);
+    }
 
 
     void Start()

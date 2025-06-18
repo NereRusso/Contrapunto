@@ -40,6 +40,7 @@ public class TerminalMal : MonoBehaviour
     public AudioClip clickActivacionSound;
     public AudioClip teclaSound;
     public AudioSource audioSource;
+    public AudioClip correctoSound;
 
     [Header("Animaciones")]
     public float interactionDistance = 5f;
@@ -346,6 +347,9 @@ public class TerminalMal : MonoBehaviour
         string entered = inputField.text.Trim();
         if (entered.Equals(glitchWords[currentWordIndex], StringComparison.OrdinalIgnoreCase))
         {
+            if (audioSource && correctoSound)
+                audioSource.PlayOneShot(correctoSound);
+
             foreach (int pos in glitchPositions[currentWordIndex])
                 writtenPositions.Add(pos);
 

@@ -6900,7 +6900,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2c7911f97853654ca755ad480039b4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerObject: {fileID: 0}
+  playerObject: {fileID: 453084649791793179}
   glitchFeature: {fileID: -1456214410746216193, guid: c40be3174f62c4acf8c1216858c64956,
     type: 2}
   glitchController: {fileID: 1856668575}
@@ -10712,6 +10712,7 @@ MonoBehaviour:
     type: 3}
   teclaSound: {fileID: 8300000, guid: 8b868470a9be4274b8ebaedb96342eff, type: 3}
   audioSource: {fileID: 1818626232}
+  correctoSound: {fileID: 8300000, guid: f516bf22c2759754a82423389c85c762, type: 3}
   interactionDistance: 5
   screenOpenSpeed: 2
   screenCloseSpeed: 2
@@ -15644,8 +15645,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.0014335272, y: 0.012009383, z: 0.012126681}
-  m_Center: {x: 0.000000095373395, y: 0.000006622403, z: -0.0000055765277}
+  m_Size: {x: 0.6338259, y: 4.364265, z: 3.782346}
+  m_Center: {x: 0.02774197, y: 2.555529, z: -0.002774885}
 --- !u!95 &1284042096
 Animator:
   serializedVersion: 5
@@ -23058,7 +23059,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.4
   m_Pitch: 1
   Loop: 0
   Mute: 0

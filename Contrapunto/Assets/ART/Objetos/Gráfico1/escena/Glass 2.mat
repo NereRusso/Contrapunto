@@ -76,7 +76,7 @@ Material:
     - _RefractionStrenght: 1.15
     - _Smoothness: 0.885
     - _Strenght: 0.12
-    - _Tiling: 1000
+    - _Tiling: 434
     m_Colors:
     - _Offset: {r: 0, g: 0, b: 0, a: 0}
     - _Tiling: {r: 0.1, g: 0.1, b: 0, a: 0}
