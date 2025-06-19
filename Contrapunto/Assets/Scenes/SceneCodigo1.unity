@@ -25,8 +25,8 @@ RenderSettings:
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
   m_AmbientMode: 0
-  m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 2100000, guid: 3a6db933fef1d4c759bf21220420505f, type: 2}
+  m_SubtractiveShadowColor: {r: 0.5849056, g: 0.5849056, b: 0.5849056, a: 1}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 512342caec56f774ab139e6024150cb0, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -10864,55 +10864,127 @@ MonoBehaviour:
   videoPanel: {fileID: 1956657835}
   videoPlayer: {fileID: 1956657837}
   audio2Nere: {fileID: 8300000, guid: 5b13bc2115e19d04da7b140401721401, type: 3}
-  fullText: "<title> contrapunto </title>\r\n</head>\r\n<body>\r\n\r\n<!-- CURSOR
-    (afuera del wrapper) -->\r\n<img src=\"resource/images/sintesis1.png\" alt=\"sintesis\"
-    id=\"cursor-img\">\r\n\r\n< div id=\"next-section\">\r\n    <div class=\"contenedor-cielo\">\r\n     
-    <video autoplay muted loop playsinline id=\"background-video-next\">\r\n       
-    <source src=\"resource/videos/cielo_loop.mp4\" type=\"video/mp4\" />\r\n     
-    </video>\r\n    </ div >\r\n\r\n    <div class=\"contenedor-imagenes\">\r\n           
-    <img src=\"resource/images/sintesis-completa.png\" alt=\"fusion\" class=\"imagen1\"
-    />\r\n            < div class=\"imagenes2\">\r\n            <img src=\"resource/images/mili.png\"
-    alt=\"mili\" class=\"imagen2 mili\">\r\n            <img src=\"resource/images/rena.png\"
-    alt=\"rena\" class=\"imagen2 rena\">\r\n            <img src=\"resource/images/marti.png\"
-    alt=\"marti\" class=\"imagen2 marti\">\r\n            <img src=\"resource/images/nere.png\"
-    alt=\"nere\" class=\"imagen2 nere\">\r\n            </ div >\r\n    </div>\r\n</
-    div >\n\n<div id=\"motion-graphics\" class=\"motion-graphics\" data-dot=\"4\">\r\n                   
-    <h2 class=\"texto-izquierda\">MOTION</h2>\r\n                    <h2 class=\"texto-derecha\">GRAPHICS</h2>\r\n           
-    \r\n                < div class=\"contenedor-carousel\">\r\n                   
-    <div class=\"video-carousel\">\r\n                        <div class=\"arrastra-item\"><span>&lt;
-    ARRASTR\xC1 &gt;</span></ div >\r\n\r\n                        <div class=\"video-item\"><video
-    src=\"resource/videos/m1_p.mp4\"  muted playsinline></video></div>\r\n                       
-    <div class=\"video-item\"><video src=\"resource/videos/m2_p.mp4\"  muted playsinline></video></div>\r\n                       
-    < div class=\"video-item\"><video src=\"resource/videos/m3_p.mp4\"  muted playsinline></video></
-    div >\r\n                        <div class=\"video-item\"><video src=\"resource/videos/m4_p.mp4\" 
-    muted playsinline></video></div>\r\n                        <div class=\"video-item\"><video
-    src=\"resource/videos/m5_p.mp4\"  muted playsinline></video></div>\r\n                       
-    < div class=\"video-item\"><video src=\"resource/videos/m6_p.mp4\"  muted playsinline></video></
-    div >\r\n                        <div class=\"video-item\"><video src=\"resource/videos/m7_p.mp4\" 
-    muted playsinline></video></div>\r\n                        <div class=\"video-item\"><video
-    src=\"resource/videos/m8_p.mp4\"  muted playsinline></video></div>\r\n                       
-    <div class=\"video-item\"><video src=\"resource/videos/m9_p.mp4\"  muted playsinline></video></div>\r\n                       
-    <div class=\"video-item\"><video src=\"resource/videos/m10_p.mp4\"  muted playsinline></video></div>\r\n                       
-    <div class=\"video-item\"><video src=\"resource/videos/m11_p.mp4\"  muted playsinline></video></div>\r\n                       
-    <div class=\"video-item\"><video src=\"resource/videos/m12_p.mp4\"  muted playsinline></video></div>\r\n                       
-    <div class=\"video-item\"><video src=\"resource/videos/m13_p.mp4\"  muted playsinline></video></
-    div >        \r\n                    </div>\r\n                </ div >\r\n           
-    </div>\n\n<section class=\"contenedor-3d\" data-dot=\"7\">\r\n               
-    <img src=\"resource/images/sintesis-rosa.png\" alt=\"sintesis-rosa\" class=\"imagen-png-centrada\">\r\n\r\n               
-    < div class=\"texto-scroll-contenedor\">\r\n                    <div class=\"scroll-palabras\">\r\n                     
-    <h2>MODELADO</h2>\r\n                      <h2 id=\"italic\">TEXTURIZADO</h2>\r\n                     
-    <h2> ANIMACI\xD3N </h2>\r\n                    </ div >\r\n                </div>\r\n\r\n               
-    <img src=\"resource/images/3D.png\" alt=\"3D\" class=\"img-3d-extra\" />\r\n           
-    </section>\n\n< script src=\"https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/gsap.min.js\"></script>\r\n<
-    script src=\"https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/ScrollTrigger.min.js\"></
-    script >\r\n<script src=\"https://assets.codepen.io/16327/ScrollSmoother.min.js\"></
-    script >\r\n< script type=\"module\" src=\"java.js\"></script>"
-  glitchWords:
-  - contrapunto
-  - "ARRASTR\xC1"
-  - div
-  - "ANIMACI\xD3N"
-  - script
+  fullText: "<color=#a6cff4><title></color><color=#ff2970> contrapunto </color><color=#a6cff4></title></color>\n<color=#a6cff4></head></color>\n<color=#a6cff4><body></color>\n\n<!--
+    CURSOR (afuera del wrapper) -->\n<color=#a6cff4>< img </color> <color=#5d0e8b>src</color>=<color=#c1ff72>\"
+    resource /images/ sintesis 1.png\"</color> <color=#5d0e8b>alt</color>=<color=#c1ff72>\"
+    sintesis \"</color> <color=#5d0e8b>id</color>=<color=#c1ff72>\"cursor-img\"</color><color=#a6cff4>></color>\n\n<color=#a6cff4>
+    < div </color> <color=#5d0e8b>id</color>=<color=#c1ff72>\"next-section\"</color><color=#a6cff4>></color>\n 
+    <color=#a6cff4>< div </color> <color=#5d0e8b>class</color>=<color=#c1ff72>\"contenedor-cielo\"</color><color=#a6cff4>></color>\n   
+    <color=#a6cff4>< video </color> <color=#5d0e8b>autoplay</color> <color=#5d0e8b>muted</color>
+    <color=#5d0e8b>loop</color> <color=#5d0e8b>playsinline</color> <color=#5d0e8b>id</color>=<color=#c1ff72>\"background-
+    video -next\"</color><color=#a6cff4>></color>\n      <color=#a6cff4><source</color>
+    <color=#5d0e8b>src</color>=<color=#c1ff72>\" resource /videos/cielo_loop.mp4\"</color>
+    <color=#5d0e8b>type</color>=<color=#c1ff72>\"video/mp4\"</color> <color=#a6cff4>/></color>\n   
+    <color=#a6cff4></ video ></color>\n  <color=#a6cff4></ div ></color>\n\n  <color=#a6cff4><
+    div </color> <color=#5d0e8b>class</color>=<color=#c1ff72>\"contenedor-imagenes\"</color><color=#a6cff4>></color>\n   
+    <color=#a6cff4>< img </color> <color=#5d0e8b>src</color>=<color=#c1ff72>\" resource
+    /images/ sintesis -completa.png\"</color> <color=#5d0e8b>alt</color>=<color=#c1ff72>\"fusion\"</color>
+    <color=#5d0e8b>class</color>=<color=#c1ff72>\"imagen1\"</color><color=#a6cff4>
+    /></color>\n    <color=#a6cff4>< div </color> <color=#5d0e8b>class</color>=<color=#c1ff72>\"imagenes2\"</color><color=#a6cff4>></color>\n     
+    <color=#a6cff4><img</color> <color=#5d0e8b>src</color>=<color=#c1ff72>\"resource/images/mili.png\"</color>
+    <color=#5d0e8b>alt</color>=<color=#c1ff72>\"mili\"</color> <color=#5d0e8b>class</color>=<color=#c1ff72>\"imagen2
+    mili\"</color><color=#a6cff4>></color>\n      <color=#a6cff4><img</color> <color=#5d0e8b>src</color>=<color=#c1ff72>\"
+    resource /images/rena.png\"</color> <color=#5d0e8b>alt</color>=<color=#c1ff72>\"rena\"</color>
+    <color=#5d0e8b>class</color>=<color=#c1ff72>\"imagen2 rena\"</color><color=#a6cff4>></color>\n     
+    <color=#a6cff4>< img </color> <color=#5d0e8b>src</color>=<color=#c1ff72>\" resource
+    /images/marti.png\"</color> <color=#5d0e8b>alt</color>=<color=#c1ff72>\"marti\"</color>
+    <color=#5d0e8b>class</color>=<color=#c1ff72>\"imagen2 marti\"</color><color=#a6cff4>></color>\n     
+    <color=#a6cff4><img</color> <color=#5d0e8b>src</color>=<color=#c1ff72>\"resource/images/nere.png\"</color>
+    <color=#5d0e8b>alt</color>=<color=#c1ff72>\"nere\"</color> <color=#5d0e8b>class</color>=<color=#c1ff72>\"imagen2
+    nere\"</color><color=#a6cff4>></color>\n    <color=#a6cff4></ div ></color>\n 
+    <color=#a6cff4></ div ></color>\n<color=#a6cff4></ div ></color>\n\n\n<color=#a6cff4><
+    div </color> <color=#5d0e8b>id</color>=<color=#c1ff72>\"motion-graphics\"</color>
+    <color=#5d0e8b>class</color>=<color=#c1ff72>\"motion-graphics\"</color> <color=#5d0e8b>data-dot</color>=<color=#c1ff72>\"4\"</color><color=#a6cff4>></color>\n 
+    <color=#a6cff4>< h2 </color> <color=#5d0e8b>class</color>=<color=#c1ff72>\"texto-izquierda\"</color><color=#a6cff4>></color><color=#ff2970>
+    MOTION </color><color=#a6cff4></h2></color>\n  <color=#a6cff4><h2</color> <color=#5d0e8b>class</color>=<color=#c1ff72>\"texto-derecha\"</color><color=#a6cff4>></color><color=#ff2970>
+    GRAPHICS </color><color=#a6cff4></ h2 ></color>\n\n  <color=#a6cff4>< div </color>
+    <color=#5d0e8b>class</color>=<color=#c1ff72>\"contenedor-carousel\"</color><color=#a6cff4>></color>\n   
+    <color=#a6cff4>< div </color> <color=#5d0e8b>class</color>=<color=#c1ff72>\"
+    video -carousel\"</color><color=#a6cff4>></color>\n\n      <color=#a6cff4>< div
+    </color> <color=#5d0e8b>class</color>=<color=#c1ff72>\"arrastra- item \"</color><color=#a6cff4>><span></color><color=#ff2970>&lt;
+    ARRASTR\xC1 &gt;</color><color=#a6cff4></span></ div ></color>\n\n<color=#a6cff4><
+    div </color> <color=#5d0e8b>class</color>=<color=#c1ff72>\" video -item\"</color><color=#a6cff4>><video</color>
+    <color=#5d0e8b>src</color>=<color=#c1ff72>\" resource /videos/m1_p.mp4\"</color>
+    <color=#5d0e8b>muted</color> <color=#5d0e8b>playsinline</color><color=#a6cff4>></
+    video ></div></color>\n<color=#a6cff4><div</color> <color=#5d0e8b>class</color>=<color=#c1ff72>\"video-
+    item \"</color><color=#a6cff4>>< video </color> <color=#5d0e8b>src</color>=<color=#c1ff72>\"
+    resource /videos/m2_p.mp4\"</color> <color=#5d0e8b>muted</color> <color=#5d0e8b>playsinline</color><color=#a6cff4>></
+    video ></div></color>\n<color=#a6cff4>< div </color> <color=#5d0e8b>class</color>=<color=#c1ff72>\"
+    video -item\"</color><color=#a6cff4>>< video </color> <color=#5d0e8b>src</color>=<color=#c1ff72>\"
+    resource /videos/m3_p.mp4\"</color> <color=#5d0e8b>muted</color> <color=#5d0e8b>playsinline</color><color=#a6cff4>></
+    video ></ div ></color>\n<color=#a6cff4>< div </color> <color=#5d0e8b>class</color>=<color=#c1ff72>\"video-
+    item \"</color><color=#a6cff4>>< video </color> <color=#5d0e8b>src</color>=<color=#c1ff72>\"resource/videos/m4_p.mp4\"</color>
+    <color=#5d0e8b>muted</color> <color=#5d0e8b>playsinline</color><color=#a6cff4>></video></
+    div ></color>\n<color=#a6cff4><div</color> <color=#5d0e8b>class</color>=<color=#c1ff72>\"
+    video - item \"</color><color=#a6cff4>><video</color> <color=#5d0e8b>src</color>=<color=#c1ff72>\"resource/videos/m5_p.mp4\"</color>
+    <color=#5d0e8b>muted</color> <color=#5d0e8b>playsinline</color><color=#a6cff4>></
+    video ></div></color>\n<color=#a6cff4>< div </color> <color=#5d0e8b>class</color>=<color=#c1ff72>\"video-
+    item \"</color><color=#a6cff4>>< video </color> <color=#5d0e8b>src</color>=<color=#c1ff72>\"resource/videos/m6_p.mp4\"</color>
+    <color=#5d0e8b>muted</color> <color=#5d0e8b>playsinline</color><color=#a6cff4>></
+    video ></div></color>\n<color=#a6cff4><div</color> <color=#5d0e8b>class</color>=<color=#c1ff72>\"
+    video -item\"</color><color=#a6cff4>>< video </color> <color=#5d0e8b>src</color>=<color=#c1ff72>\"
+    resourc e/videos/m7_p.mp4\"</color> <color=#5d0e8b>muted</color> <color=#5d0e8b>playsinline</color><color=#a6cff4>></
+    video ></div></color>\n<color=#a6cff4>< div </color> <color=#5d0e8b>class</color>=<color=#c1ff72>\"video-
+    item \"</color><color=#a6cff4>>< video </color> <color=#5d0e8b>src</color>=<color=#c1ff72>\"resource/videos/m8_p.mp4\"</color>
+    <color=#5d0e8b>muted</color> <color=#5d0e8b>playsinline</color><color=#a6cff4>></
+    video ></ div ></color>\n<color=#a6cff4>< div </color> <color=#5d0e8b>class</color>=<color=#c1ff72>\"
+    video -item\"</color><color=#a6cff4>>< video </color> <color=#5d0e8b>src</color>=<color=#c1ff72>\"
+    resource /videos/m9_p.mp4\"</color> <color=#5d0e8b>muted</color> <color=#5d0e8b>playsinline</color><color=#a6cff4>></
+    video ></div></color>\n<color=#a6cff4><div</color> <color=#5d0e8b>class</color>=<color=#c1ff72>\"
+    video - item \"</color><color=#a6cff4>>< video </color> <color=#5d0e8b>src</color>=<color=#c1ff72>\"
+    resource /videos/m10_p.mp4\"</color> <color=#5d0e8b>muted</color> <color=#5d0e8b>playsinline</color><color=#a6cff4>></video></
+    div ></color>\n<color=#a6cff4><div</color> <color=#5d0e8b>class</color>=<color=#c1ff72>\"video-item\"</color><color=#a6cff4>><
+    video </color> <color=#5d0e8b>src</color>=<color=#c1ff72>\"resource/videos/m11_p.mp4\"</color>
+    <color=#5d0e8b>muted</color> <color=#5d0e8b>playsinline</color><color=#a6cff4>></
+    video ></ div ></color>\n<color=#a6cff4><div</color> <color=#5d0e8b>class</color>=<color=#c1ff72>\"
+    video -item\"</color><color=#a6cff4>>< video </color> <color=#5d0e8b>src</color>=<color=#c1ff72>\"
+    resource /videos/m12_p.mp4\"</color> <color=#5d0e8b>muted</color> <color=#5d0e8b>playsinline</color><color=#a6cff4>></video></div></color>\n<color=#a6cff4><
+    div </color> <color=#5d0e8b>class</color>=<color=#c1ff72>\"video- item \"</color><color=#a6cff4>><
+    video </color> <color=#5d0e8b>src</color>=<color=#c1ff72>\"resource/videos/m13_p.mp4\"</color>
+    <color=#5d0e8b>muted</color> <color=#5d0e8b>playsinline</color><color=#a6cff4>></
+    video ></ div ></color>\n\n <color=#a6cff4></ div ></color> <!-- cierre video-carousel
+    -->\n  <color=#a6cff4></div></color> <!-- cierre contenedor-carousel -->\n<color=#a6cff4></div></color>
+    <!-- cierre motion-graphics -->\n\n<color=#a6cff4><section</color> <color=#5d0e8b>class</color>=<color=#c1ff72>\"contenedor-3d\"</color>
+    <color=#5d0e8b>data-dot</color>=<color=#c1ff72>\"7\"</color><color=#a6cff4>></color>\n 
+    <color=#a6cff4>< img </color> <color=#5d0e8b>src</color>=<color=#c1ff72>\" resource
+    /images/ sintesis -rosa.png\"</color> <color=#5d0e8b>alt</color>=<color=#c1ff72>\"
+    sintesis -rosa\"</color> <color=#5d0e8b>class</color>=<color=#c1ff72>\"imagen-png-centrada\"</color><color=#a6cff4>></color>\n\n 
+    <color=#a6cff4><div</color> <color=#5d0e8b>class</color>=<color=#c1ff72>\"texto-scroll-contenedor\"</color><color=#a6cff4>></color>\n   
+    <color=#a6cff4><div</color> <color=#5d0e8b>class</color>=<color=#c1ff72>\"scroll-palabras\"</color><color=#a6cff4>></color>\n     
+    <color=#a6cff4>< h2 ></color><color=#ff2970>MODELADO</color><color=#a6cff4></
+    h2 ></color>\n      <color=#a6cff4>< h2 </color> <color=#5d0e8b>id</color>=<color=#c1ff72>\"italic\"</color><color=#a6cff4>></color><color=#ff2970>TEXTURIZADO</color><color=#a6cff4></h2></color>\n     
+    <color=#a6cff4><h2></color><color=#ff2970> ANIMACI\xD3N </color><color=#a6cff4></
+    h2 ></color>\n    <color=#a6cff4></div></color>\n  <color=#a6cff4></div></color>\n\n 
+    <color=#a6cff4>< img </color> <color=#5d0e8b>src</color>=<color=#c1ff72>\" resource
+    /images/3D.png\"</color> <color=#5d0e8b>alt</color>=<color=#c1ff72>\"3D\"</color>
+    <color=#5d0e8b>class</color>=<color=#c1ff72>\"img-3d-extra\"</color><color=#a6cff4>></color>\n<color=#a6cff4></section></color>\n\n<color=#a6cff4><
+    script </color> <color=#5d0e8b>src</color>=<color=#c1ff72>\"https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/gsap.min.js\"</color><color=#a6cff4>></
+    script ></color>\n<color=#a6cff4>< script </color> <color=#5d0e8b>src</color>=<color=#c1ff72>\"https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/ScrollTrigger.min.js\"</color><color=#a6cff4>></
+    script ></color>\n<color=#a6cff4>< script </color> <color=#5d0e8b>src</color>=<color=#c1ff72>\"https://assets.codepen.io/16327/ScrollSmoother.min.js\"</color><color=#a6cff4>></
+    script ></color>\n<color=#a6cff4>< script </color> <color=#5d0e8b>type</color>=<color=#c1ff72>\"module\"</color>
+    <color=#5d0e8b>src</color>=<color=#c1ff72>\"java.js\"</color><color=#a6cff4>></
+    script ></color>"
+  glitchEntries:
+  - glitchWord: contrapunto
+    extraWords:
+    - CURSOR
+    - video
+  - glitchWord: "ANIMACI\xD3N"
+    extraWords:
+    - h2
+    - cierre
+  - glitchWord: resource
+    extraWords:
+    - img
+    - div
+  - glitchWord: "ARRASTR\xC1"
+    extraWords:
+    - MOTION
+    - GRAPHICS
+    - item
+  - glitchWord: script
+    extraWords:
+    - sintesis
   errorSound: {fileID: 1747153200}
   clickActivacionSound: {fileID: 8300000, guid: 475b2d6569a8e804f87c89fd3d7d25ad,
     type: 3}
@@ -10925,18 +10997,22 @@ MonoBehaviour:
   cameraMoveSpeed: 2
   cameraReturnSpeed: 2
   scrollAnimDuration: 0.3
-  glitchCycleDuration: 0.4
-  scrambleRatio: 0.1
+  glitchCycleDuration: 0.3
+  scrambleRatio: 0.09
   glitchColors:
-  - {r: 1, g: 0, b: 0, a: 1}
-  - {r: 0, g: 1, b: 0, a: 1}
-  - {r: 0, g: 0, b: 1, a: 1}
+  - {r: 0.93333334, g: 0.28627452, b: 0.09019608, a: 1}
+  - {r: 0.1764706, g: 0.38431373, b: 0.9882353, a: 1}
+  - {r: 0.3372549, g: 0.38431373, b: 0.43137255, a: 1}
+  - {r: 0.50980395, g: 0, b: 0.75686276, a: 1}
+  - {r: 0, g: 0, b: 0, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  currentWordFontPercent: 170
   minPendingInterval: 0.05
   maxPendingInterval: 0.15
   objetoOriginalRenderer: {fileID: 814643854}
   objetoNuevoRenderer: {fileID: 838284470}
   luzACambiar: {fileID: 827072276}
-  nuevoColorLuz: {r: 0, g: 1, b: 0.041609526, a: 0}
+  nuevoColorLuz: {r: 0, g: 1, b: 0.050980393, a: 0}
   duracionTransicion: 2
   objectToDisable: {fileID: 1284042091}
 --- !u!4 &855587784 stripped
@@ -27462,15 +27538,16 @@ MonoBehaviour:
       m_Calls: []
   m_text: 
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 94f1ed46463094e43a3ed816af46e67a, type: 2}
+  m_sharedMaterial: {fileID: -1454240460533608481, guid: 94f1ed46463094e43a3ed816af46e67a,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4292272359
+  m_fontColor: {r: 0.90588236, g: 0.8784314, b: 0.8392157, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
