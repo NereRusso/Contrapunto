@@ -6720,10 +6720,16 @@ MonoBehaviour:
   subtitleBackgroundGroup: {fileID: 102760795}
   backgroundFadeDuration: 0.5
   subtitles:
-  - clip: {fileID: 8300000, guid: ec8f6d409850a3d40b731278d524f43a, type: 3}
-    subtitle: Audio 1
-  - clip: {fileID: 8300000, guid: 5b13bc2115e19d04da7b140401721401, type: 3}
-    subtitle: Audio 2
+  - clip: {fileID: 8300000, guid: d24039f667bc58a4d948afd7a853f91a, type: 3}
+    subtitle: "Bueno bueeeno... Mira a quien me vengo a encontrar! \xBFTe digo algo?
+      No s\xE9 muy bien que pasa con este lugar... Est\xE1 todo desincronizado."
+  - clip: {fileID: 8300000, guid: aad3407c0edbcbb448c5fdcc601aa5f8, type: 3}
+    subtitle: "Estuve viendo de ARREGLAR EL C\xD3DIGO pero est\xE1 todo bugueado.
+      No s\xE9 que m\xE1s hacer... Ni el chat me supo decir. Algo en aquella TERMINAL
+      me hace ruido..."
+  - clip: {fileID: 8300000, guid: d56eb787e1b3c0b499645d0f4bbd80ad, type: 3}
+    subtitle: "Incre\xEDble!! Sincronizaste el c\xF3digo! Ya todo se ve mejor. Que
+      alivio..."
   repeatEnabled: 1
 --- !u!1 &555192378
 GameObject:
@@ -7115,7 +7121,7 @@ MonoBehaviour:
   videoImage: {fileID: 589978184}
   videoPlayer: {fileID: 589978186}
   videoDelay: 0
-  audio1Nere: {fileID: 8300000, guid: ec8f6d409850a3d40b731278d524f43a, type: 3}
+  audio1Nere: {fileID: 8300000, guid: d24039f667bc58a4d948afd7a853f91a, type: 3}
 --- !u!23 &601595572 stripped
 MeshRenderer:
   m_CorrespondingSourceObject: {fileID: -8941197195363925910, guid: 48d214d1a2cf4ff4a8ee861200bb8004,
@@ -8143,6 +8149,73 @@ MeshRenderer:
     type: 3}
   m_PrefabInstance: {fileID: 1315879525}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &710188558
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 710188561}
+  - component: {fileID: 710188560}
+  - component: {fileID: 710188559}
+  m_Layer: 0
+  m_Name: Audio2Nere
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!65 &710188559
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 710188558}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 3.861082, z: 3.3377373}
+  m_Center: {x: -1.8208773e-16, y: 1.430541, z: -0.07531327}
+--- !u!114 &710188560
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 710188558}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b66e05c72d69984bb190af76b7c3087, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audio2: {fileID: 8300000, guid: aad3407c0edbcbb448c5fdcc601aa5f8, type: 3}
+--- !u!4 &710188561
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 710188558}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 27.25, y: 0.05, z: 27.86}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!1001 &714220155
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10863,7 +10936,7 @@ MonoBehaviour:
   scrollRect: {fileID: 141240460}
   videoPanel: {fileID: 1956657835}
   videoPlayer: {fileID: 1956657837}
-  audio2Nere: {fileID: 8300000, guid: 5b13bc2115e19d04da7b140401721401, type: 3}
+  audio2Nere: {fileID: 8300000, guid: d56eb787e1b3c0b499645d0f4bbd80ad, type: 3}
   fullText: "<color=#a6cff4><title></color><color=#ff2970> contrapunto </color><color=#a6cff4></title></color>\n<color=#a6cff4></head></color>\n<color=#a6cff4><body></color>\n\n<!--
     CURSOR (afuera del wrapper) -->\n<color=#a6cff4>< img </color> <color=#5d0e8b>src</color>=<color=#c1ff72>\"
     resource /images/ sintesis 1.png\"</color> <color=#5d0e8b>alt</color>=<color=#c1ff72>\"
@@ -11306,8 +11379,9 @@ MonoBehaviour:
       m_Calls: []
   m_text: "Subt\xEDtulos"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: e4c6cb9d488af8b4caa0d6a4dc23abdf, type: 2}
+  m_sharedMaterial: {fileID: 4022766179180982543, guid: e4c6cb9d488af8b4caa0d6a4dc23abdf,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -11370,7 +11444,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: -17.3163, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &888571910
@@ -28789,6 +28863,7 @@ SceneRoots:
   - {fileID: 1568532797}
   - {fileID: 603105472}
   - {fileID: 1818626233}
+  - {fileID: 710188561}
   - {fileID: 434936326}
   - {fileID: 366938540}
   - {fileID: 1315879525}

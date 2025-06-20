@@ -42,11 +42,9 @@ public class NarrationManager : MonoBehaviour
 
     private void Update()
     {
-        // Detectar fin de reproducción
         if (isPlayingNarration && !narrationSource.isPlaying)
             isPlayingNarration = false;
 
-        // Repetir última narración con E
         if (repeatEnabled &&
             Input.GetKeyDown(KeyCode.E) &&
             !isPlayingNarration &&
@@ -61,12 +59,11 @@ public class NarrationManager : MonoBehaviour
         if (clip == null) return;
 
         lastNarrationClip = clip;
-        narrationSource.Stop();
-        narrationSource.clip = clip;
-        narrationSource.Play();
-        isPlayingNarration = true;
 
-        ShowSubtitleForClip(clip);
+        if (subtitleCoroutine != null)
+            StopCoroutine(subtitleCoroutine);
+
+        subtitleCoroutine = StartCoroutine(PlayNarrationWithDelay(clip, null));
     }
 
     public void PlayNarration(AudioClip clip, Action onComplete)
@@ -74,56 +71,49 @@ public class NarrationManager : MonoBehaviour
         if (clip == null) return;
 
         lastNarrationClip = clip;
+
+        if (subtitleCoroutine != null)
+            StopCoroutine(subtitleCoroutine);
+
+        subtitleCoroutine = StartCoroutine(PlayNarrationWithDelay(clip, onComplete));
+    }
+
+    private IEnumerator PlayNarrationWithDelay(AudioClip clip, Action onComplete = null)
+    {
+        // Mostrar fondo primero
+        if (subtitleBackgroundGroup != null)
+            yield return StartCoroutine(FadeCanvasGroup(subtitleBackgroundGroup, 0f, 1f, backgroundFadeDuration));
+
+        // Reproducir audio
         narrationSource.Stop();
         narrationSource.clip = clip;
         narrationSource.Play();
         isPlayingNarration = true;
 
-        ShowSubtitleForClip(clip, onComplete);
-    }
-
-    private void ShowSubtitleForClip(AudioClip clip, Action onComplete = null)
-    {
-        if (subtitleCoroutine != null)
-            StopCoroutine(subtitleCoroutine);
-
+        // Mostrar subtítulo
         var entry = subtitles.Find(s => s.clip == clip);
         if (entry != null && subtitleText != null)
         {
-            subtitleCoroutine = StartCoroutine(SubtitleRoutine(entry.subtitle, clip.length, onComplete));
+            subtitleText.text = entry.subtitle;
+            subtitleText.gameObject.SetActive(true);
+
+            yield return new WaitForSeconds(clip.length);
+
+            subtitleText.text = "";
+            subtitleText.gameObject.SetActive(false);
+
+            if (subtitleBackgroundGroup != null)
+                yield return StartCoroutine(FadeCanvasGroup(subtitleBackgroundGroup, 1f, 0f, backgroundFadeDuration));
         }
-        else if (onComplete != null)
+        else
         {
-            // Si no hay subtítulo pero queremos que igual se llame al final
-            StartCoroutine(CallbackAfterDelay(clip.length, onComplete));
+            // Si no hay subtítulo pero queremos hacer algo al final
+            yield return new WaitForSeconds(clip.length);
+            if (subtitleBackgroundGroup != null)
+                yield return StartCoroutine(FadeCanvasGroup(subtitleBackgroundGroup, 1f, 0f, backgroundFadeDuration));
         }
-    }
-
-    private IEnumerator SubtitleRoutine(string text, float duration, Action onComplete = null)
-    {
-        if (subtitleBackgroundGroup != null)
-            yield return StartCoroutine(FadeCanvasGroup(subtitleBackgroundGroup, 0f, 1f, backgroundFadeDuration));
-
-        yield return new WaitForSeconds(backgroundFadeDuration);
-
-        subtitleText.text = text;
-        subtitleText.gameObject.SetActive(true);
-
-        yield return new WaitForSeconds(duration);
-
-        subtitleText.text = "";
-        subtitleText.gameObject.SetActive(false);
-
-        if (subtitleBackgroundGroup != null)
-            yield return StartCoroutine(FadeCanvasGroup(subtitleBackgroundGroup, 1f, 0f, backgroundFadeDuration));
 
         onComplete?.Invoke();
-    }
-
-    private IEnumerator CallbackAfterDelay(float delay, Action callback)
-    {
-        yield return new WaitForSeconds(delay);
-        callback?.Invoke();
     }
 
     private IEnumerator FadeCanvasGroup(CanvasGroup group, float start, float end, float duration)
