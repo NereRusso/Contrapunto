@@ -10,6 +10,11 @@ public class ObjectPlacementTracker : MonoBehaviour
     [Header("Objetos a habilitar al completar")]
     public GameObject[] objetosAHabilitar;
 
+    [Header("Cambio de audio al completar")]
+    public AudioSource targetAudioSource;
+    public AudioClip finalAmbientClip;
+    [Range(0f, 1f)] public float finalVolume = 1f;
+
     private void Awake()
     {
         if (Instance == null)
@@ -31,6 +36,15 @@ public class ObjectPlacementTracker : MonoBehaviour
             {
                 if (obj != null)
                     obj.SetActive(true);
+            }
+
+            // Cambio simple de audio
+            if (targetAudioSource != null && finalAmbientClip != null)
+            {
+                targetAudioSource.Stop();
+                targetAudioSource.clip = finalAmbientClip;
+                targetAudioSource.volume = finalVolume;
+                targetAudioSource.Play();
             }
         }
     }
