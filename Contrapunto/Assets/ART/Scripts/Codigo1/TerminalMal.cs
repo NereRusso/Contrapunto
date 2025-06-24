@@ -428,6 +428,8 @@ public class TerminalMal : MonoBehaviour
 
         videoPlayer.Play();
         NarrationManager.Instance.PlayNarration(audio2Nere);
+        FindObjectOfType<AudioTriggerFinal>()?.CambiarYReproducir();
+        FindObjectOfType<MaterialChangerFinal>()?.CambiarMaterial();
         videoPlayer.loopPointReached += _ => StartCoroutine(CloseCanvasCoroutine());
     }
 

@@ -91,13 +91,15 @@ public class FinalDance : MonoBehaviour
 
     private IEnumerator FadeInAudio(AudioSource source, float duration)
     {
+        float targetVolume = 0.1f;
         float t = 0f;
         while (t < duration)
         {
             t += Time.deltaTime;
-            source.volume = Mathf.Lerp(0f, 1f, t / duration);
+            source.volume = Mathf.Lerp(0f, targetVolume, t / duration);
             yield return null;
         }
-        source.volume = 1f;
+        source.volume = targetVolume;
     }
+
 }
