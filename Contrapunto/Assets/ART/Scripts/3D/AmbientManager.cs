@@ -6,30 +6,22 @@ public class AmbientManager : MonoBehaviour
 {
     public static AmbientManager Instance;
 
-    public AudioSource ambientSourceA;
-    public AudioSource ambientSourceB;
+    public AudioSource ambientSourceA; // Ambiente general
+    public AudioSource ambientSourceB; // Ambiente de zona
     public float fadeDuration = 1.5f;
-    [Range(0f, 1f)]
-    public float initialTargetVolume = 0.5f;
+    [Range(0f, 1f)] public float initialTargetVolume = 0.5f;
 
     private AudioSource currentSource;
     private AudioSource nextSource;
     private float currentTargetVolume = 1f;
     private float nextTargetVolume = 1f;
 
-    // >>> Mapa para guardar en qué momento está cada AudioClip
     private Dictionary<AudioClip, int> clipPositions = new Dictionary<AudioClip, int>();
 
     private void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        if (Instance == null) Instance = this;
+        else Destroy(gameObject);
     }
 
     private void Start()
@@ -63,7 +55,6 @@ public class AmbientManager : MonoBehaviour
         if (currentSource.clip == newClip && Mathf.Approximately(currentTargetVolume, newVolume))
             return;
 
-        // Guardamos la posición del clip actual
         if (currentSource.clip != null)
         {
             clipPositions[currentSource.clip] = currentSource.timeSamples;
@@ -72,7 +63,6 @@ public class AmbientManager : MonoBehaviour
         nextSource.clip = newClip;
         nextSource.volume = 0f;
 
-        // Si ya lo habíamos reproducido antes, restauramos su tiempo
         if (clipPositions.ContainsKey(newClip))
         {
             nextSource.timeSamples = clipPositions[newClip];
@@ -101,10 +91,47 @@ public class AmbientManager : MonoBehaviour
         currentSource.Stop();
         nextSource.volume = nextTargetVolume;
 
-        // Swap
         var temp = currentSource;
         currentSource = nextSource;
         nextSource = temp;
+    }
+
+    public void ReplaceCurrentZoneAmbient(AudioClip newClip, float newVolume)
+    {
+        StartCoroutine(FadeToZoneGoodAmbient(newClip, newVolume));
+    }
+
+    private IEnumerator FadeToZoneGoodAmbient(AudioClip newClip, float targetVolume)
+    {
+        if (ambientSourceB.clip == newClip)
+            yield break;
+
+        float duration = fadeDuration;
+        float startVolume = ambientSourceB.volume;
+
+        if (ambientSourceB.clip != null)
+        {
+            clipPositions[ambientSourceB.clip] = ambientSourceB.timeSamples;
+        }
+
+        ambientSourceB.clip = newClip;
+
+        if (clipPositions.ContainsKey(newClip))
+        {
+            ambientSourceB.timeSamples = clipPositions[newClip];
+        }
+
+        ambientSourceB.Play();
+
+        float time = 0f;
+        while (time < duration)
+        {
+            time += Time.deltaTime;
+            ambientSourceB.volume = Mathf.Lerp(startVolume, targetVolume, time / duration);
+            yield return null;
+        }
+
+        ambientSourceB.volume = targetVolume;
     }
 
     public AudioClip GetCurrentClip()
@@ -134,5 +161,4 @@ public class AmbientManager : MonoBehaviour
         currentTargetVolume = 0f;
         nextTargetVolume = 0f;
     }
-
 }

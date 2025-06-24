@@ -2,35 +2,30 @@ using UnityEngine;
 
 public class ColocarObjeto : MonoBehaviour
 {
-    public string requiredObjectID; // El ID que se necesita para colocar
-    public GameObject placedVisual; // El objeto final que aparece una vez colocado
+    public string requiredObjectID;
+    public GameObject placedVisual;
+    public AmbientZone ambientZone; // Vinculá esto desde el Inspector
 
     private void OnMouseDown()
     {
         var heldObject = HeldInventory.Instance.GetHeldObject(requiredObjectID);
         if (heldObject != null)
         {
-            Debug.Log("Objeto correcto colocado en silueta!");
-
             HeldInventory.Instance.RemoveObject(heldObject);
-
             gameObject.SetActive(false);
 
             if (placedVisual != null)
-            {
                 placedVisual.SetActive(true);
-            }
 
-            SoundManager.Instance.PlaySuccessSound(); // <<< Sonido de éxito
+            SoundManager.Instance.PlaySuccessSound();
+            ObjectPlacementTracker.Instance.ObjectPlaced();
 
-            // <<< Contar objetos colocados (lo hacemos más abajo)
-
-            ObjectPlacementTracker.Instance.ObjectPlaced(); // <<< Contador nuevo
+            if (ambientZone != null)
+                ambientZone.ActivateGoodAmbient(); // <- Acá se dispara el cambio de sonido
         }
         else
         {
-            SoundManager.Instance.PlayErrorSound(); // <<< Sonido de error
+            SoundManager.Instance.PlayErrorSound();
         }
     }
-
 }

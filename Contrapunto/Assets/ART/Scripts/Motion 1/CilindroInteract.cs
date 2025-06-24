@@ -19,6 +19,12 @@ public class CilindroInteract : MonoBehaviour
     [Header("FadeScreen para detener glitches")]
     public FadeScreen fadeScreen; // Referencia al script que maneja el glitch
 
+    [Header("Sonidos ambiente")]
+    public AudioSource sonidoAmbienteActual;   // El que ya venía sonando
+    public AudioSource sonidoAmbienteNuevo;    // El que arranca después del video
+    public float fadeDuration = 2f;
+    public float sonidoAmbienteTargetVolume = 0.03f;
+
     private FirstPersonController fpsController;
     private StarterAssetsInputs starterInputs;
     private PlayerInput piSystem;
@@ -58,12 +64,27 @@ public class CilindroInteract : MonoBehaviour
                 piSystem.enabled = false;
             }
         }
+
+        if (MotionManager.Instance.AllCubesCollected())
+        {
+            StartCoroutine(FadeOutAndStop(sonidoAmbienteActual, fadeDuration));
+
+            videoPlayer.gameObject.SetActive(true);
+            videoPlayer.Play();
+
+            fpsController.enabled = false;
+            starterInputs.enabled = false;
+            piSystem.enabled = false;
+        }
+
     }
 
     void OnVideoFinished(VideoPlayer vp)
     {
         vp.Stop();
         vp.gameObject.SetActive(false);
+
+        StartCoroutine(FadeInAudio(sonidoAmbienteNuevo, sonidoAmbienteTargetVolume, fadeDuration));
 
         fpsController.enabled = true;
         starterInputs.enabled = true;
@@ -77,8 +98,8 @@ public class CilindroInteract : MonoBehaviour
         if (canvasCilindro != null)
             canvasCilindro.gameObject.SetActive(false);
 
-        // ? Reactivar videos pausados o glitch
         RestaurarVideos();
+
     }
 
     void RestaurarVideos()
@@ -96,4 +117,42 @@ public class CilindroInteract : MonoBehaviour
             }
         }
     }
+
+    IEnumerator FadeOutAndStop(AudioSource audioSource, float duration)
+    {
+        if (audioSource == null) yield break;
+
+        float startVolume = audioSource.volume;
+        float time = 0f;
+
+        while (time < duration)
+        {
+            time += Time.deltaTime;
+            audioSource.volume = Mathf.Lerp(startVolume, 0f, time / duration);
+            yield return null;
+        }
+
+        audioSource.Stop();
+        audioSource.volume = startVolume; // Por si lo volvés a usar después
+    }
+
+    IEnumerator FadeInAudio(AudioSource audioSource, float targetVolume, float duration)
+    {
+        if (audioSource == null) yield break;
+
+        audioSource.volume = 0f;
+        audioSource.Play();
+
+        float time = 0f;
+
+        while (time < duration)
+        {
+            time += Time.deltaTime;
+            audioSource.volume = Mathf.Lerp(0f, targetVolume, time / duration);
+            yield return null;
+        }
+
+        audioSource.volume = targetVolume;
+    }
+
 }
