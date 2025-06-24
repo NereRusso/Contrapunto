@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.Video;
 using UnityEngine.UI;
-using System.Collections;
 using System.Collections.Generic;
 
 public class FinalDance : MonoBehaviour
@@ -23,10 +22,6 @@ public class FinalDance : MonoBehaviour
     public GameObject objetoParaHabilitar;
     public AudioClip audio2Mili;
 
-    [Header("Audio nuevo con fade-in")]
-    public AudioSource audioSourceParaFadeIn; // ?? Nuevo audio source
-    public AudioClip nuevoAudioClip;          // ?? Nuevo clip a reproducir suavemente
-
     [Header("Videos que se deben reactivar al volver al mapa")]
     public List<VideoPlayer> videosAReactivar;
 
@@ -38,14 +33,18 @@ public class FinalDance : MonoBehaviour
         instance = this;
     }
 
+    // Se llama cuando la barra se llena
     public void FinDelJuego()
     {
+        // Detener spawner e input
         spawner.DetenerSpawner();
         inputManager.enabled = false;
 
+        // Ocultar mouse
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
 
+        // Mostrar canvas de felicitaciones y video
         canvasFelicitaciones.SetActive(true);
         rawImageVideo.texture = videoFelicitaciones.targetTexture;
         videoFelicitaciones.gameObject.SetActive(true);
@@ -55,12 +54,19 @@ public class FinalDance : MonoBehaviour
         videoFelicitaciones.loopPointReached += VolverAlMapa;
     }
 
+    // Se llama cuando termina el video de felicitaciones
     void VolverAlMapa(VideoPlayer vp)
     {
+        // Ocultar canvas felicitaciones
         canvasFelicitaciones.SetActive(false);
+
+        // Ocultar canvas DDR
         canvasDDR.SetActive(false);
 
+        // Reactivar jugador
         player.SetActive(true);
+
+        // Habilitar el objeto especial
         objetoParaHabilitar.SetActive(true);
 
         if (audio2Mili != null)
@@ -68,38 +74,17 @@ public class FinalDance : MonoBehaviour
             NarrationManager.Instance.PlayNarration(audio2Mili);
         }
 
-        // ?? Reproducir nuevo audio con fade in
-        if (audioSourceParaFadeIn != null && nuevoAudioClip != null)
-        {
-            audioSourceParaFadeIn.clip = nuevoAudioClip;
-            audioSourceParaFadeIn.volume = 0f;
-            audioSourceParaFadeIn.Play();
-            StartCoroutine(FadeInAudio(audioSourceParaFadeIn, 1f));
-        }
-
+        // ?? Restaurar videos glitch y pausados desde MotionDosManager
         if (motionDosManager != null)
         {
             motionDosManager.RestaurarTodosVideos();
         }
 
+        // ? Si tenés videos extra definidos en esta escena
         foreach (var video in videosAReactivar)
         {
             if (video != null)
                 video.Play();
         }
     }
-
-    private IEnumerator FadeInAudio(AudioSource source, float duration)
-    {
-        float targetVolume = 0.1f;
-        float t = 0f;
-        while (t < duration)
-        {
-            t += Time.deltaTime;
-            source.volume = Mathf.Lerp(0f, targetVolume, t / duration);
-            yield return null;
-        }
-        source.volume = targetVolume;
-    }
-
 }

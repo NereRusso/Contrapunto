@@ -1558,8 +1558,6 @@ MonoBehaviour:
   player: {fileID: 1675757697}
   objetoParaHabilitar: {fileID: 1122556325}
   audio2Mili: {fileID: 8300000, guid: 5b13bc2115e19d04da7b140401721401, type: 3}
-  audioSourceParaFadeIn: {fileID: 1295612706}
-  nuevoAudioClip: {fileID: 8300000, guid: 24b66250abed4c7419004e0344be321e, type: 3}
   videosAReactivar:
   - {fileID: 1547900996}
   - {fileID: 83157119}
@@ -2497,7 +2495,7 @@ VideoPlayer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 497197795}
   m_Enabled: 1
-  m_VideoClip: {fileID: 32900000, guid: 9efce32381b01f7488de0aea702c37af, type: 3}
+  m_VideoClip: {fileID: 32900000, guid: 0813935bb8bb897409fc04a7a7db70d8, type: 3}
   m_TargetCameraAlpha: 1
   m_TargetCamera3DLayout: 0
   m_TargetCamera: {fileID: 0}
@@ -4982,8 +4980,6 @@ MonoBehaviour:
   videoManager: {fileID: 1283221147}
   playerCamera: {fileID: 967642195}
   maxDistance: 8
-  audioSource: {fileID: 1295612706}
-  fadeDuration: 1
 --- !u!64 &1115131387
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -5169,7 +5165,7 @@ MonoBehaviour:
   videoPlayer: {fileID: 497197796}
   videoImage: {fileID: 1387152852}
   player: {fileID: 1675757697}
-  sonidoAmbiente: {fileID: 1295612704}
+  sonidoAmbiente: {fileID: 0}
   logoAmbiente: {fileID: 1871364732}
   fadeTime: 1
 --- !u!95 &1122556330
@@ -6068,9 +6064,9 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 8dbf77a8f9c1a864f9f7ba920786ce59, type: 3}
+  m_audioClip: {fileID: 8300000, guid: c3a20cf73c63e0a46a2d674a324b890c, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.1
+  m_Volume: 0
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -6446,6 +6442,127 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1351773398}
   m_CullTransparentMesh: 1
+--- !u!1 &1371464831
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1371464835}
+  - component: {fileID: 1371464834}
+  - component: {fileID: 1371464833}
+  - component: {fileID: 1371464832}
+  - component: {fileID: 1371464836}
+  m_Layer: 0
+  m_Name: DanceDanceRevolution
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!65 &1371464832
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1371464831}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &1371464833
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1371464831}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &1371464834
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1371464831}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &1371464835
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1371464831}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 26.38, y: 1.91, z: 33.398083}
+  m_LocalScale: {x: 7.1118355, y: 3.7731736, z: 4.235}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1371464836
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1371464831}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fb56db8b5519a74e89172d263bb4437, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  videoManager: {fileID: 1283221147}
+  playerCamera: {fileID: 967642195}
+  maxDistance: 10
 --- !u!1 &1374622602
 GameObject:
   m_ObjectHideFlags: 0
@@ -7888,7 +8005,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1868421930
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9106,6 +9223,7 @@ SceneRoots:
   - {fileID: 876476093}
   - {fileID: 1792032383}
   - {fileID: 1987457011}
+  - {fileID: 1371464835}
   - {fileID: 144012030}
   - {fileID: 1027422419}
   - {fileID: 21033240}

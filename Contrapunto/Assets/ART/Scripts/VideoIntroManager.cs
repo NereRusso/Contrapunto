@@ -22,8 +22,6 @@ public class VideoIntroManager : MonoBehaviour
     [Header("Configuración")]
     public float fadeDuration = 1.5f;
     public float waitBeforeFadeOut = 0.5f;
-    public float sonidoAmbienteTargetVolume = 0.03f;
-    public float sonidoAmbienteFadeTime = 2f;
 
     // Scripts a desactivar temporalmente
     private StarterAssetsInputs inputScript;
@@ -32,10 +30,12 @@ public class VideoIntroManager : MonoBehaviour
 
     void Start()
     {
+        // Obtener scripts del jugador
         inputScript = playerController.GetComponent<StarterAssetsInputs>();
         movementScript = playerController.GetComponent<FirstPersonController>();
         playerInput = playerController.GetComponent<PlayerInput>();
 
+        // Desactivar control de jugador completo
         if (inputScript != null) inputScript.enabled = false;
         if (movementScript != null) movementScript.enabled = false;
         if (playerInput != null) playerInput.enabled = false;
@@ -63,39 +63,24 @@ public class VideoIntroManager : MonoBehaviour
         videoCanvas.SetActive(false);
         yield return new WaitForSeconds(waitBeforeFadeOut);
 
-        // Activar sonido ambiente con fade
-        if (sonidoAmbiente != null)
-        {
-            sonidoAmbiente.volume = 0f;
-            sonidoAmbiente.Play();
-            StartCoroutine(FadeInAudio(sonidoAmbiente, sonidoAmbienteTargetVolume, sonidoAmbienteFadeTime));
-        }
-
-        // Activar jugador y fade de pantalla
+        // Activo la cámara del jugador, pero sin controles todavía
         playerController.SetActive(true);
         mainCamera.gameObject.SetActive(false);
 
         screenFader.fadeDuration = fadeDuration;
         yield return screenFader.FadeOut();
 
+        // Empieza la narración y el ambiente
         if (audioMili1 != null)
             NarrationManager.Instance.PlayNarration(audioMili1, OnNarrationEnded);
-    }
 
-    IEnumerator FadeInAudio(AudioSource audioSource, float targetVolume, float duration)
-    {
-        float currentTime = 0f;
-        while (currentTime < duration)
-        {
-            currentTime += Time.deltaTime;
-            audioSource.volume = Mathf.Lerp(0f, targetVolume, currentTime / duration);
-            yield return null;
-        }
-        audioSource.volume = targetVolume;
+        if (sonidoAmbiente != null)
+            sonidoAmbiente.Play();
     }
 
     void OnNarrationEnded()
     {
+        // Recién ahora activo los controles del jugador
         if (inputScript != null) inputScript.enabled = true;
         if (movementScript != null) movementScript.enabled = true;
         if (playerInput != null) playerInput.enabled = true;

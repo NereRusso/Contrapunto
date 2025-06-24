@@ -21,11 +21,6 @@ public class PalancaJackpotFisico : MonoBehaviour
     public AudioClip sonidoCompletoWin;   // incluye ruedas + éxito
     public AudioClip sonidoCompletoFail;  // incluye ruedas + falla
 
-    [Header("Audio ambiente")]
-    public AudioSource ambientAudioSource;
-    public AudioClip ambientClipPostJackpot;
-    public float fadeDuration = 1.5f;
-
     private bool isRolling = false;
     private bool isJackpotCompleted = false;
 
@@ -47,22 +42,24 @@ public class PalancaJackpotFisico : MonoBehaviour
     {
         isRolling = true;
 
+        // ¿Se completa el jackpot?
         bool esJackpot = JackpotManager.Instance.forceLetterC &&
                          JackpotManager.Instance.forceSymbolStar &&
                          JackpotManager.Instance.forceNumber12;
 
-        // Reproducir sonido inicial
+        // ?? Elegir y reproducir sonido con leve delay
         if (audioSource)
         {
             AudioClip clipElegido = esJackpot ? sonidoCompletoWin : sonidoCompletoFail;
             if (clipElegido != null)
             {
                 audioSource.clip = clipElegido;
-                audioSource.PlayDelayed(0.05f);
+                audioSource.PlayDelayed(0.05f); // suena un pelito antes del giro
             }
         }
 
-        yield return new WaitForSeconds(0.03f);
+        // Esperar menos de lo normal para que el giro parezca seguir al sonido
+        yield return new WaitForSeconds(0.03f); // leve respiro
 
         // Iniciar giros
         spinLetra = StartCoroutine(GirarLibre(ruedaLetra));
@@ -81,7 +78,7 @@ public class PalancaJackpotFisico : MonoBehaviour
         StopCoroutine(spinNumero);
         yield return StartCoroutine(FrenarSoloDiff(ruedaNumero, JackpotManager.Instance.forceNumber12));
 
-        // Si se completó el jackpot
+        // Activación final si ganó
         if (esJackpot)
         {
             isJackpotCompleted = true;
@@ -91,12 +88,6 @@ public class PalancaJackpotFisico : MonoBehaviour
 
             if (specialObject != null)
                 specialObject.SetActive(true);
-
-            // Cambiar sonido ambiente con crossfade
-            if (ambientAudioSource != null && ambientClipPostJackpot != null)
-            {
-                StartCoroutine(CrossfadeAmbientAudio(ambientAudioSource, ambientClipPostJackpot, fadeDuration));
-            }
         }
 
         isRolling = false;
@@ -140,34 +131,5 @@ public class PalancaJackpotFisico : MonoBehaviour
         }
 
         rueda.localEulerAngles = new Vector3(0, 0, endZ);
-    }
-
-    IEnumerator CrossfadeAmbientAudio(AudioSource source, AudioClip newClip, float duration)
-    {
-        float startVolume = source.volume;
-        float timer = 0f;
-
-        // Fade out
-        while (timer < duration)
-        {
-            timer += Time.deltaTime;
-            source.volume = Mathf.Lerp(startVolume, 0f, timer / duration);
-            yield return null;
-        }
-
-        source.Stop();
-        source.clip = newClip;
-        source.Play();
-
-        // Fade in
-        timer = 0f;
-        while (timer < duration)
-        {
-            timer += Time.deltaTime;
-            source.volume = Mathf.Lerp(0f, startVolume, timer / duration);
-            yield return null;
-        }
-
-        source.volume = startVolume;
     }
 }

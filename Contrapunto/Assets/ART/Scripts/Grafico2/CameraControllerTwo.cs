@@ -2,7 +2,6 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
-using UnityEngine.Video;
 
 public class CameraControllerTwo : MonoBehaviour
 {
@@ -26,8 +25,7 @@ public class CameraControllerTwo : MonoBehaviour
     public List<Transform> targetObjects;
 
     [Header("Feedback visual y sonido")]
-    public CanvasGroup videoCanvasGroup;   // CanvasGroup que contiene el RawImage del video
-    public VideoPlayer videoPlayer;
+    public CanvasGroup bordeBlanco;
     public AudioSource sonidoAprobado;
 
     [Header("Otros")]
@@ -60,10 +58,10 @@ public class CameraControllerTwo : MonoBehaviour
         rotationX = rotationY = 0f;
         isCentering = false;
 
-        if (videoCanvasGroup != null)
+        if (bordeBlanco != null)
         {
-            videoCanvasGroup.gameObject.SetActive(false);
-            videoCanvasGroup.alpha = 0f;
+            bordeBlanco.gameObject.SetActive(true);
+            bordeBlanco.alpha = 0f;
         }
 
         Cursor.lockState = CursorLockMode.Locked;
@@ -111,64 +109,42 @@ public class CameraControllerTwo : MonoBehaviour
 
     IEnumerator FreezeThenReturn()
     {
-        if (videoCanvasGroup != null)
-        {
-            videoCanvasGroup.gameObject.SetActive(true);
-            videoCanvasGroup.alpha = 0f;
-        }
+        // Fade in borde blanco
+        if (bordeBlanco != null)
+            yield return StartCoroutine(FadeCanvasGroup(bordeBlanco, 0f, 1f, 0.5f));
 
-        if (videoPlayer != null)
-        {
-            videoPlayer.Play();
+        if (sonidoAprobado != null)
+            sonidoAprobado.Play();
 
-            // ?? Activar animaciones en objetos de la lista
-            foreach (var obj in targetObjects)
+        // Disparar animaciones de acomodo
+        foreach (Transform obj in targetObjects)
+        {
+            Animator anim = obj.GetComponent<Animator>();
+            if (anim != null)
             {
-                if (obj != null)
-                {
-                    Animator animator = obj.GetComponent<Animator>();
-                    if (animator != null)
-                    {
-                        animator.SetTrigger("Acomodar");
-                    }
-                }
+                anim.SetTrigger("Acomodar");
             }
         }
 
-        // Fade in al inicio (0.5s)
-        if (videoCanvasGroup != null)
-            yield return StartCoroutine(FadeCanvasGroup(videoCanvasGroup, 0f, 1f, 0.5f));
+        yield return new WaitForSeconds(1.5f); // Esperar que termine la animación
 
-        // Esperar a que la duración del video esté lista
-        while (videoPlayer.frameCount <= 0)
-            yield return null;
+        // Fade out borde blanco
+        if (bordeBlanco != null)
+            yield return StartCoroutine(FadeCanvasGroup(bordeBlanco, 1f, 0f, 0.5f));
 
-        double videoDuration = videoPlayer.length;
-        float fadeOutStartTime = (float)videoDuration - 0.5f;
+        bordeBlanco.gameObject.SetActive(false);
 
-        // Esperar hasta que sea momento de hacer el fade out
-        yield return new WaitForSeconds(fadeOutStartTime);
-
-        // Iniciar fade out (0.5s)
-        if (videoCanvasGroup != null)
-            yield return StartCoroutine(FadeCanvasGroup(videoCanvasGroup, 1f, 0f, 0.5f));
-
-        // Esperar a que el video termine
-        yield return new WaitUntil(() => !videoPlayer.isPlaying);
-
-        if (videoCanvasGroup != null)
-            videoCanvasGroup.gameObject.SetActive(false);
-
-        // Reset y salida
+        // Volver al jugador
         player.SetActive(true);
         visorCamera.gameObject.SetActive(false);
         gameObject.SetActive(false);
 
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-
+        // Habilitar objeto extra
         if (objectToEnableOnExit != null)
             objectToEnableOnExit.SetActive(true);
+
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     IEnumerator FadeCanvasGroup(CanvasGroup cg, float from, float to, float duration)
