@@ -72,14 +72,14 @@ public class InputFlechas : MonoBehaviour
                 if (distancia <= rangoPerfecto)
                 {
                     MostrarFeedback("PERFECTO", puntosPorPerfecto);
-                    GameManagerDDR.Instance.ReproducirSonidoAcierto();  // ?? Perfecto
+                    ManagerOpOne.Instance.ReproducirSonidoAcierto();  // ?? Perfecto
                     Destroy(flecha.gameObject);
                     return;
                 }
                 else if (distancia <= rangoBueno)
                 {
                     MostrarFeedback("BIEN", puntosPorBien);
-                    GameManagerDDR.Instance.ReproducirSonidoAcierto();  // ?? Bien
+                    ManagerOpOne.Instance.ReproducirSonidoAcierto();  // ?? Bien
                     Destroy(flecha.gameObject);
                     return;
                 }
@@ -93,7 +93,7 @@ public class InputFlechas : MonoBehaviour
     public void MostrarFallo(FlechaMovimiento.Direccion direccion)
     {
         MostrarFeedback("FALLO", 0);
-        GameManagerDDR.Instance.ReproducirSonidoFallo();  // ?? Fallo
+        ManagerOpOne.Instance.ReproducirSonidoFallo();  // ?? Fallo
     }
 
     void MostrarFeedback(string texto, float puntos = 0)

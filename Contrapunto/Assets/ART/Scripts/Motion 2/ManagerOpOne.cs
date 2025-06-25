@@ -4,7 +4,7 @@ using UnityEngine.Video;
 using System.Collections;
 using TMPro;
 
-public class GameManagerDDR : MonoBehaviour
+public class ManagerOpOne : MonoBehaviour
 {
     [Header("Video")]
     public VideoPlayer videoFondo;
@@ -14,10 +14,14 @@ public class GameManagerDDR : MonoBehaviour
     public GameObject canvasJuego;
     public GameObject canvasMenu;
     public GameObject flechasFijasContainer;
-    public TextMeshProUGUI contadorTexto; // O TextMeshProUGUI si usás TMP
+    public TextMeshProUGUI contadorTexto;
+
+    public RawImage rawImageFade; // NUEVO: RawImage negro para el fade
+
+    public ManagerDance managerDance; // Asignalo desde el Inspector
 
     public FlechaSpawner arrowSpawner;
-    public static GameManagerDDR Instance;
+    public static ManagerOpOne Instance;
 
     [Header("Efectos de sonido")]
     public AudioSource audioSource;
@@ -27,6 +31,19 @@ public class GameManagerDDR : MonoBehaviour
     void Awake()
     {
         Instance = this;
+    }
+
+    void Start()
+    {
+        canvasJuego.SetActive(false);
+
+        if (rawImageFade != null)
+        {
+            Color c = rawImageFade.color;
+            c.a = 0f;
+            rawImageFade.color = c;
+            rawImageFade.gameObject.SetActive(true);
+        }
     }
 
     public void ReproducirSonidoAcierto()
@@ -41,27 +58,56 @@ public class GameManagerDDR : MonoBehaviour
             audioSource.PlayOneShot(sonidoFallo);
     }
 
-
-    void Start()
-    {
-        canvasJuego.SetActive(false);
-    }
-
     public void IniciarJuego()
     {
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
+        StartCoroutine(FadeTransitionAndStart());
+    }
 
-        canvasJuego.SetActive(true);
+    IEnumerator FadeTransitionAndStart()
+    {
+        float fadeDuration = 1f;
+        float elapsed = 0f;
+
+        Color c = rawImageFade.color;
+
+        // Volumen inicial del VideoPlayer
+        float startVolume = 1f;
+
+        while (elapsed < fadeDuration)
+        {
+            elapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsed / fadeDuration);
+
+            // Fade visual
+            c.a = t;
+            rawImageFade.color = c;
+
+            // Fade de volumen si videoFondo está activo
+            if (managerDance != null && managerDance.videoFondo != null)
+            {
+                managerDance.videoFondo.SetDirectAudioVolume(0, Mathf.Lerp(startVolume, 0f, t));
+            }
+
+            yield return null;
+        }
+
+        if (managerDance != null && managerDance.videoFondo != null)
+        {
+            managerDance.videoFondo.SetDirectAudioVolume(0, 0f);
+        }
+
         canvasMenu.SetActive(false);
+        canvasJuego.SetActive(true);
 
         rawImageFondo.texture = videoFondo.targetTexture;
         videoFondo.Play();
 
         flechasFijasContainer.SetActive(true);
+        rawImageFade.gameObject.SetActive(false);
 
         StartCoroutine(ContadorInicio());
     }
+
 
     IEnumerator ContadorInicio()
     {
@@ -76,6 +122,5 @@ public class GameManagerDDR : MonoBehaviour
         }
 
         arrowSpawner.IniciarSpawner();
-
     }
 }
