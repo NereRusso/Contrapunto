@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using UnityEngine.Video;
 
 public class CameraControllerTwo : MonoBehaviour
 {
@@ -17,7 +18,7 @@ public class CameraControllerTwo : MonoBehaviour
     public float minPitch = -20f, maxPitch = 20f;
 
     [Header("Objetivo de enfoque")]
-    public Transform focusPoint; // Nuevo ? Empty Object en el centro
+    public Transform focusPoint;
     public float centeringThreshold = 0.05f;
     public Camera visorCamera;
 
@@ -25,7 +26,8 @@ public class CameraControllerTwo : MonoBehaviour
     public List<Transform> targetObjects;
 
     [Header("Feedback visual y sonido")]
-    public CanvasGroup bordeBlanco;
+    public CanvasGroup videoCanvasGroup;
+    public VideoPlayer videoPlayer;
     public AudioSource sonidoAprobado;
 
     [Header("Otros")]
@@ -36,6 +38,11 @@ public class CameraControllerTwo : MonoBehaviour
     public bool useManualSnap = true;
     public Vector3 manualSnapPosition = new Vector3(27f, 8f, 29f);
     public Vector3 manualSnapEulerRotation = Vector3.zero;
+
+    [Header("Cambio de audio al reproducir video")]
+    public AudioSource audioSourceExtra;
+    public AudioClip audioClipNuevo;
+    public float audioFadeDuration = 1.5f;
 
     // Internas
     private float rotationX = 0f, rotationY = 0f;
@@ -58,10 +65,10 @@ public class CameraControllerTwo : MonoBehaviour
         rotationX = rotationY = 0f;
         isCentering = false;
 
-        if (bordeBlanco != null)
+        if (videoCanvasGroup != null)
         {
-            bordeBlanco.gameObject.SetActive(true);
-            bordeBlanco.alpha = 0f;
+            videoCanvasGroup.gameObject.SetActive(false);
+            videoCanvasGroup.alpha = 0f;
         }
 
         Cursor.lockState = CursorLockMode.Locked;
@@ -96,7 +103,6 @@ public class CameraControllerTwo : MonoBehaviour
         rotationY = Mathf.Clamp(rotationY, minPitch, maxPitch);
         visorPivot.localRotation = Quaternion.Euler(rotationY, rotationX, 0f);
 
-        // Verificar si el Focus Point está centrado en la vista
         Vector3 vp = visorCamera.WorldToViewportPoint(focusPoint.position);
         if (vp.z > 0f &&
             vp.x > 0.5f - centeringThreshold && vp.x < 0.5f + centeringThreshold &&
@@ -109,42 +115,65 @@ public class CameraControllerTwo : MonoBehaviour
 
     IEnumerator FreezeThenReturn()
     {
-        // Fade in borde blanco
-        if (bordeBlanco != null)
-            yield return StartCoroutine(FadeCanvasGroup(bordeBlanco, 0f, 1f, 0.5f));
-
-        if (sonidoAprobado != null)
-            sonidoAprobado.Play();
-
-        // Disparar animaciones de acomodo
-        foreach (Transform obj in targetObjects)
+        if (videoCanvasGroup != null)
         {
-            Animator anim = obj.GetComponent<Animator>();
-            if (anim != null)
+            videoCanvasGroup.gameObject.SetActive(true);
+            videoCanvasGroup.alpha = 0f;
+        }
+
+        // ?? Cambiar audio con crossfade al empezar el video
+        if (audioSourceExtra && audioClipNuevo)
+            StartCoroutine(CrossfadeAudio(audioSourceExtra, audioClipNuevo, audioFadeDuration));
+
+        if (videoPlayer != null)
+        {
+            videoPlayer.Play();
+
+            // ?? Activar animaciones en objetos de la lista
+            foreach (var obj in targetObjects)
             {
-                anim.SetTrigger("Acomodar");
+                if (obj != null)
+                {
+                    Animator animator = obj.GetComponent<Animator>();
+                    if (animator != null)
+                    {
+                        animator.SetTrigger("Acomodar");
+                    }
+                }
             }
         }
 
-        yield return new WaitForSeconds(1.5f); // Esperar que termine la animación
 
-        // Fade out borde blanco
-        if (bordeBlanco != null)
-            yield return StartCoroutine(FadeCanvasGroup(bordeBlanco, 1f, 0f, 0.5f));
+        // Fade in al inicio (0.5s)
+        if (videoCanvasGroup != null)
+            yield return StartCoroutine(FadeCanvasGroup(videoCanvasGroup, 0f, 1f, 0.5f));
 
-        bordeBlanco.gameObject.SetActive(false);
+        while (videoPlayer.frameCount <= 0)
+            yield return null;
 
-        // Volver al jugador
+        double videoDuration = videoPlayer.length;
+        float fadeOutStartTime = (float)videoDuration - 0.5f;
+
+        yield return new WaitForSeconds(fadeOutStartTime);
+
+        if (videoCanvasGroup != null)
+            yield return StartCoroutine(FadeCanvasGroup(videoCanvasGroup, 1f, 0f, 0.5f));
+
+        yield return new WaitUntil(() => !videoPlayer.isPlaying);
+
+        if (videoCanvasGroup != null)
+            videoCanvasGroup.gameObject.SetActive(false);
+
         player.SetActive(true);
         visorCamera.gameObject.SetActive(false);
         gameObject.SetActive(false);
 
-        // Habilitar objeto extra
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+
         if (objectToEnableOnExit != null)
             objectToEnableOnExit.SetActive(true);
 
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
     }
 
     IEnumerator FadeCanvasGroup(CanvasGroup cg, float from, float to, float duration)
@@ -160,5 +189,32 @@ public class CameraControllerTwo : MonoBehaviour
         }
 
         cg.alpha = to;
+    }
+
+    IEnumerator CrossfadeAudio(AudioSource source, AudioClip newClip, float duration)
+    {
+        float originalVolume = source.volume;
+        float t = 0f;
+
+        while (t < duration)
+        {
+            t += Time.deltaTime;
+            source.volume = Mathf.Lerp(originalVolume, 0f, t / duration);
+            yield return null;
+        }
+
+        source.Stop();
+        source.clip = newClip;
+        source.Play();
+
+        t = 0f;
+        while (t < duration)
+        {
+            t += Time.deltaTime;
+            source.volume = Mathf.Lerp(0f, originalVolume, t / duration);
+            yield return null;
+        }
+
+        source.volume = originalVolume;
     }
 }

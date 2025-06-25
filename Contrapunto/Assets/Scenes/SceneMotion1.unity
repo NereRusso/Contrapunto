@@ -2029,6 +2029,134 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!1 &645716873
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 645716875}
+  - component: {fileID: 645716874}
+  m_Layer: 0
+  m_Name: Sonido Ambiente 2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!82 &645716874
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 645716873}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 8dbf77a8f9c1a864f9f7ba920786ce59, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 0.03
+  m_Pitch: 1
+  Loop: 1
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 256
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!4 &645716875
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 645716873}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2021923033}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &652013435 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -1981176674353629320, guid: ded33e25dc53deb449d1fc03c491cd1a,
@@ -2901,7 +3029,7 @@ GameObject:
   - component: {fileID: 820772578}
   - component: {fileID: 820772579}
   m_Layer: 0
-  m_Name: Sonido Ambiente
+  m_Name: Sonido Ambiente 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2932,7 +3060,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: cd9ee787dfe71c14ead2930cb28b9af1, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.03
   m_Pitch: 1
@@ -3140,7 +3268,7 @@ VideoPlayer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 852295864}
   m_Enabled: 1
-  m_VideoClip: {fileID: 32900000, guid: c4b8c01d7bc0ea44cb571e1774daa9bc, type: 3}
+  m_VideoClip: {fileID: 32900000, guid: f3d3c31d578fcc84ea9a4b2b28a0a4a8, type: 3}
   m_TargetCameraAlpha: 1
   m_TargetCamera3DLayout: 0
   m_TargetCamera: {fileID: 0}
@@ -3154,12 +3282,14 @@ VideoPlayer:
   m_TimeUpdateMode: 2
   m_PlaybackSpeed: 1
   m_AudioOutputMode: 2
-  m_TargetAudioSources: []
-  m_DirectAudioVolumes: []
+  m_TargetAudioSources:
+  - {fileID: 0}
+  m_DirectAudioVolumes:
+  - 0.5
   m_Url: 
-  m_EnabledAudioTracks: 
-  m_DirectAudioMutes: 
-  m_ControlledAudioTrackCount: 0
+  m_EnabledAudioTracks: 01
+  m_DirectAudioMutes: 00
+  m_ControlledAudioTrackCount: 1
   m_PlayOnAwake: 0
   m_SkipOnDrop: 1
   m_Looping: 0
@@ -3512,6 +3642,9 @@ MonoBehaviour:
   - {fileID: 179900017}
   - {fileID: 170045541}
   fadeScreen: {fileID: 1981642640}
+  sonidoAmbienteActual: {fileID: 820772579}
+  sonidoAmbienteNuevo: {fileID: 645716874}
+  fadeDuration: 2
 --- !u!1 &1031333635
 GameObject:
   m_ObjectHideFlags: 0
@@ -4329,6 +4462,8 @@ MonoBehaviour:
   sonidoAmbiente: {fileID: 820772579}
   fadeDuration: 1.5
   waitBeforeFadeOut: 0.5
+  sonidoAmbienteTargetVolume: 0.03
+  sonidoAmbienteFadeTime: 2
 --- !u!4 &1503838544
 Transform:
   m_ObjectHideFlags: 0
@@ -4537,7 +4672,7 @@ MonoBehaviour:
   ambientClip: {fileID: 8300000, guid: d856e7cea60aa864198cada96c16a814, type: 3}
   playerTransform: {fileID: 1781127230}
   maxDistance: 20
-  maxVolume: 1
+  maxVolume: 0.3
   fadeDuration: 1
 --- !u!114 &1535741820
 MonoBehaviour:
@@ -4555,7 +4690,7 @@ MonoBehaviour:
   videoPlayer: {fileID: 852295866}
   videoImage: {fileID: 1859414014}
   player: {fileID: 1781127224}
-  sonidoAmbiente: {fileID: 820772577}
+  sonidoAmbiente: {fileID: 645716873}
   logoAmbiente: {fileID: 627040767}
   audioNarracion: {fileID: 1696815256}
   fadeDuration: 1
@@ -5961,6 +6096,7 @@ Transform:
   m_Children:
   - {fileID: 202542556}
   - {fileID: 820772578}
+  - {fileID: 645716875}
   - {fileID: 1696815257}
   m_Father: {fileID: 393877376}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

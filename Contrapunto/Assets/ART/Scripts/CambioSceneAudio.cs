@@ -72,8 +72,16 @@ public class CambioSceneAudio : MonoBehaviour
         if (AmbientManager.Instance != null)
             AmbientManager.Instance.StopAllAmbients();
 
-        if (sonidoAmbienteSource != null) sonidoAmbienteSource.Stop();
-        if (logoAmbienteSource != null) logoAmbienteSource.Stop();
+        if (sonidoAmbienteSource != null)
+        {
+            StartCoroutine(FadeOutAudio(sonidoAmbienteSource, fadeDuration));
+        }
+
+        if (logoAmbienteSource != null)
+        {
+            StartCoroutine(FadeOutAudio(logoAmbienteSource, fadeDuration));
+        }
+
 
         if (videoPlayer != null && videoImage != null)
         {
@@ -125,6 +133,25 @@ public class CambioSceneAudio : MonoBehaviour
             yield return null;
         }
     }
+
+    System.Collections.IEnumerator FadeOutAudio(AudioSource audioSource, float duration)
+    {
+        if (audioSource == null || !audioSource.isPlaying) yield break;
+
+        float startVolume = audioSource.volume;
+        float timer = 0f;
+
+        while (timer < duration)
+        {
+            timer += Time.deltaTime;
+            audioSource.volume = Mathf.Lerp(startVolume, 0f, timer / duration);
+            yield return null;
+        }
+
+        audioSource.Stop();
+        audioSource.volume = startVolume; // opcional: restablece volumen original si lo vas a volver a usar
+    }
+
 
     void OnVideoFinished(VideoPlayer vp)
     {

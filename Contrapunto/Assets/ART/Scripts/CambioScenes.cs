@@ -70,8 +70,15 @@ public class CambioSceneVideoSimple : MonoBehaviour
         if (AmbientManager.Instance != null)
             AmbientManager.Instance.StopAllAmbients();
 
-        if (sonidoAmbienteSource != null) sonidoAmbienteSource.Stop();
-        if (logoAmbienteSource != null) logoAmbienteSource.Stop();
+        if (sonidoAmbienteSource != null)
+        {
+            StartCoroutine(FadeOutAudio(sonidoAmbienteSource, fadeTime));
+        }
+
+        if (logoAmbienteSource != null)
+        {
+            StartCoroutine(FadeOutAudio(logoAmbienteSource, fadeTime));
+        }
 
         if (videoPlayer != null && videoImage != null)
         {
@@ -105,6 +112,24 @@ public class CambioSceneVideoSimple : MonoBehaviour
         // Asegurar visibilidad total al final del fade
         Color finalColor = videoImage.color;
         videoImage.color = new Color(finalColor.r, finalColor.g, finalColor.b, 1f);
+    }
+
+    System.Collections.IEnumerator FadeOutAudio(AudioSource audioSource, float duration)
+    {
+        if (audioSource == null || !audioSource.isPlaying) yield break;
+
+        float startVolume = audioSource.volume;
+        float timer = 0f;
+
+        while (timer < duration)
+        {
+            timer += Time.deltaTime;
+            audioSource.volume = Mathf.Lerp(startVolume, 0f, timer / duration);
+            yield return null;
+        }
+
+        audioSource.Stop();
+        audioSource.volume = startVolume; // opcional: restablece volumen original si lo vas a volver a usar
     }
 
     void OnVideoFinished(VideoPlayer vp)
