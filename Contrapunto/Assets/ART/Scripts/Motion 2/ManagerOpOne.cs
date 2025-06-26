@@ -2,7 +2,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Video;
 using System.Collections;
-using TMPro;
 
 public class ManagerOpOne : MonoBehaviour
 {
@@ -14,12 +13,10 @@ public class ManagerOpOne : MonoBehaviour
     public GameObject canvasJuego;
     public GameObject canvasMenu;
     public GameObject flechasFijasContainer;
-    public TextMeshProUGUI contadorTexto;
 
     public RawImage rawImageFade; // NUEVO: RawImage negro para el fade
 
     public ManagerDance managerDance; // Asignalo desde el Inspector
-
     public FlechaSpawner arrowSpawner;
     public static ManagerOpOne Instance;
 
@@ -69,57 +66,49 @@ public class ManagerOpOne : MonoBehaviour
         float elapsed = 0f;
 
         Color c = rawImageFade.color;
-
-        // Volumen inicial del VideoPlayer
         float startVolume = 1f;
 
+        // Fase 1: Fade IN a negro
         while (elapsed < fadeDuration)
         {
             elapsed += Time.deltaTime;
             float t = Mathf.Clamp01(elapsed / fadeDuration);
 
-            // Fade visual
             c.a = t;
             rawImageFade.color = c;
 
-            // Fade de volumen si videoFondo está activo
             if (managerDance != null && managerDance.videoFondo != null)
-            {
                 managerDance.videoFondo.SetDirectAudioVolume(0, Mathf.Lerp(startVolume, 0f, t));
-            }
 
             yield return null;
         }
 
         if (managerDance != null && managerDance.videoFondo != null)
-        {
             managerDance.videoFondo.SetDirectAudioVolume(0, 0f);
-        }
 
         canvasMenu.SetActive(false);
         canvasJuego.SetActive(true);
-
         rawImageFondo.texture = videoFondo.targetTexture;
         videoFondo.Play();
-
         flechasFijasContainer.SetActive(true);
+
+        // Fase 2: Fade OUT
+        elapsed = 0f;
+        while (elapsed < fadeDuration)
+        {
+            elapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsed / fadeDuration);
+
+            c.a = 1f - t;
+            rawImageFade.color = c;
+
+            yield return null;
+        }
+
         rawImageFade.gameObject.SetActive(false);
 
-        StartCoroutine(ContadorInicio());
-    }
-
-
-    IEnumerator ContadorInicio()
-    {
-        string[] cuenta = { "3", "2", "1", "¡A sincronizar!" };
-
-        foreach (string texto in cuenta)
-        {
-            contadorTexto.text = texto;
-            contadorTexto.gameObject.SetActive(true);
-            yield return new WaitForSeconds(1.5f);
-            contadorTexto.gameObject.SetActive(false);
-        }
+        // Esperar 1 segundo antes de empezar el juego
+        yield return new WaitForSeconds(2f);
 
         arrowSpawner.IniciarSpawner();
     }

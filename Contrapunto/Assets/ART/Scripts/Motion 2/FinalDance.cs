@@ -24,14 +24,21 @@ public class FinalDance : MonoBehaviour
     public AudioClip audio2Mili;
 
     [Header("Audio nuevo con fade-in")]
-    public AudioSource audioSourceParaFadeIn; // ?? Nuevo audio source
-    public AudioClip nuevoAudioClip;          // ?? Nuevo clip a reproducir suavemente
+    public AudioSource audioSourceParaFadeIn;
+    public AudioClip nuevoAudioClip;
 
     [Header("Videos que se deben reactivar al volver al mapa")]
     public List<VideoPlayer> videosAReactivar;
 
     [Header("Referencias externas")]
     public MotionDosManager motionDosManager;
+
+    [Header("Video con audio a bajar")]
+    public ManagerOpOne managerOpOne; // Asignalo desde el inspector
+
+    [Header("Cambio de Material")]
+    public Renderer objetoRenderer;      // Objeto al que se le cambia el material
+    public Material nuevoMaterial;       // Material nuevo a aplicar
 
     void Awake()
     {
@@ -45,6 +52,18 @@ public class FinalDance : MonoBehaviour
 
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+
+        // ?? Fade out del audio del VideoPlayer
+        if (managerOpOne != null && managerOpOne.videoFondo != null)
+        {
+            StartCoroutine(FadeOutVideoAudio(managerOpOne.videoFondo, 1f));
+        }
+
+        // ?? Cambiar el material del objeto
+        if (objetoRenderer != null && nuevoMaterial != null)
+        {
+            objetoRenderer.material = nuevoMaterial;
+        }
 
         canvasFelicitaciones.SetActive(true);
         rawImageVideo.texture = videoFelicitaciones.targetTexture;
@@ -68,7 +87,7 @@ public class FinalDance : MonoBehaviour
             NarrationManager.Instance.PlayNarration(audio2Mili);
         }
 
-        // ?? Reproducir nuevo audio con fade in
+        // ?? Fade in del nuevo audio
         if (audioSourceParaFadeIn != null && nuevoAudioClip != null)
         {
             audioSourceParaFadeIn.clip = nuevoAudioClip;
@@ -102,4 +121,19 @@ public class FinalDance : MonoBehaviour
         source.volume = targetVolume;
     }
 
+    private IEnumerator FadeOutVideoAudio(VideoPlayer video, float duration)
+    {
+        float startVolume = video.GetDirectAudioVolume(0);
+        float t = 0f;
+
+        while (t < duration)
+        {
+            t += Time.deltaTime;
+            float newVolume = Mathf.Lerp(startVolume, 0f, t / duration);
+            video.SetDirectAudioVolume(0, newVolume);
+            yield return null;
+        }
+
+        video.SetDirectAudioVolume(0, 0f);
+    }
 }

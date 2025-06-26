@@ -142,7 +142,6 @@ public class ManagerDance : MonoBehaviour
         }
     }
 
-
     IEnumerator WaitForPrepared(VideoPlayer vp)
     {
         while (!vp.isPrepared)
