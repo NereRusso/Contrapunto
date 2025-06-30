@@ -13,6 +13,10 @@ public class CilindroInteract : MonoBehaviour
     public GameObject logoTp;
     public Canvas canvasCilindro;
 
+    [Header("Cambio de material")]
+    public Renderer objetoRenderer; // El objeto al que le vas a cambiar el material
+    public Material nuevoMaterial;  // El nuevo material que querés aplicar
+
     [Header("Videos que deben reanudarse al finalizar")]
     public List<VideoPlayer> videosAReactivar = new List<VideoPlayer>();
 
@@ -60,13 +64,19 @@ public class CilindroInteract : MonoBehaviour
                 videoPlayer.gameObject.SetActive(true);
                 videoPlayer.Play();
 
+                // CAMBIO DE MATERIAL
+                if (objetoRenderer != null && nuevoMaterial != null)
+                {
+                    objetoRenderer.material = nuevoMaterial;
+                }
+
                 fpsController.enabled = false;
                 starterInputs.enabled = false;
                 piSystem.enabled = false;
             }
-
         }
     }
+
 
     void OnVideoFinished(VideoPlayer vp)
     {
