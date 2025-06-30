@@ -3979,9 +3979,11 @@ MonoBehaviour:
   backgroundFadeDuration: 0.5
   subtitles:
   - clip: {fileID: 8300000, guid: d83f560607090804da3cd6823ee0b19e, type: 3}
-    subtitle: 
+    subtitle: "No me vas a creer pero est\xE1 todo cambiado. Apareci\xF3 algo por
+      all\xE1 que no s\xE9 que es. Me da v\xE9rtigo ver pero, para mi, es por ah\xED."
   - clip: {fileID: 8300000, guid: 6fbbeaa78fb1e9d4e9a63467c23c4583, type: 3}
-    subtitle: 
+    subtitle: "\xBFListo? No entiendo \xBFTermin\xF3 todo? \xBFY las chicas? \xBFD\xF3nde
+      est\xE1n?"
   repeatEnabled: 1
 --- !u!4 &2100779490
 Transform:

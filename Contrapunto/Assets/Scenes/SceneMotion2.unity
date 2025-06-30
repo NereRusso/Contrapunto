@@ -730,7 +730,7 @@ MonoBehaviour:
   fadeCanvas: {fileID: 1123065997}
   fadeDuration: 1.5
   delayBeforeFade: 1
-  audio1Mili: {fileID: 8300000, guid: ec8f6d409850a3d40b731278d524f43a, type: 3}
+  audio1Mili: {fileID: 8300000, guid: 43d8c44e0d8a427468d3b498e8a621ec, type: 3}
   videosPausados:
   - {fileID: 1547900996}
   videosConGlitch:
@@ -10107,8 +10107,10 @@ MonoBehaviour:
   subtitleBackgroundGroup: {fileID: 88512195}
   backgroundFadeDuration: 0.5
   subtitles:
-  - clip: {fileID: 8300000, guid: ec8f6d409850a3d40b731278d524f43a, type: 3}
-    subtitle: Audio 1
+  - clip: {fileID: 8300000, guid: 43d8c44e0d8a427468d3b498e8a621ec, type: 3}
+    subtitle: "\xA1Ay, ay! \xA1Volviste! \xBFA vos te parece dejarme hablando sola?
+      Bueno, mientras vos no estabas, esto se ilumin\xF3. Me encanta... \xBFY si
+      te jugas una partida? Por algo debe estar"
   - clip: {fileID: 8300000, guid: 5b13bc2115e19d04da7b140401721401, type: 3}
     subtitle: Audio 2
   repeatEnabled: 1

@@ -604,7 +604,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b66e05c72d69984bb190af76b7c3087, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audio2: {fileID: 8300000, guid: 5b13bc2115e19d04da7b140401721401, type: 3}
+  audio2: {fileID: 8300000, guid: 4f940b03313a95b4e9d1a527a4e8940f, type: 3}
 --- !u!1001 &215539678
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8276,7 +8276,7 @@ MonoBehaviour:
   playerController: {fileID: 1781127224}
   mainCamera: {fileID: 1362834856}
   screenFader: {fileID: 1981642640}
-  audioMili1: {fileID: 8300000, guid: ec8f6d409850a3d40b731278d524f43a, type: 3}
+  audioMili1: {fileID: 8300000, guid: b714f110a4c99bd4f8aeb1365983dd53, type: 3}
   sonidoAmbiente: {fileID: 820772579}
   fadeDuration: 1.5
   waitBeforeFadeOut: 0.5
@@ -8557,7 +8557,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92d824faa2145464cbab96c1eeb4c7b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioMili4: {fileID: 8300000, guid: 824777673a55ec745b1c19df66ce5ccc, type: 3}
+  audioMili4: {fileID: 8300000, guid: bbd4ab60f81349742b3651a02e7feba8, type: 3}
   delayBeforeSound: 0.5
 --- !u!65 &1535741822
 BoxCollider:
@@ -9185,7 +9185,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   totalCubes: 4
   pickupSound: {fileID: 8300000, guid: 18bada7b70169a548a3f298b579a125e, type: 3}
-  audioMili3: {fileID: 8300000, guid: ff632af0c0d3df541bf9078e5c9f623b, type: 3}
+  audioMili3: {fileID: 8300000, guid: 70aae143b6b964a4ca01830f0d0ffdbe, type: 3}
 --- !u!4 &1640989933
 Transform:
   m_ObjectHideFlags: 0
@@ -10456,14 +10456,22 @@ MonoBehaviour:
   subtitleBackgroundGroup: {fileID: 2139060971}
   backgroundFadeDuration: 0.5
   subtitles:
-  - clip: {fileID: 8300000, guid: ec8f6d409850a3d40b731278d524f43a, type: 3}
-    subtitle: Audio 1
-  - clip: {fileID: 8300000, guid: 5b13bc2115e19d04da7b140401721401, type: 3}
-    subtitle: Audio 2
-  - clip: {fileID: 8300000, guid: ff632af0c0d3df541bf9078e5c9f623b, type: 3}
-    subtitle: Audio 3
-  - clip: {fileID: 8300000, guid: 824777673a55ec745b1c19df66ce5ccc, type: 3}
-    subtitle: Audio 4
+  - clip: {fileID: 8300000, guid: b714f110a4c99bd4f8aeb1365983dd53, type: 3}
+    subtitle: "\xBFHola? \xA1Ay, hola! \xA1No lo puedo creer! Alguien pudo entrar
+      a este lugar pero es rar\xEDsimo. Estoy ac\xE1 hace una banda y sigo sin entender
+      c\xF3mo sincronizar todo esto. Estoy viendo todo en frames est\xE1ticos...
+      Yo te juro que no es mi wifi..."
+  - clip: {fileID: 8300000, guid: 4f940b03313a95b4e9d1a527a4e8940f, type: 3}
+    subtitle: "Mira, yo me quedar\xEDa charlando con vos 2 horas m\xE1s pero la verdad,
+      es que esto es un verdadero desastre. \xBFQu\xE9 quer\xE9s que diga? No s\xE9
+      muy bien lo que hay que hacer pero... Vamos a intentarlo. Al final, la sincron\xEDa
+      es lo nuestro. Veamos."
+  - clip: {fileID: 8300000, guid: 70aae143b6b964a4ca01830f0d0ffdbe, type: 3}
+    subtitle: "Ahhh noo. Sos una inminencia. Los triangulitos esos, \xA1eran keyframes!
+      \xA1Claro! Que locura."
+  - clip: {fileID: 8300000, guid: bbd4ab60f81349742b3651a02e7feba8, type: 3}
+    subtitle: "Ay no, mira eso que est\xE1 brillando. No, no, no. Me vuelvo loca
+      \xBFQu\xE9 es eso? \xBFNos estaremos sincronizando? A ver, fijate que..."
   repeatEnabled: 1
 --- !u!1 &1859414013
 GameObject:
