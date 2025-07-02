@@ -19,7 +19,7 @@ public class UIMoManager : MonoBehaviour
     public void UpdateCubesRemaining(int remaining)
     {
         if (remaining > 0)
-            countText.text = $"Faltan {remaining} frames";
+            countText.text = $"Faltan {remaining} keyframes";
         else
             countText.text = "Sincronizar";
     }
