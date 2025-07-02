@@ -92,6 +92,9 @@ public class ManagerOpOne : MonoBehaviour
         videoFondo.Play();
         flechasFijasContainer.SetActive(true);
 
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+
         // Fase 2: Fade OUT
         elapsed = 0f;
         while (elapsed < fadeDuration)
