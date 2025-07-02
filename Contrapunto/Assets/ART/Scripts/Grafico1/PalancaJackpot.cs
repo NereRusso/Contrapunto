@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class PalancaJackpotFisico : MonoBehaviour
 {
@@ -25,6 +26,10 @@ public class PalancaJackpotFisico : MonoBehaviour
     public AudioSource ambientAudioSource;
     public AudioClip ambientClipPostJackpot;
     public float fadeDuration = 1.5f;
+
+    [Header("Activar / Desactivar objetos al Jackpot")]
+    public List<GameObject> objetosADesactivar;
+    public List<GameObject> objetosAActivar;
 
     private bool isRolling = false;
     private bool isJackpotCompleted = false;
@@ -97,6 +102,13 @@ public class PalancaJackpotFisico : MonoBehaviour
             {
                 StartCoroutine(CrossfadeAmbientAudio(ambientAudioSource, ambientClipPostJackpot, fadeDuration));
             }
+
+            // Activar / desactivar objetos
+            foreach (GameObject obj in objetosADesactivar)
+                if (obj != null) obj.SetActive(false);
+
+            foreach (GameObject obj in objetosAActivar)
+                if (obj != null) obj.SetActive(true);
         }
 
         isRolling = false;
