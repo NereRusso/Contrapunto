@@ -34,6 +34,9 @@ public class CameraControllerTwo : MonoBehaviour
     public GameObject player;
     public GameObject objectToEnableOnExit;
 
+    [Header("Narración")]
+    public AudioClip audio2Marti;
+
     [Header("Snap manual")]
     public bool useManualSnap = true;
     public Vector3 manualSnapPosition = new Vector3(27f, 8f, 29f);
@@ -121,7 +124,6 @@ public class CameraControllerTwo : MonoBehaviour
             videoCanvasGroup.alpha = 0f;
         }
 
-        // ?? Cambiar audio con crossfade al empezar el video
         if (audioSourceExtra && audioClipNuevo)
             StartCoroutine(CrossfadeAudio(audioSourceExtra, audioClipNuevo, audioFadeDuration));
 
@@ -129,7 +131,6 @@ public class CameraControllerTwo : MonoBehaviour
         {
             videoPlayer.Play();
 
-            // ?? Activar animaciones en objetos de la lista
             foreach (var obj in targetObjects)
             {
                 if (obj != null)
@@ -143,8 +144,6 @@ public class CameraControllerTwo : MonoBehaviour
             }
         }
 
-
-        // Fade in al inicio (0.5s)
         if (videoCanvasGroup != null)
             yield return StartCoroutine(FadeCanvasGroup(videoCanvasGroup, 0f, 1f, 0.5f));
 
@@ -174,6 +173,10 @@ public class CameraControllerTwo : MonoBehaviour
         if (objectToEnableOnExit != null)
             objectToEnableOnExit.SetActive(true);
 
+        if (audio2Marti != null)
+        {
+            NarrationManager.Instance.PlayNarration(audio2Marti);
+        }
     }
 
     IEnumerator FadeCanvasGroup(CanvasGroup cg, float from, float to, float duration)

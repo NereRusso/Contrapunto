@@ -11859,21 +11859,21 @@ MonoBehaviour:
   backgroundFadeDuration: 0.5
   subtitles:
   - clip: {fileID: 8300000, guid: b714f110a4c99bd4f8aeb1365983dd53, type: 3}
-    subtitle: "\xBFHola? \xA1Ay, hola! \xA1No lo puedo creer! Alguien pudo entrar
-      a este lugar pero es rar\xEDsimo. Estoy ac\xE1 hace una banda y sigo sin entender
-      c\xF3mo sincronizar todo esto. Estoy viendo todo en frames est\xE1ticos...
+    subtitle: "Mili:\n\xBFHola? \xA1Ay, hola! \xA1No lo puedo creer! Alguien pudo
+      entrar a este lugar pero es rar\xEDsimo. Estoy ac\xE1 hace una banda y sigo
+      sin entender c\xF3mo sincronizar todo esto. Estoy viendo todo en frames est\xE1ticos...
       Yo te juro que no es mi wifi..."
   - clip: {fileID: 8300000, guid: 4f940b03313a95b4e9d1a527a4e8940f, type: 3}
-    subtitle: "Mira, yo me quedar\xEDa charlando con vos 2 horas m\xE1s pero la verdad,
-      es que esto es un verdadero desastre. \xBFQu\xE9 quer\xE9s que diga? No s\xE9
-      muy bien lo que hay que hacer pero... Vamos a intentarlo. Al final, la sincron\xEDa
-      es lo nuestro. Veamos."
+    subtitle: "Mili:\nMira, yo me quedar\xEDa charlando con vos 2 horas m\xE1s pero
+      la verdad, es que esto es un verdadero desastre. \xBFQu\xE9 quer\xE9s que diga?
+      No s\xE9 muy bien lo que hay que hacer pero... Vamos a intentarlo. Al final,
+      la sincron\xEDa es lo nuestro. Veamos."
   - clip: {fileID: 8300000, guid: 70aae143b6b964a4ca01830f0d0ffdbe, type: 3}
-    subtitle: "Ahhh noo. Sos una inminencia. Los triangulitos esos, \xA1eran keyframes!
-      \xA1Claro! Que locura."
+    subtitle: "Mili:\nAhhh noo. Sos una inminencia. Los triangulitos esos, \xA1eran
+      keyframes! \xA1Claro! Que locura."
   - clip: {fileID: 8300000, guid: bbd4ab60f81349742b3651a02e7feba8, type: 3}
-    subtitle: "Ay no, mira eso que est\xE1 brillando. No, no, no. Me vuelvo loca
-      \xBFQu\xE9 es eso? \xBFNos estaremos sincronizando? A ver, fijate que..."
+    subtitle: "Mili:\nAy no, mira eso que est\xE1 brillando. No, no, no. Me vuelvo
+      loca \xBFQu\xE9 es eso? \xBFNos estaremos sincronizando? A ver, fijate que..."
   repeatEnabled: 1
 --- !u!1 &1859414013
 GameObject:

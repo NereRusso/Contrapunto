@@ -15605,11 +15605,13 @@ MonoBehaviour:
   backgroundFadeDuration: 0.5
   subtitles:
   - clip: {fileID: 8300000, guid: 43d8c44e0d8a427468d3b498e8a621ec, type: 3}
-    subtitle: "\xA1Ay, ay! \xA1Volviste! \xBFA vos te parece dejarme hablando sola?
-      Bueno, mientras vos no estabas, esto se ilumin\xF3. Me encanta... \xBFY si
-      te jugas una partida? Por algo debe estar"
+    subtitle: "Mili:\n\xA1Ay, ay! \xA1Volviste! \xBFA vos te parece dejarme hablando
+      sola? Bueno, mientras vos no estabas, esto se ilumin\xF3. Me encanta... \xBFY
+      si te jugas una partidida? Por algo debe estar"
   - clip: {fileID: 8300000, guid: 5b13bc2115e19d04da7b140401721401, type: 3}
-    subtitle: Audio 2
+    subtitle: 'Mili:
+
+      Audio 2'
   repeatEnabled: 1
 --- !u!1 &2100994567
 GameObject:
