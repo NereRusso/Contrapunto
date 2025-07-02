@@ -4,7 +4,9 @@ public class ColocarObjeto : MonoBehaviour
 {
     public string requiredObjectID;
     public GameObject placedVisual;
-    public AmbientZone ambientZone; // Vinculá esto desde el Inspector
+    public AmbientZone ambientZone;
+
+    public ControladorBienYMal controlador; // NUEVO: arrastrá el otro script en el Inspector
 
     private void OnMouseDown()
     {
@@ -15,13 +17,16 @@ public class ColocarObjeto : MonoBehaviour
             gameObject.SetActive(false);
 
             if (placedVisual != null)
-                placedVisual.SetActive(true);
+                placedVisual.SetActive(true); 
 
             SoundManager.Instance.PlaySuccessSound();
             ObjectPlacementTracker.Instance.ObjectPlaced();
 
             if (ambientZone != null)
-                ambientZone.ActivateGoodAmbient(); // <- Acá se dispara el cambio de sonido
+                ambientZone.ActivateGoodAmbient();
+
+            if (controlador != null)
+                controlador.IniciarSecuencia(); // <- ACÁ se delega todo lo demás
         }
         else
         {
