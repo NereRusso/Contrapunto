@@ -14,18 +14,18 @@ public class CilindroInteract : MonoBehaviour
     public Canvas canvasCilindro;
 
     [Header("Cambio de material")]
-    public Renderer objetoRenderer; // El objeto al que le vas a cambiar el material
-    public Material nuevoMaterial;  // El nuevo material que querés aplicar
+    public Renderer objetoRenderer;
+    public Material nuevoMaterial;
 
     [Header("Videos que deben reanudarse al finalizar")]
     public List<VideoPlayer> videosAReactivar = new List<VideoPlayer>();
 
     [Header("FadeScreen para detener glitches")]
-    public FadeScreen fadeScreen; // Referencia al script que maneja el glitch
+    public FadeScreen fadeScreen;
 
     [Header("Sonidos ambiente")]
-    public AudioSource sonidoAmbienteActual;   // El que ya venía sonando
-    public AudioSource sonidoAmbienteNuevo;    // El que arranca después del video
+    public AudioSource sonidoAmbienteActual;
+    public AudioSource sonidoAmbienteNuevo;
     public float fadeDuration = 2f;
 
     private FirstPersonController fpsController;
@@ -64,11 +64,7 @@ public class CilindroInteract : MonoBehaviour
                 videoPlayer.gameObject.SetActive(true);
                 videoPlayer.Play();
 
-                // CAMBIO DE MATERIAL
-                if (objetoRenderer != null && nuevoMaterial != null)
-                {
-                    objetoRenderer.material = nuevoMaterial;
-                }
+                StartCoroutine(CambiarMaterialEnMitadDelVideo());
 
                 fpsController.enabled = false;
                 starterInputs.enabled = false;
@@ -77,6 +73,20 @@ public class CilindroInteract : MonoBehaviour
         }
     }
 
+    IEnumerator CambiarMaterialEnMitadDelVideo()
+    {
+        // Espera hasta que se conozca la duración del video (por si aún no está lista)
+        while (!videoPlayer.isPrepared)
+            yield return null;
+
+        double mitad = videoPlayer.length / 2.0;
+        yield return new WaitForSeconds((float)mitad);
+
+        if (objetoRenderer != null && nuevoMaterial != null)
+        {
+            objetoRenderer.material = nuevoMaterial;
+        }
+    }
 
     void OnVideoFinished(VideoPlayer vp)
     {
@@ -104,14 +114,14 @@ public class CilindroInteract : MonoBehaviour
     {
         if (fadeScreen != null)
         {
-            fadeScreen.StopAllGlitching(); // Detenemos las corutinas que hacían StepForward()
+            fadeScreen.StopAllGlitching();
         }
 
         foreach (var vp in videosAReactivar)
         {
             if (vp != null)
             {
-                vp.Play(); // Volvemos a reproducir normalmente
+                vp.Play();
             }
         }
     }
@@ -131,7 +141,7 @@ public class CilindroInteract : MonoBehaviour
         }
 
         audioSource.Stop();
-        audioSource.volume = startVolume; // Por si lo volvés a usar después
+        audioSource.volume = startVolume;
     }
 
     IEnumerator FadeInAudio(AudioSource audioSource, float targetVolume, float duration)
@@ -152,5 +162,4 @@ public class CilindroInteract : MonoBehaviour
 
         audioSource.volume = targetVolume;
     }
-
 }

@@ -18,7 +18,10 @@ public class InputFlechas : MonoBehaviour
     public float rangoBueno = 30f;
 
     [Header("Efectos visuales")]
-    public TextMeshProUGUI feedbackTexto;
+    public Image feedbackImage;
+    public Sprite spritePerfecto;
+    public Sprite spriteBien;
+    public Sprite spriteFallo;
 
     [Header("Rendimiento")]
     public Slider barraRendimiento;
@@ -71,35 +74,47 @@ public class InputFlechas : MonoBehaviour
 
                 if (distancia <= rangoPerfecto)
                 {
-                    MostrarFeedback("PERFECTO", puntosPorPerfecto);
-                    ManagerOpOne.Instance.ReproducirSonidoAcierto();  // ?? Perfecto
+                    MostrarFeedback(spritePerfecto, puntosPorPerfecto);
+                    ManagerOpOne.Instance.ReproducirSonidoAcierto();
                     Destroy(flecha.gameObject);
                     return;
                 }
                 else if (distancia <= rangoBueno)
                 {
-                    MostrarFeedback("BIEN", puntosPorBien);
-                    ManagerOpOne.Instance.ReproducirSonidoAcierto();  // ?? Bien
+                    MostrarFeedback(spriteBien, puntosPorBien);
+                    ManagerOpOne.Instance.ReproducirSonidoAcierto();
                     Destroy(flecha.gameObject);
                     return;
                 }
             }
         }
 
-        // Si no encontró flechas acertadas: fallo
         MostrarFallo(direccion);
     }
 
     public void MostrarFallo(FlechaMovimiento.Direccion direccion)
     {
-        MostrarFeedback("FALLO", 0);
-        ManagerOpOne.Instance.ReproducirSonidoFallo();  // ?? Fallo
+        MostrarFeedback(spriteFallo, 0);
+        ManagerOpOne.Instance.ReproducirSonidoFallo();
     }
 
-    void MostrarFeedback(string texto, float puntos = 0)
+    void MostrarFeedback(Sprite sprite, float puntos = 0)
     {
-        feedbackTexto.text = texto;
-        feedbackTexto.gameObject.SetActive(true);
+        feedbackImage.sprite = sprite;
+
+        // Definí la altura deseada
+        float alturaFija = 50f;
+
+        // Calculá la proporción del sprite (ancho dividido por alto)
+        float aspectRatio = (float)sprite.texture.width / sprite.texture.height;
+
+        // Calculá el ancho proporcional
+        float anchoProporcional = alturaFija * aspectRatio;
+
+        // Aplicalo al RectTransform del Image
+        feedbackImage.rectTransform.sizeDelta = new Vector2(anchoProporcional, alturaFija);
+
+        feedbackImage.gameObject.SetActive(true);
         CancelInvoke(nameof(EsconderFeedback));
         Invoke(nameof(EsconderFeedback), 0.5f);
 
@@ -115,8 +130,9 @@ public class InputFlechas : MonoBehaviour
         }
     }
 
+
     void EsconderFeedback()
     {
-        feedbackTexto.gameObject.SetActive(false);
+        feedbackImage.gameObject.SetActive(false);
     }
 }
