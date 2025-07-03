@@ -62,8 +62,8 @@ public class ManagerDance : MonoBehaviour
         videoLoop.Prepare();
         StartCoroutine(WaitForPrepared(videoLoop));
 
-        videoIntro.Stop();
         videoIntro.gameObject.SetActive(false);
+        videoIntro.Stop();
 
         canPressEnter = true;
     }

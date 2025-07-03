@@ -2,29 +2,35 @@ using UnityEngine;
 
 public class Audio2Trigger : MonoBehaviour
 {
-    [Header("Clip que se va a reproducir y guardar")]
+    [Header("Clip que se va a reproducir")]
     public AudioClip audio2;
 
-    private static bool alreadyPlayed = false;
+    bool played = false;
 
     void OnTriggerEnter(Collider other)
     {
-        if (alreadyPlayed) return;
-
-        if (other.CompareTag("Player") && audio2 != null)
+        Debug.Log($"[Audio2Trigger] Colisión con: {other.name}");
+        if (played) return;
+        if (!other.CompareTag("Player")) return;
+        if (audio2 == null)
         {
-            // Usamos el sistema de narración
-            NarrationManager.Instance.PlayNarration(audio2);
+            Debug.LogWarning("[Audio2Trigger] Falta asignar audio2");
+            return;
+        }
+        if (NarrationManager.Instance == null)
+        {
+            Debug.LogError("[Audio2Trigger] NarrationManager.Instance es null");
+            return;
+        }
 
-            alreadyPlayed = true;
+        NarrationManager.Instance.PlayNarration(audio2);
+        played = true;
 
-            // Buscar todos los objetos con este script y destruirlos
-            Audio2Trigger[] allTriggers = FindObjectsOfType<Audio2Trigger>();
-            foreach (Audio2Trigger trigger in allTriggers)
-            {
-                // Podés usar DestroyImmediate si querés que se borren sin delay
-                Destroy(trigger.gameObject);
-            }
+        // Destruye todos los triggers de este tipo en la escena
+        Audio2Trigger[] allTriggers = FindObjectsOfType<Audio2Trigger>();
+        foreach (Audio2Trigger trigger in allTriggers)
+        {
+            Destroy(trigger.gameObject);
         }
     }
 }
