@@ -47,6 +47,10 @@ public class CameraControllerTwo : MonoBehaviour
     public AudioClip audioClipNuevo;
     public float audioFadeDuration = 1.5f;
 
+    [Header("Cambio de objetos al centrar")]
+    public List<GameObject> objetosADesactivar;
+    public List<GameObject> objetosAActivar;
+
     // Internas
     private float rotationX = 0f, rotationY = 0f;
     private float currentXOffset = 0f, currentYOffset = 0f;
@@ -126,6 +130,19 @@ public class CameraControllerTwo : MonoBehaviour
 
         if (audioSourceExtra && audioClipNuevo)
             StartCoroutine(CrossfadeAudio(audioSourceExtra, audioClipNuevo, audioFadeDuration));
+
+        // Activar y desactivar objetos
+        foreach (var obj in objetosADesactivar)
+        {
+            if (obj != null)
+                obj.SetActive(false);
+        }
+
+        foreach (var obj in objetosAActivar)
+        {
+            if (obj != null)
+                obj.SetActive(true);
+        }
 
         if (videoPlayer != null)
         {
