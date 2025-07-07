@@ -8,8 +8,9 @@ public class MotionManager : MonoBehaviour
     public int totalCubes = 5;
 
     [Header("Sonidos")]
-    public AudioClip pickupSound;       // Sonido normal de recoger cubo
-    public AudioClip audioMili3;     // Tu narración especial
+    public AudioClip pickupSound; // Sonido al recoger
+    public AudioClip[] narracionesPorOrden; // 4 audios, en el orden deseado
+
     private AudioSource audioSource;
 
     private int collected = 0;
@@ -26,32 +27,28 @@ public class MotionManager : MonoBehaviour
     {
         collected++;
 
-        // Actualizar el texto del contador
         UIMoManager.Instance.UpdateCubesRemaining(totalCubes - collected);
 
-        // Sonar siempre el sonido de pickup
         PlayPickupSound();
 
-        // Si este fue el último cubo, además reproducir tu narración
-        if (collected == totalCubes)
+        // Reproducir narración según el orden de recogida
+        if (narracionesPorOrden != null && collected - 1 < narracionesPorOrden.Length)
         {
-            PlayNarration();
+            AudioClip narracion = narracionesPorOrden[collected - 1];
+            if (narracion != null && !NarrationManager.Instance.IsNarrationPlaying())
+            {
+                NarrationManager.Instance.PlayNarration(narracion);
+            }
         }
+
     }
+
 
     void PlayPickupSound()
     {
         if (pickupSound != null && audioSource != null)
         {
             audioSource.PlayOneShot(pickupSound);
-        }
-    }
-
-    void PlayNarration()
-    {
-        if (audioMili3 != null && audioSource != null)
-        {
-            NarrationManager.Instance.PlayNarration(audioMili3);
         }
     }
 

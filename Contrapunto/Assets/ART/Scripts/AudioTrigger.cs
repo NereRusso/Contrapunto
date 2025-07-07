@@ -1,9 +1,9 @@
 using UnityEngine;
 
-public class Audio2Trigger : MonoBehaviour
+public class AudioTrigger : MonoBehaviour
 {
     [Header("Clip que se va a reproducir")]
-    public AudioClip audio2;
+    public AudioClip audioTrigger;
 
     bool played = false;
 
@@ -12,7 +12,7 @@ public class Audio2Trigger : MonoBehaviour
         Debug.Log($"[Audio2Trigger] Colisión con: {other.name}");
         if (played) return;
         if (!other.CompareTag("Player")) return;
-        if (audio2 == null)
+        if (audioTrigger == null)
         {
             Debug.LogWarning("[Audio2Trigger] Falta asignar audio2");
             return;
@@ -23,14 +23,10 @@ public class Audio2Trigger : MonoBehaviour
             return;
         }
 
-        NarrationManager.Instance.PlayNarration(audio2);
+        NarrationManager.Instance.PlayNarration(audioTrigger);
         played = true;
 
-        // Destruye todos los triggers de este tipo en la escena
-        Audio2Trigger[] allTriggers = FindObjectsOfType<Audio2Trigger>();
-        foreach (Audio2Trigger trigger in allTriggers)
-        {
-            Destroy(trigger.gameObject);
-        }
+        // Solo se destruye este trigger, no todos
+        Destroy(gameObject);
     }
 }

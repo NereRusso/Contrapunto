@@ -116,8 +116,16 @@ public class CambioSceneAudio : MonoBehaviour
             videoPlayer.gameObject.SetActive(true);
             videoPlayer.Play();
             videoPlayer.loopPointReached += OnVideoFinished;
+
+            if (audioNarracion != null)
+            {
+                audioNarracion.volume = 1f; // asegurarse de que empiece en volumen alto
+                audioNarracion.Play();
+            }
+
             StartCoroutine(FadeInWhilePlaying());
         }
+
         else
         {
             LoadScene();

@@ -21,7 +21,7 @@ public class NarrationManager : MonoBehaviour
 
     [Header("Extra Text UI")]
     [Tooltip("Arrastrá acá el segundo TextMeshProUGUI que querés que parpadee")]
-    public TextMeshProUGUI extraText;  // ya lo tenías
+    public TextMeshProUGUI extraText;
 
     [System.Serializable]
     public class ClipSubtitle
@@ -38,6 +38,10 @@ public class NarrationManager : MonoBehaviour
 
     [HideInInspector]
     public bool repeatEnabled = true;
+
+    // NUEVO: Cola de narraciones
+    private Queue<(AudioClip clip, Action onComplete)> narrationQueue = new Queue<(AudioClip, Action)>();
+    private bool isQueueProcessing = false;
 
     private void Awake()
     {
@@ -59,46 +63,66 @@ public class NarrationManager : MonoBehaviour
         }
     }
 
+    // PUBLIC INTERFACE
     public void PlayNarration(AudioClip clip)
     {
-        if (clip == null) return;
-        lastNarrationClip = clip;
-        if (subtitleCoroutine != null) StopCoroutine(subtitleCoroutine);
-        subtitleCoroutine = StartCoroutine(PlayNarrationWithDelay(clip, null));
+        EnqueueNarration(clip, null);
     }
 
     public void PlayNarration(AudioClip clip, Action onComplete)
     {
-        if (clip == null) return;
-        lastNarrationClip = clip;
-        if (subtitleCoroutine != null) StopCoroutine(subtitleCoroutine);
-        subtitleCoroutine = StartCoroutine(PlayNarrationWithDelay(clip, onComplete));
+        EnqueueNarration(clip, onComplete);
     }
 
+    public bool IsNarrationPlaying()
+    {
+        return isPlayingNarration;
+    }
+
+    // QUEUE SYSTEM
+    private void EnqueueNarration(AudioClip clip, Action onComplete)
+    {
+        if (clip == null) return;
+
+        narrationQueue.Enqueue((clip, onComplete));
+
+        if (!isQueueProcessing)
+            StartCoroutine(ProcessNarrationQueue());
+    }
+
+    private IEnumerator ProcessNarrationQueue()
+    {
+        isQueueProcessing = true;
+
+        while (narrationQueue.Count > 0)
+        {
+            var (clip, onComplete) = narrationQueue.Dequeue();
+            lastNarrationClip = clip;
+            yield return StartCoroutine(PlayNarrationWithDelay(clip, onComplete));
+        }
+
+        isQueueProcessing = false;
+    }
+
+    // NARRATION WITH SUBTITLES + EFFECTS
     private IEnumerator PlayNarrationWithDelay(AudioClip clip, Action onComplete = null)
     {
-        // 1) Fade in del fondo de subtítulos
         if (subtitleBackgroundGroup != null)
             yield return StartCoroutine(FadeCanvasGroup(subtitleBackgroundGroup, 0f, 1f, backgroundFadeDuration));
 
-        // 2) Reproducir audio
         narrationSource.Stop();
         narrationSource.clip = clip;
         narrationSource.Play();
         isPlayingNarration = true;
 
-        // 3) Iniciar parpadeo de extraText
         if (extraText != null)
         {
-            // Asegurarse de que empiece invisible
             var c = extraText.color;
             extraText.color = new Color(c.r, c.g, c.b, 0f);
             extraText.gameObject.SetActive(true);
-
             blinkCoroutine = StartCoroutine(BlinkExtraText());
         }
 
-        // 4) Mostrar subtítulos normales
         var entry = subtitles.Find(s => s.clip == clip);
         if (entry != null && subtitleText != null)
         {
@@ -115,40 +139,32 @@ public class NarrationManager : MonoBehaviour
         }
         else
         {
-            // Si no hay subtítulos definidos
             yield return new WaitForSeconds(clip.length);
             if (subtitleBackgroundGroup != null)
                 yield return StartCoroutine(FadeCanvasGroup(subtitleBackgroundGroup, 1f, 0f, backgroundFadeDuration));
         }
 
-        // 5) Terminado el audio: asegurar que el blink se detenga
         if (blinkCoroutine != null)
             StopCoroutine(blinkCoroutine);
 
-        // Dejar extraText oculto al final
         if (extraText != null)
             extraText.gameObject.SetActive(false);
 
         onComplete?.Invoke();
     }
 
-    // Parpadeo: fade in ? 1s ? fade out ? 2s, mientras siga isPlayingNarration
+    // ANIMACIONES Y FADES
     private IEnumerator BlinkExtraText()
     {
         while (isPlayingNarration)
         {
-            // Fade in
             yield return StartCoroutine(FadeTextAlpha(extraText, 0f, 1f, backgroundFadeDuration));
-            // Queda 1 segundo
             yield return new WaitForSeconds(1f);
-            // Fade out
             yield return StartCoroutine(FadeTextAlpha(extraText, 1f, 0f, backgroundFadeDuration));
-            // Espera 2 segundos antes de volver a aparecer
             yield return new WaitForSeconds(2f);
         }
     }
 
-    // Helper para fade de alpha en TextMeshProUGUI
     private IEnumerator FadeTextAlpha(TextMeshProUGUI text, float from, float to, float duration)
     {
         float elapsed = 0f;

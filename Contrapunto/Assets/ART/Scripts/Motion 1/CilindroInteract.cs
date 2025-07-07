@@ -38,6 +38,9 @@ public class CilindroInteract : MonoBehaviour
     public AudioSource sonidoAmbienteNuevo;
     public float fadeDuration = 2f;
 
+    [Header("Narración al finalizar")]
+    public AudioClip audio3Mili;
+
     private FirstPersonController fpsController;
     private StarterAssetsInputs starterInputs;
     private PlayerInput piSystem;
@@ -85,7 +88,6 @@ public class CilindroInteract : MonoBehaviour
 
     IEnumerator CambiarMaterialEnMitadDelVideo()
     {
-        // Espera hasta que se conozca la duración del video (por si aún no está lista)
         while (!videoPlayer.isPrepared)
             yield return null;
 
@@ -118,6 +120,12 @@ public class CilindroInteract : MonoBehaviour
             canvasCilindro.gameObject.SetActive(false);
 
         RestaurarVideos();
+
+        // Nueva narración al finalizar el video
+        if (audio3Mili != null)
+        {
+            NarrationManager.Instance.PlayNarration(audio3Mili);
+        }
     }
 
     void RestaurarVideos()
@@ -127,7 +135,6 @@ public class CilindroInteract : MonoBehaviour
             fadeScreen.StopAllGlitching();
         }
 
-        // Reanuda videos existentes
         foreach (var vp in videosAReactivar)
         {
             if (vp != null)
@@ -136,7 +143,6 @@ public class CilindroInteract : MonoBehaviour
             }
         }
 
-        // Cambia y reanuda videos de RawImage asociados
         foreach (var entry in rawImageVideosAReemplazar)
         {
             if (entry.player != null && entry.newClip != null)
