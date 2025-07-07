@@ -3,7 +3,22 @@ guid: 9d8bf39453048b04f870e8a7cb3207d3
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: base
+    second: {fileID: 2100000, guid: e5997ccc2bd2bc74dba3f4bf9b35a545, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: estrella
+    second: {fileID: 2100000, guid: 333e59836d4819640aa95058ee355372, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: palos
+    second: {fileID: 2100000, guid: 4e3173a49e5e16e4aa1fe3870f1ffbab, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
