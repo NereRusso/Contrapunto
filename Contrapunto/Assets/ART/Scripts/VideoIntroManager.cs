@@ -16,7 +16,6 @@ public class VideoIntroManager : MonoBehaviour
     public FadeScreen screenFader;
 
     [Header("Audios")]
-    public AudioClip audioMili1;
     public AudioSource sonidoAmbiente;
 
     [Header("Configuración")]
@@ -78,8 +77,10 @@ public class VideoIntroManager : MonoBehaviour
         screenFader.fadeDuration = fadeDuration;
         yield return screenFader.FadeOut();
 
-        if (audioMili1 != null)
-            NarrationManager.Instance.PlayNarration(audioMili1, OnNarrationEnded);
+        // Activar movimiento del jugador inmediatamente
+        if (inputScript != null) inputScript.enabled = true;
+        if (movementScript != null) movementScript.enabled = true;
+        if (playerInput != null) playerInput.enabled = true;
     }
 
     IEnumerator FadeInAudio(AudioSource audioSource, float targetVolume, float duration)
@@ -92,12 +93,5 @@ public class VideoIntroManager : MonoBehaviour
             yield return null;
         }
         audioSource.volume = targetVolume;
-    }
-
-    void OnNarrationEnded()
-    {
-        if (inputScript != null) inputScript.enabled = true;
-        if (movementScript != null) movementScript.enabled = true;
-        if (playerInput != null) playerInput.enabled = true;
     }
 }
