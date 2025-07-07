@@ -95,10 +95,16 @@ public class TerminalMal : MonoBehaviour
     [Header("Extra")]
     public GameObject objectToDisable;
 
+    [Header("Prompt de click")]
+    [Tooltip("Arrastrá acá tu Canvas (o GameObject) con el texto “click”")]
+    public GameObject clickCanvas;
+    [Tooltip("Distancia máxima para que aparezca el prompt")]
+    public float pickupRange = 5f;
+
     // Internals
     private string[] baseWords;
     private List<int>[] glitchPositions;
-    private List<int>[] extraPositions;           // <- NUEVO: posiciones de las extras
+    private List<int>[] extraPositions;
     private List<int> writtenPositions = new List<int>();
     private Dictionary<int, string> pendingScramble = new Dictionary<int, string>();
     private Coroutine currentGlitchCoroutine;
@@ -111,37 +117,42 @@ public class TerminalMal : MonoBehaviour
     private Vector3 originalCamPosition;
     private Quaternion originalCamRotation;
     private string currentMarkup;
+    private Camera mainCameraRef;
 
     void Start()
     {
         fullTextDisplay.richText = true;
-
         screenTargetScale = screenCanvas.transform.localScale;
         screenCanvas.transform.localScale = Vector3.zero;
         screenCanvas.SetActive(false);
 
         playerController = FindObjectOfType<FirstPersonController>();
         eventCamera.gameObject.SetActive(false);
-
         videoPanel.SetActive(false);
+
         enterButton.onClick.AddListener(CheckWord);
-
-
         inputField.onValueChanged.AddListener(OnInputChanged);
+
+        // Setup prompt
+        mainCameraRef = Camera.main;
+        if (clickCanvas != null)
+            clickCanvas.SetActive(false);
     }
 
     void Update()
     {
+        // Activación de terminal con click
         if (!hasActivated && Input.GetMouseButtonDown(0))
         {
-            var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            var ray = mainCameraRef.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out var hit) && hit.transform == transform &&
-                Vector3.Distance(Camera.main.transform.position, transform.position) <= interactionDistance)
+                Vector3.Distance(mainCameraRef.transform.position, transform.position) <= interactionDistance)
             {
                 ActivateScreen();
             }
         }
 
+        // Animación de apertura de pantalla
         if (screenOpening)
         {
             screenCanvas.transform.localScale = Vector3.Lerp(
@@ -156,6 +167,7 @@ public class TerminalMal : MonoBehaviour
             }
         }
 
+        // Animación de cámara de evento
         if (movingCamera)
         {
             eventCamera.transform.position = Vector3.Lerp(
@@ -175,12 +187,34 @@ public class TerminalMal : MonoBehaviour
             }
         }
 
+        // Envía palabra con ENTER
         if (screenCanvas.activeSelf && Input.GetKeyDown(KeyCode.Return))
             CheckWord();
     }
 
+    private void OnMouseEnter()
+    {
+        if (hasActivated) return;
+        if (mainCameraRef != null && clickCanvas != null &&
+            Vector3.Distance(mainCameraRef.transform.position, transform.position) <= pickupRange)
+        {
+            clickCanvas.SetActive(true);
+        }
+    }
+
+    private void OnMouseExit()
+    {
+        if (hasActivated) return;
+        if (clickCanvas != null)
+            clickCanvas.SetActive(false);
+    }
+
     void ActivateScreen()
     {
+        // Oculto prompt
+        if (clickCanvas != null)
+            clickCanvas.SetActive(false);
+
         if (audioSource && clickActivacionSound)
             audioSource.PlayOneShot(clickActivacionSound);
 
@@ -202,26 +236,21 @@ public class TerminalMal : MonoBehaviour
 
         NarrationManager.Instance.repeatEnabled = false;
 
-        // 1) Partir el texto y buscar posiciones de cada glitchWord
+        // Inicializar glitches
         baseWords = fullText.Split(' ');
         int nEntries = glitchEntries.Length;
         glitchPositions = new List<int>[nEntries];
-        extraPositions = new List<int>[nEntries];   // <- Inicializo el array
+        extraPositions = new List<int>[nEntries];
 
         for (int k = 0; k < nEntries; k++)
         {
-            // a) principales
             glitchPositions[k] = new List<int>();
-            // b) extras
             extraPositions[k] = new List<int>();
-
             for (int i = 0; i < baseWords.Length; i++)
             {
                 var w = baseWords[i].Trim(',', '.', '!', '?', ':', ';');
                 if (w.Equals(glitchEntries[k].glitchWord, StringComparison.OrdinalIgnoreCase))
                     glitchPositions[k].Add(i);
-
-                // Recorro cada extra y guardo su índice
                 foreach (var ex in glitchEntries[k].extraWords)
                     if (w.Equals(ex, StringComparison.OrdinalIgnoreCase))
                         extraPositions[k].Add(i);
@@ -231,28 +260,23 @@ public class TerminalMal : MonoBehaviour
         writtenPositions.Clear();
         pendingScramble.Clear();
 
-        // 2) Lanzo glitches pendientes tanto para principales como para extras
         for (int k = currentWordIndex; k < nEntries; k++)
         {
-            // – principales (salto la actual primera instancia)
             for (int j = 0; j < glitchPositions[k].Count; j++)
             {
                 if (k == currentWordIndex && j == 0) continue;
                 StartCoroutine(GlitchPending(glitchPositions[k][j], k));
             }
-            // – extras (todas)
             foreach (int posExtra in extraPositions[k])
                 StartCoroutine(GlitchPending(posExtra, k));
         }
 
-        // 3) El glitch "actual" sigue igual
         StopCoroutineIfNeeded(ref currentGlitchCoroutine);
         currentGlitchCoroutine = StartCoroutine(GlitchCurrent());
 
         ScrollToCurrentWord();
         inputField.ActivateInputField();
-
-}
+    }
 
     IEnumerator GlitchCurrent()
     {
@@ -264,13 +288,10 @@ public class TerminalMal : MonoBehaviour
         while (currentWordIndex < glitchEntries.Length)
         {
             string orig = glitchEntries[currentWordIndex].glitchWord;
-
-            // Fase correcta
             currentMarkup = $"<size={sizeTag}><color=#FFFFFF><b>{orig}</b></color></size>";
             UpdateDisplay();
             yield return new WaitForSeconds(correctTime);
 
-            // Fase glitch
             char[] arr = orig.ToCharArray();
             for (int i = 0; i < arr.Length; i++)
             {
@@ -304,14 +325,11 @@ public class TerminalMal : MonoBehaviour
             string scr = new string(arr);
             Color c = glitchColors[UnityEngine.Random.Range(0, glitchColors.Length)];
             string hex = ColorUtility.ToHtmlStringRGB(c);
-
             pendingScramble[pos] = $"<color=#{hex}><b>{scr}</b></color>";
             UpdateDisplay();
-
             float wait = UnityEngine.Random.Range(minPendingInterval, maxPendingInterval);
             yield return new WaitForSeconds(wait);
         }
-
         pendingScramble.Remove(pos);
         UpdateDisplay();
     }
@@ -329,17 +347,12 @@ public class TerminalMal : MonoBehaviour
         {
             if (writtenPositions.Contains(i))
                 disp[i] = baseWords[i];
-            else if (currentMarkup != null &&
-                     currentWordIndex < glitchPositions.Length &&
+            else if (currentMarkup != null && currentWordIndex < glitchPositions.Length &&
                      glitchPositions[currentWordIndex].Count > 0 &&
                      i == glitchPositions[currentWordIndex][0])
-            {
                 disp[i] = currentMarkup;
-            }
             else if (pendingScramble.ContainsKey(i))
-            {
                 disp[i] = pendingScramble[i];
-            }
         }
         fullTextDisplay.text = string.Join(" ", disp);
     }
@@ -349,9 +362,7 @@ public class TerminalMal : MonoBehaviour
         if (currentWordIndex < glitchPositions.Length &&
             glitchPositions[currentWordIndex].Count > 0 &&
             scrollRect != null)
-        {
             StartCoroutine(SmoothScroll(glitchPositions[currentWordIndex][0], baseWords.Length));
-        }
     }
 
     IEnumerator SmoothScroll(int targetIdx, int total)
@@ -373,30 +384,20 @@ public class TerminalMal : MonoBehaviour
     {
         string entered = inputField.text.Trim();
         var entry = glitchEntries[currentWordIndex];
-
         if (entered.Equals(entry.glitchWord, StringComparison.OrdinalIgnoreCase))
         {
             if (audioSource && correctoSound)
                 audioSource.PlayOneShot(correctoSound);
 
-            // Marcar todas las de la palabra principal
             foreach (int pos in glitchPositions[currentWordIndex])
                 if (!writtenPositions.Contains(pos))
                     writtenPositions.Add(pos);
-
-            // Marcar todas las de sus extras
             foreach (var extra in entry.extraWords)
-            {
                 for (int i = 0; i < baseWords.Length; i++)
-                {
                     if (baseWords[i].Trim(',', '.', '!', '?', ':', ';')
-                        .Equals(extra, StringComparison.OrdinalIgnoreCase)
-                        && !writtenPositions.Contains(i))
-                    {
+                        .Equals(extra, StringComparison.OrdinalIgnoreCase) &&
+                        !writtenPositions.Contains(i))
                         writtenPositions.Add(i);
-                    }
-                }
-            }
 
             currentMarkup = null;
             UpdateDisplay();
@@ -428,11 +429,8 @@ public class TerminalMal : MonoBehaviour
 
         videoPlayer.Play();
         NarrationManager.Instance.PlayNarration(audio2Nere);
-
-        // Cambiar audio y material final desde scripts separados
         FindObjectOfType<AudioTriggerFinal>()?.CambiarYReproducir();
         FindObjectOfType<MaterialChangerFinal>()?.CambiarMaterial();
-
         videoPlayer.loopPointReached += _ => StartCoroutine(CloseCanvasCoroutine());
     }
 
@@ -446,7 +444,6 @@ public class TerminalMal : MonoBehaviour
             screenCanvas.transform.localScale = Vector3.Lerp(from, Vector3.zero, t);
             yield return null;
         }
-
         screenCanvas.SetActive(false);
         videoPanel.SetActive(false);
         videoPlayer.Stop();
@@ -466,13 +463,9 @@ public class TerminalMal : MonoBehaviour
         eventCamera.gameObject.SetActive(false);
         playerCamera.gameObject.SetActive(true);
         if (playerController != null) playerController.enabled = true;
-
-        if (objectToDisable != null)
-            objectToDisable.SetActive(true);
-
+        if (objectToDisable != null) objectToDisable.SetActive(true);
         if (objetoOriginalRenderer != null && objetoNuevoRenderer != null)
             StartCoroutine(CruceMaterialObjetos(objetoOriginalRenderer, objetoNuevoRenderer, duracionTransicion));
-
         if (luzACambiar != null)
             StartCoroutine(TransicionarLuzColor(luzACambiar, nuevoColorLuz, duracionTransicion));
     }
@@ -483,10 +476,8 @@ public class TerminalMal : MonoBehaviour
         Material matNuevo = nuevo.material;
         Color colorOrig = matOriginal.color;
         Color colorNuevo = matNuevo.color;
-
         original.gameObject.SetActive(true);
         nuevo.gameObject.SetActive(true);
-
         float t = 0f;
         while (t < 1f)
         {
@@ -497,7 +488,6 @@ public class TerminalMal : MonoBehaviour
             matNuevo.color = new Color(colorNuevo.r, colorNuevo.g, colorNuevo.b, a2);
             yield return null;
         }
-
         original.gameObject.SetActive(false);
     }
 

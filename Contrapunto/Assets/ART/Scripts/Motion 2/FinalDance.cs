@@ -8,6 +8,13 @@ public class FinalDance : MonoBehaviour
 {
     public static FinalDance instance;
 
+    [System.Serializable]
+    public class VideoReplaceEntry
+    {
+        public VideoPlayer player;    // VideoPlayer que ya tiene targetTexture asignado
+        public VideoClip newClip;     // Nuevo clip a asignar
+    }
+
     [Header("Referencias DDR")]
     public FlechaSpawner spawner;
     public InputFlechas inputManager;
@@ -29,6 +36,9 @@ public class FinalDance : MonoBehaviour
 
     [Header("Videos que se deben reactivar al volver al mapa")]
     public List<VideoPlayer> videosAReactivar;
+
+    [Header("Videos a reactivar y cambiar clip (en paralelo)")]
+    public List<VideoReplaceEntry> videosAReproducirConCambio = new List<VideoReplaceEntry>();
 
     [Header("Referencias externas")]
     public MotionDosManager motionDosManager;
@@ -53,13 +63,13 @@ public class FinalDance : MonoBehaviour
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
 
-        // ?? Fade out del audio del VideoPlayer
+        // Fade out del audio del VideoPlayer
         if (managerOpOne != null && managerOpOne.videoFondo != null)
         {
             StartCoroutine(FadeOutVideoAudio(managerOpOne.videoFondo, 1f));
         }
 
-        // ?? Cambiar el material del objeto
+        // Cambiar el material del objeto
         if (objetoRenderer != null && nuevoMaterial != null)
         {
             objetoRenderer.material = nuevoMaterial;
@@ -87,7 +97,7 @@ public class FinalDance : MonoBehaviour
             NarrationManager.Instance.PlayNarration(audio2Mili);
         }
 
-        // ?? Fade in del nuevo audio
+        // Fade in del nuevo audio
         if (audioSourceParaFadeIn != null && nuevoAudioClip != null)
         {
             audioSourceParaFadeIn.clip = nuevoAudioClip;
@@ -101,10 +111,21 @@ public class FinalDance : MonoBehaviour
             motionDosManager.RestaurarTodosVideos();
         }
 
+        // Reactivar videos existentes
         foreach (var video in videosAReactivar)
         {
             if (video != null)
                 video.Play();
+        }
+
+        // Cambiar clips y reactivar en paralelo
+        foreach (var entry in videosAReproducirConCambio)
+        {
+            if (entry.player != null && entry.newClip != null)
+            {
+                entry.player.clip = entry.newClip;
+                entry.player.Play();
+            }
         }
     }
 

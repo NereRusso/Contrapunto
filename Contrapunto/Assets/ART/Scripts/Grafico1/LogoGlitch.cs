@@ -26,15 +26,24 @@ public class LogoGlitch : MonoBehaviour
     public VideoPlayer videoPlayer;          // VideoPlayer que usa RenderTexture
     public float delayBeforeVideo = 2f;
 
+    [Header("Prompt de click")]
+    [Tooltip("Arrastrá acá tu Canvas (o GameObject) con el texto “click”")]
+    public GameObject clickCanvas;
+    [Tooltip("Distancia máxima para que aparezca el prompt")]
+    public float pickupRange = 3f;
+
     private FirstPersonController fpsController;
     private StarterAssetsInputs starterInputs;
     private PlayerInput playerInput;
     private AudioSource sonidoAmbienteSource;
     private AudioSource logoAmbienteSource;
+
+    private Camera mainCamera;
     private bool clicked = false;
 
     void Start()
     {
+        // Setup del jugador y audio
         if (player != null)
         {
             fpsController = player.GetComponent<FirstPersonController>();
@@ -45,13 +54,46 @@ public class LogoGlitch : MonoBehaviour
         if (sonidoAmbiente != null) sonidoAmbienteSource = sonidoAmbiente.GetComponent<AudioSource>();
         if (logoAmbiente != null) logoAmbienteSource = logoAmbiente.GetComponent<AudioSource>();
 
+        // Desactivamos el video al inicio
         if (videoCanvas != null) videoCanvas.SetActive(false);
+
+        // Inicialización del prompt de click
+        mainCamera = Camera.main;
+        if (clickCanvas != null)
+            clickCanvas.SetActive(false);
+    }
+
+    private void OnMouseEnter()
+    {
+        // No mostramos si ya clickeamos
+        if (clicked) return;
+
+        // Si estamos cerca, activamos el prompt
+        if (mainCamera != null && clickCanvas != null &&
+            Vector3.Distance(mainCamera.transform.position, transform.position) <= pickupRange)
+        {
+            clickCanvas.SetActive(true);
+        }
+    }
+
+    private void OnMouseExit()
+    {
+        // No ocultamos si ya clickeamos
+        if (clicked) return;
+
+        if (clickCanvas != null)
+            clickCanvas.SetActive(false);
     }
 
     void OnMouseDown()
     {
         if (clicked) return;
         clicked = true;
+
+        // Ocultamos el prompt al clickear
+        if (clickCanvas != null)
+            clickCanvas.SetActive(false);
+
         StartCoroutine(DelayedExecution());
     }
 

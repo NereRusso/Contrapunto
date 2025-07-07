@@ -25,6 +25,12 @@ public class CambioSceneAudio : MonoBehaviour
     public AudioSource audioNarracion;
     public float fadeDuration = 1f; // FADE SOLO DURA EL PRIMER SEGUNDO DEL VIDEO
 
+    [Header("Prompt de click")]
+    [Tooltip("Arrastrá acá tu Canvas (o GameObject) con el texto “click”")]
+    public GameObject clickCanvas;
+    [Tooltip("Distancia máxima para que aparezca el prompt")]
+    public float pickupRange = 3f;
+
     private FirstPersonController fpsController;
     private StarterAssetsInputs starterInputs;
     private PlayerInput playerInput;
@@ -32,10 +38,12 @@ public class CambioSceneAudio : MonoBehaviour
     private AudioSource sonidoAmbienteSource;
     private AudioSource logoAmbienteSource;
 
+    private Camera mainCamera;
     private bool clicked = false;
 
     void Start()
     {
+        // --- Lógica original ---
         if (player != null)
         {
             Transform playerCapsule = player.transform.Find("PlayerCapsule");
@@ -58,10 +66,34 @@ public class CambioSceneAudio : MonoBehaviour
             Color c = videoImage.color;
             videoImage.color = new Color(c.r, c.g, c.b, 0f); // empieza invisible
         }
+
+        // --- Inicialización prompt de click ---
+        mainCamera = Camera.main;
+        if (clickCanvas != null)
+            clickCanvas.SetActive(false);
+    }
+
+    private void OnMouseEnter()
+    {
+        if (mainCamera != null && clickCanvas != null &&
+            Vector3.Distance(mainCamera.transform.position, transform.position) <= pickupRange)
+        {
+            clickCanvas.SetActive(true);
+        }
+    }
+
+    private void OnMouseExit()
+    {
+        if (clickCanvas != null)
+            clickCanvas.SetActive(false);
     }
 
     void OnMouseDown()
     {
+        // Ocultamos prompt al clickear
+        if (clickCanvas != null)
+            clickCanvas.SetActive(false);
+
         if (clicked) return;
         clicked = true;
 
@@ -73,15 +105,10 @@ public class CambioSceneAudio : MonoBehaviour
             AmbientManager.Instance.StopAllAmbients();
 
         if (sonidoAmbienteSource != null)
-        {
             StartCoroutine(FadeOutAudio(sonidoAmbienteSource, fadeDuration));
-        }
 
         if (logoAmbienteSource != null)
-        {
             StartCoroutine(FadeOutAudio(logoAmbienteSource, fadeDuration));
-        }
-
 
         if (videoPlayer != null && videoImage != null)
         {
@@ -89,7 +116,6 @@ public class CambioSceneAudio : MonoBehaviour
             videoPlayer.gameObject.SetActive(true);
             videoPlayer.Play();
             videoPlayer.loopPointReached += OnVideoFinished;
-
             StartCoroutine(FadeInWhilePlaying());
         }
         else
@@ -100,16 +126,14 @@ public class CambioSceneAudio : MonoBehaviour
 
     System.Collections.IEnumerator FadeInWhilePlaying()
     {
-        // Duración total del audio fade = duración del vídeo
         float audioFadeDuration = (float)videoPlayer.length;
-
         float timer = 0f;
+
         while (timer < audioFadeDuration)
         {
-            // Avanzar tiempo
             timer += Time.deltaTime;
 
-            // 1) Video fade en el primer 'videoFadeDuration' segundos
+            // Fade de video
             if (timer <= fadeDuration)
             {
                 float tVideo = timer / fadeDuration;
@@ -118,12 +142,11 @@ public class CambioSceneAudio : MonoBehaviour
             }
             else
             {
-                // Aseguramos opacidad total después del fade de vídeo
                 var c = videoImage.color;
                 videoImage.color = new Color(c.r, c.g, c.b, 1f);
             }
 
-            // 2) Audio fade durante todo el audioFadeDuration
+            // Fade de narración
             if (audioNarracion != null)
             {
                 float tAudio = Mathf.Clamp01(timer / audioFadeDuration);
@@ -149,9 +172,8 @@ public class CambioSceneAudio : MonoBehaviour
         }
 
         audioSource.Stop();
-        audioSource.volume = startVolume; // opcional: restablece volumen original si lo vas a volver a usar
+        audioSource.volume = startVolume;
     }
-
 
     void OnVideoFinished(VideoPlayer vp)
     {
@@ -161,8 +183,6 @@ public class CambioSceneAudio : MonoBehaviour
     void LoadScene()
     {
         if (!string.IsNullOrEmpty(sceneName))
-        {
             SceneManager.LoadScene(sceneName);
-        }
     }
 }

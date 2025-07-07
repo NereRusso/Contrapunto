@@ -31,21 +31,55 @@ public class PalancaJackpotFisico : MonoBehaviour
     public List<GameObject> objetosADesactivar;
     public List<GameObject> objetosAActivar;
 
+    [Header("Prompt de click")]
+    [Tooltip("Arrastrá acá tu Canvas (o GameObject) con el texto “click”")]
+    public GameObject clickCanvas;
+    [Tooltip("Distancia máxima para que aparezca el prompt")]
+    public float pickupRange = 3f;
+
     private bool isRolling = false;
     private bool isJackpotCompleted = false;
 
     private Coroutine spinLetra, spinSimbolo, spinNumero;
+    private Camera mainCamera;
 
     private readonly float[] alternativas = new float[] { 78f, 145f, 222f, 292f };
     private const float resultadoCorrecto = 0f;
 
+    void Start()
+    {
+        mainCamera = Camera.main;
+        if (clickCanvas != null)
+            clickCanvas.SetActive(false);
+    }
+
+    private void OnMouseEnter()
+    {
+        if (!isRolling && !isJackpotCompleted &&
+            mainCamera != null && clickCanvas != null &&
+            Vector3.Distance(mainCamera.transform.position, transform.position) <= pickupRange)
+        {
+            clickCanvas.SetActive(true);
+        }
+    }
+
+    private void OnMouseExit()
+    {
+        if (clickCanvas != null)
+            clickCanvas.SetActive(false);
+    }
+
     void OnMouseDown()
     {
-        if (!isRolling && !isJackpotCompleted)
-        {
-            animator.SetTrigger("PlayClick");
-            StartCoroutine(StartJackpot());
-        }
+        // Oculta el prompt al clicar
+        if (clickCanvas != null)
+            clickCanvas.SetActive(false);
+
+        if (isRolling || isJackpotCompleted)
+            return;
+
+        animator.SetTrigger("PlayClick");
+        StartCoroutine(StartJackpot());
     }
 
     IEnumerator StartJackpot()
@@ -86,7 +120,6 @@ public class PalancaJackpotFisico : MonoBehaviour
         StopCoroutine(spinNumero);
         yield return StartCoroutine(FrenarSoloDiff(ruedaNumero, JackpotManager.Instance.forceNumber12));
 
-        // Si se completó el jackpot
         if (esJackpot)
         {
             isJackpotCompleted = true;
@@ -97,17 +130,13 @@ public class PalancaJackpotFisico : MonoBehaviour
             if (specialObject != null)
                 specialObject.SetActive(true);
 
-            // Cambiar sonido ambiente con crossfade
             if (ambientAudioSource != null && ambientClipPostJackpot != null)
-            {
                 StartCoroutine(CrossfadeAmbientAudio(ambientAudioSource, ambientClipPostJackpot, fadeDuration));
-            }
 
-            // Activar / desactivar objetos
-            foreach (GameObject obj in objetosADesactivar)
+            foreach (var obj in objetosADesactivar)
                 if (obj != null) obj.SetActive(false);
 
-            foreach (GameObject obj in objetosAActivar)
+            foreach (var obj in objetosAActivar)
                 if (obj != null) obj.SetActive(true);
         }
 
@@ -159,7 +188,6 @@ public class PalancaJackpotFisico : MonoBehaviour
         float startVolume = source.volume;
         float timer = 0f;
 
-        // Fade out
         while (timer < duration)
         {
             timer += Time.deltaTime;
@@ -171,7 +199,6 @@ public class PalancaJackpotFisico : MonoBehaviour
         source.clip = newClip;
         source.Play();
 
-        // Fade in
         timer = 0f;
         while (timer < duration)
         {

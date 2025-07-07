@@ -7,6 +7,13 @@ using System.Collections.Generic;
 
 public class CilindroInteract : MonoBehaviour
 {
+    [System.Serializable]
+    public class VideoReplaceEntry
+    {
+        public VideoPlayer player;      // VideoPlayer asociado al RawImage
+        public VideoClip newClip;       // Nuevo clip a asignar
+    }
+
     [Header("Referencias en Inspector")]
     public VideoPlayer videoPlayer;
     public GameObject player;
@@ -19,6 +26,9 @@ public class CilindroInteract : MonoBehaviour
 
     [Header("Videos que deben reanudarse al finalizar")]
     public List<VideoPlayer> videosAReactivar = new List<VideoPlayer>();
+
+    [Header("RawImages y videos a cambiar (en paralelo)")]
+    public List<VideoReplaceEntry> rawImageVideosAReemplazar = new List<VideoReplaceEntry>();
 
     [Header("FadeScreen para detener glitches")]
     public FadeScreen fadeScreen;
@@ -117,11 +127,22 @@ public class CilindroInteract : MonoBehaviour
             fadeScreen.StopAllGlitching();
         }
 
+        // Reanuda videos existentes
         foreach (var vp in videosAReactivar)
         {
             if (vp != null)
             {
                 vp.Play();
+            }
+        }
+
+        // Cambia y reanuda videos de RawImage asociados
+        foreach (var entry in rawImageVideosAReemplazar)
+        {
+            if (entry.player != null && entry.newClip != null)
+            {
+                entry.player.clip = entry.newClip;
+                entry.player.Play();
             }
         }
     }

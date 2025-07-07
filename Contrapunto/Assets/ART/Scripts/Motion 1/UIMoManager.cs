@@ -21,6 +21,6 @@ public class UIMoManager : MonoBehaviour
         if (remaining > 0)
             countText.text = $"Faltan {remaining} keyframes";
         else
-            countText.text = "Sincronizar";
+            countText.text = "Click para sincronizar";
     }
 }

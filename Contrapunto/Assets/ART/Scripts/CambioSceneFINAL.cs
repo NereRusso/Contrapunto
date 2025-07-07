@@ -23,6 +23,12 @@ public class CambioSceneFINAL : MonoBehaviour
 
     public float fadeTime = 1f;
 
+    [Header("Prompt de click")]
+    [Tooltip("Arrastrá acá tu Canvas (o GameObject) con el texto “click”")]
+    public GameObject clickCanvas;
+    [Tooltip("Distancia máxima para que aparezca el prompt")]
+    public float pickupRange = 3f;
+
     private FirstPersonController fpsController;
     private StarterAssetsInputs starterInputs;
     private PlayerInput playerInput;
@@ -30,10 +36,12 @@ public class CambioSceneFINAL : MonoBehaviour
     private AudioSource sonidoAmbienteSource;
     private AudioSource logoAmbienteSource;
 
+    private Camera mainCamera;
     private bool clicked = false;
 
     void Start()
     {
+        // Init player controls
         if (player != null)
         {
             Transform playerCapsule = player.transform.Find("PlayerCapsule");
@@ -45,37 +53,68 @@ public class CambioSceneFINAL : MonoBehaviour
             }
         }
 
+        // Audio sources
         if (sonidoAmbiente != null)
             sonidoAmbienteSource = sonidoAmbiente.GetComponent<AudioSource>();
-
         if (logoAmbiente != null)
             logoAmbienteSource = logoAmbiente.GetComponent<AudioSource>();
 
+        // Hide video images
         if (videoImage != null)
             videoImage.color = new Color(1f, 1f, 1f, 0f);
-
         if (segundoVideoImage != null)
             segundoVideoImage.color = new Color(1f, 1f, 1f, 0f);
+
+        // Prompt setup
+        mainCamera = Camera.main;
+        if (clickCanvas != null)
+            clickCanvas.SetActive(false);
+    }
+
+    private void OnMouseEnter()
+    {
+        // No mostrar prompt si ya clickeamos
+        if (clicked) return;
+
+        if (mainCamera != null && clickCanvas != null &&
+            Vector3.Distance(mainCamera.transform.position, transform.position) <= pickupRange)
+        {
+            clickCanvas.SetActive(true);
+        }
+    }
+
+    private void OnMouseExit()
+    {
+        // No ocultar si ya clickeamos
+        if (clicked) return;
+
+        if (clickCanvas != null)
+            clickCanvas.SetActive(false);
     }
 
     void OnMouseDown()
     {
+        // Ocultamos prompt al clickear
+        if (clickCanvas != null)
+            clickCanvas.SetActive(false);
+
         if (clicked) return;
         clicked = true;
 
+        // Deshabilitar controles del jugador
         if (fpsController != null) fpsController.enabled = false;
         if (starterInputs != null) starterInputs.enabled = false;
         if (playerInput != null) playerInput.enabled = false;
 
+        // Fade out de ambientes
         if (AmbientManager.Instance != null)
             AmbientManager.Instance.StopAllAmbients();
-
         if (sonidoAmbienteSource != null)
             StartCoroutine(FadeOutAudio(sonidoAmbienteSource, fadeTime));
-
         if (logoAmbienteSource != null)
             StartCoroutine(FadeOutAudio(logoAmbienteSource, fadeTime));
 
+        // Reproducir primer video
         if (videoPlayer != null && videoImage != null)
         {
             videoImage.gameObject.SetActive(true);
@@ -127,14 +166,12 @@ public class CambioSceneFINAL : MonoBehaviour
 
         float startVolume = audioSource.volume;
         float timer = 0f;
-
         while (timer < duration)
         {
             timer += Time.deltaTime;
             audioSource.volume = Mathf.Lerp(startVolume, 0f, timer / duration);
             yield return null;
         }
-
         audioSource.Stop();
         audioSource.volume = startVolume;
     }
