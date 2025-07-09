@@ -6,8 +6,8 @@ public class AmbientManager : MonoBehaviour
 {
     public static AmbientManager Instance;
 
-    public AudioSource ambientSourceA; // Ambiente general
-    public AudioSource ambientSourceB; // Ambiente de zona
+    public AudioSource ambientSourceA;
+    public AudioSource ambientSourceB;
     public float fadeDuration = 1.5f;
     [Range(0f, 1f)] public float initialTargetVolume = 0.5f;
 
@@ -29,6 +29,8 @@ public class AmbientManager : MonoBehaviour
         currentSource = ambientSourceA;
         nextSource = ambientSourceB;
 
+        // ? Comentamos esto para que no suene solo al inicio
+        /*
         if (currentSource != null && currentSource.clip != null)
         {
             currentSource.volume = 0f;
@@ -36,18 +38,33 @@ public class AmbientManager : MonoBehaviour
             currentSource.Play();
             StartCoroutine(FadeInFirstAmbient());
         }
+        */
     }
 
-    IEnumerator FadeInFirstAmbient()
+    public void FadeInGlobalAmbient()
+    {
+        if (currentSource != null && currentSource.clip != null)
+        {
+            currentSource.UnPause(); // si venía en pausa
+            StartCoroutine(FadeIn(currentSource, initialTargetVolume));
+        }
+    }
+
+    private IEnumerator FadeIn(AudioSource source, float targetVolume)
     {
         float timer = 0f;
+        source.volume = 0f;
+
+        if (!source.isPlaying) source.Play();
+
         while (timer < fadeDuration)
         {
             timer += Time.deltaTime;
-            currentSource.volume = Mathf.Lerp(0f, currentTargetVolume, timer / fadeDuration);
+            source.volume = Mathf.Lerp(0f, targetVolume, timer / fadeDuration);
             yield return null;
         }
-        currentSource.volume = currentTargetVolume;
+
+        source.volume = targetVolume;
     }
 
     public void ChangeAmbientSound(AudioClip newClip, float newVolume)
@@ -56,17 +73,13 @@ public class AmbientManager : MonoBehaviour
             return;
 
         if (currentSource.clip != null)
-        {
             clipPositions[currentSource.clip] = currentSource.timeSamples;
-        }
 
         nextSource.clip = newClip;
         nextSource.volume = 0f;
 
         if (clipPositions.ContainsKey(newClip))
-        {
             nextSource.timeSamples = clipPositions[newClip];
-        }
 
         nextSource.Play();
         nextTargetVolume = newVolume;
@@ -110,16 +123,12 @@ public class AmbientManager : MonoBehaviour
         float startVolume = ambientSourceB.volume;
 
         if (ambientSourceB.clip != null)
-        {
             clipPositions[ambientSourceB.clip] = ambientSourceB.timeSamples;
-        }
 
         ambientSourceB.clip = newClip;
 
         if (clipPositions.ContainsKey(newClip))
-        {
             ambientSourceB.timeSamples = clipPositions[newClip];
-        }
 
         ambientSourceB.Play();
 
@@ -140,16 +149,6 @@ public class AmbientManager : MonoBehaviour
             StartCoroutine(FadeOut(ambientSourceA));
     }
 
-    public void FadeInGlobalAmbient()
-    {
-        if (ambientSourceA != null)
-        {
-            ambientSourceA.UnPause(); // retoma desde donde quedó
-            StartCoroutine(FadeIn(ambientSourceA, initialTargetVolume));
-        }
-    }
-
-
     private IEnumerator FadeOut(AudioSource source)
     {
         float startVolume = source.volume;
@@ -166,30 +165,8 @@ public class AmbientManager : MonoBehaviour
         source.volume = 0f;
     }
 
-    private IEnumerator FadeIn(AudioSource source, float targetVolume)
-    {
-        float timer = 0f;
-        source.volume = 0f;
-
-        while (timer < fadeDuration)
-        {
-            timer += Time.deltaTime;
-            source.volume = Mathf.Lerp(0f, targetVolume, timer / fadeDuration);
-            yield return null;
-        }
-
-        source.volume = targetVolume;
-    }
-
-    public AudioClip GetCurrentClip()
-    {
-        return currentSource.clip;
-    }
-
-    public float GetCurrentTargetVolume()
-    {
-        return currentTargetVolume;
-    }
+    public AudioClip GetCurrentClip() => currentSource.clip;
+    public float GetCurrentTargetVolume() => currentTargetVolume;
 
     public void StopAllAmbients()
     {

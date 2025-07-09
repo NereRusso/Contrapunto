@@ -81,7 +81,7 @@ public class ColocarObjeto : MonoBehaviour
         }
         else
         {
-            SoundManager.Instance.PlayErrorSound();
+            SoundManager.Instance.PlayErrorWithNarration();
         }
     }
 }

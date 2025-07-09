@@ -11,14 +11,21 @@ public class ManagerCod1 : MonoBehaviour
     public GameObject playerObject;
 
     [Header("Video Intro")]
-    public RawImage videoImage;        // Texture = RenderTexture (IntroRT)
-    public VideoPlayer videoPlayer;    // Render Mode = RenderTexture, Target Texture = IntroRT
+    public RawImage videoImage;
+    public VideoPlayer videoPlayer;
     public float videoDelay = 1f;
 
-    // Referencias al jugador
-    FirstPersonController movementScript;
-    StarterAssetsInputs inputScript;
-    PlayerInput playerInput;
+    [Header("Fade")]
+    public CanvasGroup fadeCanvas;
+    public float fadeDuration = 1.5f;
+    public float delayBeforeFade = 1.0f;
+
+    [Header("Sonido ambiente")]
+    public AudioSource ambientAudioSource;
+
+    private FirstPersonController movementScript;
+    private StarterAssetsInputs inputScript;
+    private PlayerInput playerInput;
 
     void Start()
     {
@@ -26,47 +33,71 @@ public class ManagerCod1 : MonoBehaviour
         inputScript = playerObject.GetComponent<StarterAssetsInputs>();
         playerInput = playerObject.GetComponent<PlayerInput>();
 
-        // Desactivar controles
         movementScript.enabled = false;
         inputScript.enabled = false;
         playerInput.enabled = false;
 
-        // Asegurarnos de que la RawImage arranque oculta
-        videoImage.gameObject.SetActive(false);
+        if (fadeCanvas != null)
+        {
+            fadeCanvas.alpha = 1;
+            fadeCanvas.blocksRaycasts = true;
+        }
 
-        StartCoroutine(PlayIntroVideo());
+        if (ambientAudioSource != null)
+        {
+            ambientAudioSource.volume = 0f;
+            ambientAudioSource.Play();
+        }
+
+        videoImage.gameObject.SetActive(false);
+        StartCoroutine(ReproducirVideoYFade());
     }
 
-    IEnumerator PlayIntroVideo()
+    IEnumerator ReproducirVideoYFade()
     {
         yield return new WaitForSeconds(videoDelay);
 
-        // Mostrar el RawImage
-        videoImage.gameObject.SetActive(true);
+        if (videoPlayer != null && videoImage != null)
+        {
+            videoImage.gameObject.SetActive(true);
 
-        // Preparar el VideoPlayer
-        videoPlayer.Prepare();
-        yield return new WaitWhile(() => !videoPlayer.isPrepared);
+            videoPlayer.Prepare();
+            while (!videoPlayer.isPrepared)
+                yield return null;
 
-        // Asegurarnos de que la RawImage use el RenderTexture
-        videoImage.texture = videoPlayer.targetTexture;
+            videoImage.texture = videoPlayer.targetTexture;
+            videoPlayer.Play();
 
-        // Suscribirse al evento de fin de vídeo
-        videoPlayer.loopPointReached += OnVideoFinished;
+            while (videoPlayer.isPlaying)
+                yield return null;
 
-        // Iniciar reproducción
-        videoPlayer.Play();
+            videoImage.gameObject.SetActive(false);
+        }
+
+        StartCoroutine(FadeIn());
     }
 
-    void OnVideoFinished(VideoPlayer vp)
+    IEnumerator FadeIn()
     {
-        // Nos desuscribimos para evitar llamadas repetidas
-        vp.loopPointReached -= OnVideoFinished;
+        yield return new WaitForSeconds(delayBeforeFade);
 
-        // Ocultar la RawImage
-        videoImage.gameObject.SetActive(false);
+        float timer = 0f;
+        while (timer < fadeDuration)
+        {
+            timer += Time.deltaTime;
+            float t = timer / fadeDuration;
+            fadeCanvas.alpha = 1 - t;
 
-        // Re-activar controles del jugador
+            if (ambientAudioSource != null)
+                ambientAudioSource.volume = Mathf.Lerp(0f, 0.08f, t);
+
+
+            yield return null;
+        }
+
+        fadeCanvas.alpha = 0;
+        fadeCanvas.blocksRaycasts = false;
+
         movementScript.enabled = true;
         inputScript.enabled = true;
         playerInput.enabled = true;

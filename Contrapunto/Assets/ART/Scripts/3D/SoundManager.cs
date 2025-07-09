@@ -8,7 +8,10 @@ public class SoundManager : MonoBehaviour
     public AudioClip pickupClip;
     public AudioClip errorClip;
     public AudioClip successClip;
-    public AudioClip audio3Reni;
+
+    [Header("Narración de error")]
+    public AudioClip audio22Reni;
+    public AudioClip audio32Reni;
 
     private void Awake()
     {
@@ -40,11 +43,21 @@ public class SoundManager : MonoBehaviour
             sfxSource.PlayOneShot(successClip);
     }
 
+    public void PlayErrorWithNarration()
+    {
+        PlayErrorSound();
+
+        if (audio32Reni != null && NarrationManager.Instance != null)
+        {
+            NarrationManager.Instance.PlayNarration(audio32Reni);
+        }
+    }
+
     public void PlayFinalNarration()
     {
-        if (audio3Reni != null)
+        if (audio22Reni != null)
         {
-            NarrationManager.Instance.PlayNarration(audio3Reni);
+            NarrationManager.Instance.PlayNarration(audio22Reni);
         }
     }
 }
