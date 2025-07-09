@@ -1231,7 +1231,7 @@ GameObject:
   - component: {fileID: 106725019}
   - component: {fileID: 106725020}
   m_Layer: 0
-  m_Name: TriggerAudio2
+  m_Name: TriggerAudio1
   m_TagString: Trigger
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1246,7 +1246,7 @@ Transform:
   m_GameObject: {fileID: 106725015}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -125.9, y: -4.3616567, z: 47.2}
+  m_LocalPosition: {x: -125.9, y: -4.3616567, z: 43.96}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1285,7 +1285,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b66e05c72d69984bb190af76b7c3087, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audio2: {fileID: 8300000, guid: f1501eaf5c623794990c3b0c0118fe94, type: 3}
+  audioTrigger: {fileID: 8300000, guid: ec8f6d409850a3d40b731278d524f43a, type: 3}
 --- !u!1 &112233528
 GameObject:
   m_ObjectHideFlags: 0
@@ -1986,6 +1986,73 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 2038800688}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &198157432
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 198157433}
+  - component: {fileID: 198157435}
+  - component: {fileID: 198157434}
+  m_Layer: 0
+  m_Name: TriggerAudio2
+  m_TagString: Trigger
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &198157433
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 198157432}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -125.9, y: -4.3616567, z: 47.87}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 819919785}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &198157434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 198157432}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b66e05c72d69984bb190af76b7c3087, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioTrigger: {fileID: 8300000, guid: 5b13bc2115e19d04da7b140401721401, type: 3}
+--- !u!65 &198157435
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 198157432}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 50.013954, y: 1, z: 1.3718014}
+  m_Center: {x: 1.9858284, y: 0, z: 0.18590069}
 --- !u!1 &198887203
 GameObject:
   m_ObjectHideFlags: 0
@@ -2885,7 +2952,8 @@ MonoBehaviour:
   ruedaNumero: {fileID: 89316923}
   animator: {fileID: 249900226}
   specialObject: {fileID: 619394747}
-  audio3Marti: {fileID: 8300000, guid: c47242de3aa3cc44ba385c0437ac0776, type: 3}
+  audio3Marti: {fileID: 8300000, guid: ff632af0c0d3df541bf9078e5c9f623b, type: 3}
+  audio32Marti: {fileID: 8300000, guid: 4d2486858d9757648bdf8eb1fb3a70f9, type: 3}
   audioSource: {fileID: 1041843290}
   sonidoCompletoWin: {fileID: 8300000, guid: 143fbc4241e4a824f89cd047929f0cc9, type: 3}
   sonidoCompletoFail: {fileID: 8300000, guid: 7b25d74b212c0be4aa51c1098f395fae, type: 3}
@@ -4134,7 +4202,7 @@ MonoBehaviour:
   player: {fileID: 1043209907}
   sonidoAmbiente: {fileID: 137934271}
   logoAmbiente: {fileID: 136486925}
-  audio4Marti: {fileID: 8300000, guid: 7bae0165b9ac46148918c922ec7a5afa, type: 3}
+  audio4Marti: {fileID: 8300000, guid: 824777673a55ec745b1c19df66ce5ccc, type: 3}
   videoCanvas: {fileID: 942923296}
   videoPlayer: {fileID: 112233530}
   delayBeforeVideo: 2
@@ -4964,6 +5032,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 106725016}
+  - {fileID: 198157433}
   - {fileID: 247615978}
   - {fileID: 521933379}
   - {fileID: 1041843289}
@@ -8343,6 +8412,7 @@ Transform:
   - {fileID: 1962303718}
   - {fileID: 1835026821}
   - {fileID: 530028819}
+  - {fileID: 1841538994}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!64 &1266200778
@@ -11370,7 +11440,6 @@ MonoBehaviour:
   fadeCanvas: {fileID: 123420937}
   fadeDuration: 1.5
   delayBeforeFade: 1
-  audio1Marti: {fileID: 8300000, guid: d5c6ec731f3e1494187dc6e7b7d71e95, type: 3}
 --- !u!1 &1837335382
 GameObject:
   m_ObjectHideFlags: 0
@@ -11502,6 +11571,53 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -7196802604745430461, guid: 7729e2853cb2f6c448448a3317b42151, type: 3}
+--- !u!1 &1841538993
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1841538994}
+  - component: {fileID: 1841538995}
+  m_Layer: 0
+  m_Name: NarrationOrden
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1841538994
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1841538993}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1265063531}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1841538995
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1841538993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6343eb0259aa6c47a7ff3a6cf12b960, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audio1: {fileID: 8300000, guid: e56d5919f2f8b2647868b8b65cac8bf9, type: 3}
+  audio2: {fileID: 8300000, guid: e84888d8a87119843a4aba195d111b7d, type: 3}
+  audio3: {fileID: 8300000, guid: 154c942a2ee822c48a9955f9ece48a00, type: 3}
 --- !u!1 &1845861173
 GameObject:
   m_ObjectHideFlags: 0
@@ -12105,18 +12221,31 @@ MonoBehaviour:
   backgroundFadeDuration: 0.5
   extraText: {fileID: 833255196}
   subtitles:
-  - clip: {fileID: 8300000, guid: d5c6ec731f3e1494187dc6e7b7d71e95, type: 3}
-    subtitle: "Marti:\n\xA1Ay! \xA1Por fin apareci\xF3 alguien! No lo puedo creer
-      \xA1Hola! Por favor, s\xE1came de ac\xE1, no puedo seguir viendo esto. Es terrible.
-      No siguen una puta l\xEDnea ac\xE1. \xBFQu\xE9 les pasa?"
-  - clip: {fileID: 8300000, guid: f1501eaf5c623794990c3b0c0118fe94, type: 3}
-    subtitle: "Marti:\nBanca porque... Una a veces tiene que mirar el arte abstracto
-      y sincronizarse con \xE9l, \xBFno? A ver, probalo y decime que onda."
-  - clip: {fileID: 8300000, guid: c47242de3aa3cc44ba385c0437ac0776, type: 3}
-    subtitle: "Marti:\nAhh! \xA1Con raz\xF3n! Era una cuesti\xF3n de puntos de vista.
-      Mira vos, nunca me lo hubiera imaginado."
-  - clip: {fileID: 8300000, guid: 7bae0165b9ac46148918c922ec7a5afa, type: 3}
-    subtitle: "Marti:\nPero, \xBFqu\xE9 onda? \xBFEsto no anda? \xA1Para, para! \xBFA
+  - clip: {fileID: 8300000, guid: ec8f6d409850a3d40b731278d524f43a, type: 3}
+    subtitle: "Marti:\nEste lugar es un desastre, mira las paredes, los objetos,
+      TODO DESINCRONIZADO. Lo \xFAnico normal es ese jackpot. Estuve tirando la palanca
+      pero solo me tir\xF3."
+  - clip: {fileID: 8300000, guid: 5b13bc2115e19d04da7b140401721401, type: 3}
+    subtitle: "Marti:\nTambi\xE9n est\xE1n esos tres visores, mire en ellos y no
+      veo nada \xBFPor que no probas vos a ver si tenes suerte?"
+  - clip: {fileID: 8300000, guid: e56d5919f2f8b2647868b8b65cac8bf9, type: 3}
+    subtitle: "Marti:\nAaaaah pero tenes una vista, ni en mil a\xF1os hubiese conectado
+      como vos. Vayamos al otro a ver qu\xE9 pasa."
+  - clip: {fileID: 8300000, guid: e84888d8a87119843a4aba195d111b7d, type: 3}
+    subtitle: "Marti:\nNo puede ser, mil horas intentando y a vos te sale al toque.
+      Y\u2026 \xBFsi tiramos la palanca del jackpot? \xBFPasar\xE1 algo?"
+  - clip: {fileID: 8300000, guid: 4d2486858d9757648bdf8eb1fb3a70f9, type: 3}
+    subtitle: "Marti:\nOKEY\u2026 creo que ya se por donde viene la mano. Hagamos
+      una \xFAltima prueba. Vayamos al \xFAltimo visor, esto tiene que funcionar."
+  - clip: {fileID: 8300000, guid: 154c942a2ee822c48a9955f9ece48a00, type: 3}
+    subtitle: "Marti:\nAhora si, esto tiene que funcionar. Tiremos la palanca por
+      \xFAltima vez."
+  - clip: {fileID: 8300000, guid: ff632af0c0d3df541bf9078e5c9f623b, type: 3}
+    subtitle: "Marti:\n\xA1\xA1LO SAB\xCDA!! La C , la estrella y el 12, \xA1\xA1son
+      las cosas que pudiste ver!!. Ahora si, esto est\xE1 un poco mejor, bueno tampoco
+      tanto\u2026 un 50% sincronizado \xBFdigamos?... \xBF\xBFY eso brillante??"
+  - clip: {fileID: 8300000, guid: 824777673a55ec745b1c19df66ce5ccc, type: 3}
+    subtitle: "Marti:\nPero \xBFQu\xE9 onda? \xBFEsto no anda? \xA1Para para! \xBFA
       d\xF3nde te vas?"
   repeatEnabled: 1
 --- !u!1 &1978836225 stripped

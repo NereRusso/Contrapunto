@@ -6961,16 +6961,23 @@ MonoBehaviour:
   backgroundFadeDuration: 0.5
   extraText: {fileID: 1835592209}
   subtitles:
-  - clip: {fileID: 8300000, guid: d24039f667bc58a4d948afd7a853f91a, type: 3}
-    subtitle: "Nere:\nBueno bueeeno... Mira a quien me vengo a encontrar! \xBFTe
-      digo algo? No s\xE9 muy bien que pasa con este lugar... Est\xE1 todo desincronizado."
-  - clip: {fileID: 8300000, guid: aad3407c0edbcbb448c5fdcc601aa5f8, type: 3}
-    subtitle: "Nere:\nEstuve viendo de ARREGLAR EL C\xD3DIGO pero est\xE1 todo bugueado.
-      No s\xE9 que m\xE1s hacer... Ni el chat me supo decir. Algo en aquella TERMINAL
-      me hace ruido..."
-  - clip: {fileID: 8300000, guid: d56eb787e1b3c0b499645d0f4bbd80ad, type: 3}
-    subtitle: "Nere:\nIncre\xEDble!! Sincronizaste el c\xF3digo! Ya todo se ve mejor.
-      Que alivio..."
+  - clip: {fileID: 8300000, guid: ec8f6d409850a3d40b731278d524f43a, type: 3}
+    subtitle: "Nere:\nEstuve viendo de arreglar el c\xF3digo pero todo est\xE1 bugueado.
+      No se que mas hacer\u2026 ni el chat me supo qu\xE9 decir. Algo en aquella
+      terminal me hace algo de ruido..."
+  - clip: {fileID: 8300000, guid: 5b13bc2115e19d04da7b140401721401, type: 3}
+    subtitle: "Nere:\n\xBFY ese contrapunto gigante? A ver\u2026 \xBFY si prob\xE1s
+      escribirlo?"
+  - clip: {fileID: 8300000, guid: ff632af0c0d3df541bf9078e5c9f623b, type: 3}
+    subtitle: "Nere:\n\xA1\xA1Eso es!! Las palabras que destacan, arreglan el c\xF3digo."
+  - clip: {fileID: 8300000, guid: 824777673a55ec745b1c19df66ce5ccc, type: 3}
+    subtitle: "Nere:\n\xA1Incre\xEDble! Sincronizaste el c\xF3digo, ahora todo se
+      ve mejor. Que alivio."
+  - clip: {fileID: 8300000, guid: e56d5919f2f8b2647868b8b65cac8bf9, type: 3}
+    subtitle: "Nere:\nMmm, fijate de escribirla tal cual est\xE1."
+  - clip: {fileID: 8300000, guid: ee2b8b118fb2ed64ba9fa8e9b9c22698, type: 3}
+    subtitle: "Nere:\n\xBF\xBFEso que brilla ser\xE1 la sincronizaci\xF3n final??
+      Fijate por favor, necesito volver con las chicas."
   repeatEnabled: 1
 --- !u!1 &555192378
 GameObject:
@@ -7180,7 +7187,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: 65c0bd162fb5c2044b3952220caa5583, type: 2}
+  m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -7362,7 +7369,6 @@ MonoBehaviour:
   videoImage: {fileID: 589978184}
   videoPlayer: {fileID: 589978186}
   videoDelay: 0
-  audio1Nere: {fileID: 8300000, guid: d24039f667bc58a4d948afd7a853f91a, type: 3}
 --- !u!23 &601595572 stripped
 MeshRenderer:
   m_CorrespondingSourceObject: {fileID: -8941197195363925910, guid: 48d214d1a2cf4ff4a8ee861200bb8004,
@@ -8539,7 +8545,7 @@ GameObject:
   - component: {fileID: 710188560}
   - component: {fileID: 710188559}
   m_Layer: 0
-  m_Name: Audio2Nere
+  m_Name: Audio1Nere
   m_TagString: Trigger
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8578,7 +8584,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b66e05c72d69984bb190af76b7c3087, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audio2: {fileID: 8300000, guid: aad3407c0edbcbb448c5fdcc601aa5f8, type: 3}
+  audioTrigger: {fileID: 8300000, guid: ec8f6d409850a3d40b731278d524f43a, type: 3}
 --- !u!4 &710188561
 Transform:
   m_ObjectHideFlags: 0
@@ -8588,7 +8594,7 @@ Transform:
   m_GameObject: {fileID: 710188558}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 27.25, y: 0.05, z: 27.86}
+  m_LocalPosition: {x: 27.25, y: 0.05, z: 22.96}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -11552,7 +11558,11 @@ MonoBehaviour:
   scrollRect: {fileID: 141240460}
   videoPanel: {fileID: 1956657835}
   videoPlayer: {fileID: 1956657837}
-  audio2Nere: {fileID: 8300000, guid: d56eb787e1b3c0b499645d0f4bbd80ad, type: 3}
+  audio2Nere: {fileID: 8300000, guid: 5b13bc2115e19d04da7b140401721401, type: 3}
+  audio3Nere: {fileID: 8300000, guid: ff632af0c0d3df541bf9078e5c9f623b, type: 3}
+  audio12Nere: {fileID: 8300000, guid: e56d5919f2f8b2647868b8b65cac8bf9, type: 3}
+  audio4Nere: {fileID: 8300000, guid: 824777673a55ec745b1c19df66ce5ccc, type: 3}
+  audio13Nere: {fileID: 8300000, guid: ee2b8b118fb2ed64ba9fa8e9b9c22698, type: 3}
   fullText: "<color=#a6cff4><title></color><color=#ff2970> contrapunto </color><color=#a6cff4></title></color>\n<color=#a6cff4></head></color>\n<color=#a6cff4><body></color>\n\n<!--
     CURSOR (afuera del wrapper) -->\n<color=#a6cff4>< img </color> <color=#5d0e8b>src</color>=<color=#c1ff72>\"
     resource /images/ sintesis 1.png\"</color> <color=#5d0e8b>alt</color>=<color=#c1ff72>\"

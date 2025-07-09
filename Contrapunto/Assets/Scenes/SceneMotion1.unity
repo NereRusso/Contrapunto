@@ -11414,8 +11414,13 @@ PrefabInstance:
     - target: {fileID: 2097717344963911978, guid: 0ed227447eac35341a17eb48afa03991,
         type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2097717344963911978, guid: 0ed227447eac35341a17eb48afa03991,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 3e229fc18599e4e42b0656a1211c0b4f, type: 2}
     - target: {fileID: 4109396432888090641, guid: 0ed227447eac35341a17eb48afa03991,
         type: 3}
       propertyPath: m_Mesh

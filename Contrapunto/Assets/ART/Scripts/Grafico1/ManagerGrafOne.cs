@@ -12,9 +12,6 @@ public class ManagerGrafOne : MonoBehaviour
     public float fadeDuration = 1.5f;
     public float delayBeforeFade = 1.0f;
 
-    [Header("Narración")]
-    public AudioClip audio1Marti;
-
     // Referencias a los scripts de control
     private FirstPersonController movementScript;
     private StarterAssetsInputs inputScript;
@@ -53,15 +50,7 @@ public class ManagerGrafOne : MonoBehaviour
         fadeCanvas.alpha = 0;
         fadeCanvas.blocksRaycasts = false;
 
-        // Reproducir narración y esperar que termine
-        if (audio1Marti != null)
-        {
-            NarrationManager.Instance.PlayNarration(audio1Marti, OnNarrationEnded);
-        }
-    }
-
-    void OnNarrationEnded()
-    {
+        // Rehabilitar el control del jugador después del fade
         if (movementScript != null) movementScript.enabled = true;
         if (inputScript != null) inputScript.enabled = true;
         if (playerInput != null) playerInput.enabled = true;

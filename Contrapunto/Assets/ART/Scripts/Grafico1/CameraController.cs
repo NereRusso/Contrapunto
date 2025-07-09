@@ -42,6 +42,10 @@ public class CameraController : MonoBehaviour
     public Vector3 manualSnapPosition = new Vector3(27f, 8f, 29f);
     public Vector3 manualSnapEulerRotation = Vector3.zero;
 
+    // ?? Narración en orden
+    public static System.Collections.Generic.List<AudioClip> ordenNarraciones = new System.Collections.Generic.List<AudioClip>();
+    private static int cantidadResueltos = 0;
+
     // Internas
     private float rotationX = 0f, rotationY = 0f;
     private float currentXOffset = 0f, currentYOffset = 0f;
@@ -138,30 +142,34 @@ public class CameraController : MonoBehaviour
             videoPlayer.Play();
         }
 
-        // Fade in
         if (videoCanvasGroup != null)
             yield return StartCoroutine(FadeCanvasGroup(videoCanvasGroup, 0f, 1f, 0.5f));
 
         if (sonidoAprobado != null)
             sonidoAprobado.Play();
 
-        // Esperar a que termine el video
         if (videoPlayer != null)
             yield return new WaitUntil(() => !videoPlayer.isPlaying);
 
-        // Fade out
         if (videoCanvasGroup != null)
             yield return StartCoroutine(FadeCanvasGroup(videoCanvasGroup, 1f, 0f, 0.5f));
 
         videoCanvasGroup.gameObject.SetActive(false);
 
-        // Volver al jugador
         player.SetActive(true);
         visorCamera.gameObject.SetActive(false);
         gameObject.SetActive(false);
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
+        // ?? Reproducir narración en orden al final
+        if (cantidadResueltos < ordenNarraciones.Count)
+        {
+            AudioClip narracion = ordenNarraciones[cantidadResueltos];
+            NarrationManager.Instance.PlayNarration(narracion);
+            cantidadResueltos++;
+        }
     }
 
     IEnumerator FadeCanvasGroup(CanvasGroup cg, float from, float to, float duration)

@@ -15,9 +15,6 @@ public class ManagerCod1 : MonoBehaviour
     public VideoPlayer videoPlayer;    // Render Mode = RenderTexture, Target Texture = IntroRT
     public float videoDelay = 1f;
 
-    [Header("Narración")]
-    public AudioClip audio1Nere;
-
     // Referencias al jugador
     FirstPersonController movementScript;
     StarterAssetsInputs inputScript;
@@ -69,13 +66,6 @@ public class ManagerCod1 : MonoBehaviour
         // Ocultar la RawImage
         videoImage.gameObject.SetActive(false);
 
-        // Llamar a la narración
-        if (audio1Nere != null)
-            NarrationManager.Instance.PlayNarration(audio1Nere, OnNarrationEnded);
-    }
-
-    void OnNarrationEnded()
-    {
         // Re-activar controles del jugador
         movementScript.enabled = true;
         inputScript.enabled = true;

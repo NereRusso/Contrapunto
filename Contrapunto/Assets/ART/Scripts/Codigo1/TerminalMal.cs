@@ -30,20 +30,22 @@ public class TerminalMal : MonoBehaviour
     public TextMeshProUGUI fullTextDisplay;
     public TMP_InputField inputField;
     public Button enterButton;
-    [Tooltip("Arrastrá aquí el Scroll Rect que contiene el TextMeshProUGUI")]
     public ScrollRect scrollRect;
 
     [Header("Video y Narración")]
     public GameObject videoPanel;
     public VideoPlayer videoPlayer;
     public AudioClip audio2Nere;
+    public AudioClip audio3Nere;
+    public AudioClip audio12Nere;
+    public AudioClip audio4Nere;
+    public AudioClip audio13Nere;
 
     [Header("Texto Completo")]
     [TextArea(5, 20)]
     public string fullText;
 
     [Header("Glitch Entries")]
-    [Tooltip("Configura aquí cada palabra principal y sus palabras extra a corregir")]
     public GlitchEntry[] glitchEntries;
 
     [Header("Sonidos Extra")]
@@ -61,32 +63,23 @@ public class TerminalMal : MonoBehaviour
     public float cameraReturnSpeed = 2f;
 
     [Header("Scroll Animation")]
-    [Tooltip("Duración en segundos del smooth scroll")]
     public float scrollAnimDuration = 0.3f;
 
     [Header("Glitch Settings")]
-    [Tooltip("Duración total de un ciclo glitch (correcto + scramble)")]
     public float glitchCycleDuration = 1f;
     [Range(0, 1)]
-    [Tooltip("Porción del ciclo dedicada al scramble de la palabra actual")]
     public float scrambleRatio = 0.5f;
-    [Tooltip("Colores usados en el efecto glitch para las demás palabras")]
     public Color[] glitchColors = new Color[] { Color.red, Color.green, Color.blue };
 
     [Header("Current Word Font Scale (%)")]
-    [Tooltip("Escala de fuente en porcentaje para la palabra actual (por ejemplo 150)")]
     public float currentWordFontPercent = 150f;
 
     [Header("Glitch Pendientes")]
-    [Tooltip("Intervalo mínimo entre glitches de palabras pendientes")]
     public float minPendingInterval = 0.05f;
-    [Tooltip("Intervalo máximo entre glitches de palabras pendientes")]
     public float maxPendingInterval = 0.15f;
 
     [Header("Cambio de material y luz")]
-    [Tooltip("Renderer del objeto original (material actual)")]
     public Renderer objetoOriginalRenderer;
-    [Tooltip("Renderer del objeto con el material nuevo")]
     public Renderer objetoNuevoRenderer;
     public Light luzACambiar;
     public Color nuevoColorLuz;
@@ -96,9 +89,7 @@ public class TerminalMal : MonoBehaviour
     public GameObject objectToDisable;
 
     [Header("Prompt de click")]
-    [Tooltip("Arrastrá acá tu Canvas (o GameObject) con el texto “click”")]
     public GameObject clickCanvas;
-    [Tooltip("Distancia máxima para que aparezca el prompt")]
     public float pickupRange = 5f;
 
     // Internals
@@ -133,7 +124,6 @@ public class TerminalMal : MonoBehaviour
         enterButton.onClick.AddListener(CheckWord);
         inputField.onValueChanged.AddListener(OnInputChanged);
 
-        // Setup prompt
         mainCameraRef = Camera.main;
         if (clickCanvas != null)
             clickCanvas.SetActive(false);
@@ -141,7 +131,6 @@ public class TerminalMal : MonoBehaviour
 
     void Update()
     {
-        // Activación de terminal con click
         if (!hasActivated && Input.GetMouseButtonDown(0))
         {
             var ray = mainCameraRef.ScreenPointToRay(Input.mousePosition);
@@ -152,7 +141,6 @@ public class TerminalMal : MonoBehaviour
             }
         }
 
-        // Animación de apertura de pantalla
         if (screenOpening)
         {
             screenCanvas.transform.localScale = Vector3.Lerp(
@@ -167,7 +155,6 @@ public class TerminalMal : MonoBehaviour
             }
         }
 
-        // Animación de cámara de evento
         if (movingCamera)
         {
             eventCamera.transform.position = Vector3.Lerp(
@@ -187,7 +174,6 @@ public class TerminalMal : MonoBehaviour
             }
         }
 
-        // Envía palabra con ENTER
         if (screenCanvas.activeSelf && Input.GetKeyDown(KeyCode.Return))
             CheckWord();
     }
@@ -211,7 +197,6 @@ public class TerminalMal : MonoBehaviour
 
     void ActivateScreen()
     {
-        // Oculto prompt
         if (clickCanvas != null)
             clickCanvas.SetActive(false);
 
@@ -221,6 +206,9 @@ public class TerminalMal : MonoBehaviour
         hasActivated = true;
         screenOpening = true;
         screenCanvas.SetActive(true);
+
+        if (audio2Nere != null && NarrationManager.Instance != null)
+            NarrationManager.Instance.PlayNarration(audio2Nere);
 
         originalCamPosition = playerCamera.transform.position;
         originalCamRotation = playerCamera.transform.rotation;
@@ -236,7 +224,6 @@ public class TerminalMal : MonoBehaviour
 
         NarrationManager.Instance.repeatEnabled = false;
 
-        // Inicializar glitches
         baseWords = fullText.Split(' ');
         int nEntries = glitchEntries.Length;
         glitchPositions = new List<int>[nEntries];
@@ -404,6 +391,10 @@ public class TerminalMal : MonoBehaviour
             currentWordIndex++;
             inputField.text = "";
 
+            // Nueva narración solo al acertar la primera palabra
+            if (currentWordIndex == 1 && audio3Nere != null && NarrationManager.Instance != null)
+                NarrationManager.Instance.PlayNarration(audio3Nere);
+
             if (currentWordIndex >= glitchEntries.Length)
             {
                 PlayVideoAndClose();
@@ -415,10 +406,14 @@ public class TerminalMal : MonoBehaviour
         else
         {
             errorSound.Play();
+
+            if (audio12Nere != null && NarrationManager.Instance != null)
+                NarrationManager.Instance.PlayNarration(audio12Nere);
             inputField.text = "";
             inputField.ActivateInputField();
         }
     }
+
 
     void PlayVideoAndClose()
     {
@@ -428,7 +423,7 @@ public class TerminalMal : MonoBehaviour
             g.StopGlitchAndType();
 
         videoPlayer.Play();
-        NarrationManager.Instance.PlayNarration(audio2Nere);
+        NarrationManager.Instance.PlayNarration(audio4Nere);
         FindObjectOfType<AudioTriggerFinal>()?.CambiarYReproducir();
         FindObjectOfType<MaterialChangerFinal>()?.CambiarMaterial();
         videoPlayer.loopPointReached += _ => StartCoroutine(CloseCanvasCoroutine());
@@ -462,6 +457,8 @@ public class TerminalMal : MonoBehaviour
         NarrationManager.Instance.repeatEnabled = true;
         eventCamera.gameObject.SetActive(false);
         playerCamera.gameObject.SetActive(true);
+        if (audio13Nere != null && NarrationManager.Instance != null)
+            NarrationManager.Instance.PlayNarration(audio13Nere);
         if (playerController != null) playerController.enabled = true;
         if (objectToDisable != null) objectToDisable.SetActive(true);
         if (objetoOriginalRenderer != null && objetoNuevoRenderer != null)

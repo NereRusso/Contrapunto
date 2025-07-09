@@ -16,6 +16,8 @@ public class PalancaJackpotFisico : MonoBehaviour
 
     [Header("Narración")]
     public AudioClip audio3Marti;
+    [Tooltip("Narración especial solo para el primer intento fallido")]
+    public AudioClip audio32Marti;
 
     [Header("Sonidos combinados")]
     public AudioSource audioSource;
@@ -39,6 +41,7 @@ public class PalancaJackpotFisico : MonoBehaviour
 
     private bool isRolling = false;
     private bool isJackpotCompleted = false;
+    private bool primerFalloYaOcurrido = false;
 
     private Coroutine spinLetra, spinSimbolo, spinNumero;
     private Camera mainCamera;
@@ -89,6 +92,13 @@ public class PalancaJackpotFisico : MonoBehaviour
         bool esJackpot = JackpotManager.Instance.forceLetterC &&
                          JackpotManager.Instance.forceSymbolStar &&
                          JackpotManager.Instance.forceNumber12;
+
+        // ?? Narración especial si es el primer fallo
+        if (!esJackpot && !primerFalloYaOcurrido && audio32Marti != null)
+        {
+            NarrationManager.Instance.PlayNarration(audio32Marti);
+            primerFalloYaOcurrido = true;
+        }
 
         // Reproducir sonido inicial
         if (audioSource)

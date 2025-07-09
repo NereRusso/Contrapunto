@@ -33,6 +33,7 @@ public class CameraControllerTwo : MonoBehaviour
     [Header("Otros")]
     public GameObject player;
     public GameObject objectToEnableOnExit;
+    public GameObject objectToEnableOnExit2;
 
     [Header("Narración")]
     public AudioClip audio2Marti;
@@ -189,6 +190,9 @@ public class CameraControllerTwo : MonoBehaviour
 
         if (objectToEnableOnExit != null)
             objectToEnableOnExit.SetActive(true);
+
+        if (objectToEnableOnExit2 != null)
+            objectToEnableOnExit2.SetActive(true);
 
         if (audio2Marti != null)
         {
