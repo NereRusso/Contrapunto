@@ -9,6 +9,7 @@ public class ObjectPlacementTracker : MonoBehaviour
 
     [Header("Objetos a habilitar al completar")]
     public GameObject[] objetosAHabilitar;
+    public GameObject[] objetosADeshabilitar;
 
     [Header("Cambio de audio al completar")]
     public AudioSource targetAudioSource;
@@ -36,6 +37,12 @@ public class ObjectPlacementTracker : MonoBehaviour
             {
                 if (obj != null)
                     obj.SetActive(true);
+            }
+            
+            foreach (GameObject obj in objetosADeshabilitar)
+            {
+                if (obj != null)
+                    obj.SetActive(false);
             }
 
             // Cambio simple de audio

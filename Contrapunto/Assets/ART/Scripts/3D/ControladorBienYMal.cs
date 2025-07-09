@@ -1,14 +1,17 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.Video;
 
 public class ControladorBienYMal : MonoBehaviour
 {
+    [Header("Video")]
     public GameObject canvasVideo;
     public VideoPlayer videoPlayer;
 
-    public GameObject objetoAReemplazar;
-    public GameObject objetoReemplazo;
+    [Header("Objetos a reemplazar")]
+    public List<GameObject> objetosADesactivar = new List<GameObject>();
+    public List<GameObject> objetosAActivar = new List<GameObject>();
 
     public void IniciarSecuencia()
     {
@@ -26,19 +29,26 @@ public class ControladorBienYMal : MonoBehaviour
         {
             videoPlayer.Play();
 
-            // Esperamos a que tenga duración válida
+            // Esperar a que tenga duración válida
             while (videoPlayer.length == 0)
                 yield return null;
 
             double mitad = videoPlayer.length / 2.0;
-
             yield return new WaitForSeconds((float)mitad);
 
-            if (objetoAReemplazar != null)
-                objetoAReemplazar.SetActive(false);
+            // Desactivar todos los objetos en la lista
+            foreach (GameObject obj in objetosADesactivar)
+            {
+                if (obj != null)
+                    obj.SetActive(false);
+            }
 
-            if (objetoReemplazo != null)
-                objetoReemplazo.SetActive(true);
+            // Activar todos los objetos en la otra lista
+            foreach (GameObject obj in objetosAActivar)
+            {
+                if (obj != null)
+                    obj.SetActive(true);
+            }
         }
     }
 }

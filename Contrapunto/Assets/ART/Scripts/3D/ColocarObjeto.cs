@@ -7,14 +7,18 @@ public class ColocarObjeto : MonoBehaviour
     public AmbientZone ambientZone;
 
     [Tooltip("Arrastrá acá tu script ControladorBienYMal")]
-    public ControladorBienYMal controlador; // NUEVO: arrastrá el otro script en el Inspector
+    public ControladorBienYMal controlador;
 
     [Header("Prompt de click")]
-    [Tooltip("Arrastrá acá tu Canvas (o GameObject) con el texto “click”")]
     public GameObject clickCanvas;
-    [Tooltip("Distancia máxima para que aparezca el prompt")]
     public float pickupRange = 3f;
 
+    [Header("Narraciones por paso")]
+    public AudioClip audio4Reni;
+    public AudioClip audio12Reni;
+    public AudioClip audio22Reni;
+
+    private static int objetosColocados = 0; // Lleva la cuenta total de colocados válidos
     private Camera mainCamera;
 
     private void Start()
@@ -26,7 +30,6 @@ public class ColocarObjeto : MonoBehaviour
 
     private void OnMouseEnter()
     {
-        // Al pasar el cursor (o crosshair) sobre el collider y si estamos cerca, mostramos el texto
         if (mainCamera != null && clickCanvas != null &&
             Vector3.Distance(mainCamera.transform.position, transform.position) <= pickupRange)
         {
@@ -36,18 +39,15 @@ public class ColocarObjeto : MonoBehaviour
 
     private void OnMouseExit()
     {
-        // Al salir del collider, ocultamos el texto
         if (clickCanvas != null)
             clickCanvas.SetActive(false);
     }
 
     private void OnMouseDown()
     {
-        // Ocultamos el prompt al hacer click
         if (clickCanvas != null)
             clickCanvas.SetActive(false);
 
-        // Lógica original de colocación
         var heldObject = HeldInventory.Instance.GetHeldObject(requiredObjectID);
         if (heldObject != null)
         {
@@ -65,6 +65,19 @@ public class ColocarObjeto : MonoBehaviour
 
             if (controlador != null)
                 controlador.IniciarSecuencia();
+
+            // ? Reproducir narración por orden de colocación
+            if (NarrationManager.Instance != null)
+            {
+                if (objetosColocados == 0 && audio4Reni != null)
+                    NarrationManager.Instance.PlayNarration(audio4Reni);
+                else if (objetosColocados == 1 && audio12Reni != null)
+                    NarrationManager.Instance.PlayNarration(audio12Reni);
+                else if (objetosColocados == 2 && audio22Reni != null)
+                    NarrationManager.Instance.PlayNarration(audio22Reni);
+            }
+
+            objetosColocados++; // Incrementamos después
         }
         else
         {
