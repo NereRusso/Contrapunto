@@ -56,10 +56,16 @@ public class NarrationManager : MonoBehaviour
 
         if (repeatEnabled &&
             Input.GetKeyDown(KeyCode.E) &&
-            !isPlayingNarration &&
-            lastNarrationClip != null)
+            !isPlayingNarration)
         {
-            PlayNarration(lastNarrationClip);
+            if (lastNarrationClip != null)
+            {
+                PlayNarration(lastNarrationClip);
+            }
+            else if (narrationSource.clip != null)
+            {
+                PlayNarration(narrationSource.clip);
+            }
         }
     }
 

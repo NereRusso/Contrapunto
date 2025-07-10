@@ -19,24 +19,33 @@ public class PalancaJackpotFisico : MonoBehaviour
     [Tooltip("Narración especial solo para el primer intento fallido")]
     public AudioClip audio32Marti;
 
+    [Header("Povs")]
+    public GameObject povC;
+
     [Header("Sonidos combinados")]
     public AudioSource audioSource;
-    public AudioClip sonidoCompletoWin;   // incluye ruedas + éxito
-    public AudioClip sonidoCompletoFail;  // incluye ruedas + falla
+    public AudioClip sonidoCompletoWin;
+    public AudioClip sonidoCompletoFail;
 
     [Header("Audio ambiente")]
     public AudioSource ambientAudioSource;
     public AudioClip ambientClipPostJackpot;
     public float fadeDuration = 1.5f;
 
-    [Header("Activar / Desactivar objetos al Jackpot")]
+    [Header("Objetos al resolver la segunda rueda (Síombolo) Último")]
     public List<GameObject> objetosADesactivar;
     public List<GameObject> objetosAActivar;
 
+    [Header("Objetos al resolver primera rueda (Letra)")]
+    public List<GameObject> objetosADesactivarLetra;
+    public List<GameObject> objetosAActivarLetra;
+
+    [Header("Objetos al resolver tercera rueda (Número)")]
+    public List<GameObject> objetosADesactivarNumero;
+    public List<GameObject> objetosAActivarNumero;
+
     [Header("Prompt de click")]
-    [Tooltip("Arrastrá acá tu Canvas (o GameObject) con el texto “click”")]
     public GameObject clickCanvas;
-    [Tooltip("Distancia máxima para que aparezca el prompt")]
     public float pickupRange = 3f;
 
     private bool isRolling = false;
@@ -74,7 +83,6 @@ public class PalancaJackpotFisico : MonoBehaviour
 
     void OnMouseDown()
     {
-        // Oculta el prompt al clicar
         if (clickCanvas != null)
             clickCanvas.SetActive(false);
 
@@ -93,14 +101,16 @@ public class PalancaJackpotFisico : MonoBehaviour
                          JackpotManager.Instance.forceSymbolStar &&
                          JackpotManager.Instance.forceNumber12;
 
-        // ?? Narración especial si es el primer fallo
+        // Narración especial si es el primer fallo
         if (!esJackpot && !primerFalloYaOcurrido && audio32Marti != null)
         {
             NarrationManager.Instance.PlayNarration(audio32Marti);
             primerFalloYaOcurrido = true;
+
+            if (povC != null)
+                povC.SetActive(true);
         }
 
-        // Reproducir sonido inicial
         if (audioSource)
         {
             AudioClip clipElegido = esJackpot ? sonidoCompletoWin : sonidoCompletoFail;
@@ -122,6 +132,16 @@ public class PalancaJackpotFisico : MonoBehaviour
         StopCoroutine(spinLetra);
         yield return StartCoroutine(FrenarSoloDiff(ruedaLetra, JackpotManager.Instance.forceLetterC));
 
+        // Activar/desactivar objetos al resolver la primera rueda
+        if (JackpotManager.Instance.forceLetterC)
+        {
+            foreach (var obj in objetosADesactivarLetra)
+                if (obj != null) obj.SetActive(false);
+
+            foreach (var obj in objetosAActivarLetra)
+                if (obj != null) obj.SetActive(true);
+        }
+
         yield return new WaitForSeconds(0.4f);
         StopCoroutine(spinSimbolo);
         yield return StartCoroutine(FrenarSoloDiff(ruedaSimbolo, JackpotManager.Instance.forceSymbolStar));
@@ -129,6 +149,16 @@ public class PalancaJackpotFisico : MonoBehaviour
         yield return new WaitForSeconds(0.4f);
         StopCoroutine(spinNumero);
         yield return StartCoroutine(FrenarSoloDiff(ruedaNumero, JackpotManager.Instance.forceNumber12));
+
+        // Activar/desactivar objetos al resolver la tercera rueda (Número)
+        if (JackpotManager.Instance.forceNumber12)
+        {
+            foreach (var obj in objetosADesactivarNumero)
+                if (obj != null) obj.SetActive(false);
+
+            foreach (var obj in objetosAActivarNumero)
+                if (obj != null) obj.SetActive(true);
+        }
 
         if (esJackpot)
         {

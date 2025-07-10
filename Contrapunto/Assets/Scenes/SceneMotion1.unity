@@ -12763,7 +12763,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: ee2b8b118fb2ed64ba9fa8e9b9c22698, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -12890,6 +12890,14 @@ MonoBehaviour:
       No, no, no. Me vuelvo loca."
   - clip: {fileID: 8300000, guid: bbd4ab60f81349742b3651a02e7feba8, type: 3}
     subtitle: "Mili:\n\xBFNos estaremos sincronizando? A ver, fijate que\u2026"
+  - clip: {fileID: 8300000, guid: ee2b8b118fb2ed64ba9fa8e9b9c22698, type: 3}
+    subtitle: "Mili:\nHola! Por fin alguien!! No entiendo qu\xE9 pas\xF3. Hace unos
+      instantes estaba con las chicas y de repente hubo una explosi\xF3n. Aparec\xED
+      ac\xE1 y no logro encontrar un camino para encontrarlas. Este lugar es extra\xF1o,
+      mira estos videos, \xBFpor qu\xE9 est\xE1n rotos as\xED?  Honestamente no se
+      que hacer, as\xED que voy a necesitar tu ayuda. Hay unos tri\xE1ngulos, relojes
+      de arena o no s\xE9 qu\xE9 son, flotando por ac\xE1. No logro saber para qu\xE9
+      funcionan!! Porfavor ayudame"
   repeatEnabled: 1
 --- !u!1 &1859414013
 GameObject:

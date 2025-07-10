@@ -6932,7 +6932,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: e84888d8a87119843a4aba195d111b7d, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -7053,6 +7053,9 @@ MonoBehaviour:
   - clip: {fileID: 8300000, guid: ee2b8b118fb2ed64ba9fa8e9b9c22698, type: 3}
     subtitle: "Nere:\n\xBF\xBFEso que brilla ser\xE1 la sincronizaci\xF3n final??
       Fijate por favor, necesito volver con las chicas."
+  - clip: {fileID: 8300000, guid: e84888d8a87119843a4aba195d111b7d, type: 3}
+    subtitle: "Nere:\nBueno bueeeno, mira quien me vengo a encontrar\u2026 No s\xE9
+      muy bien qu\xE9 pasa con este lugar, desde que llegu\xE9 est\xE1 todo desincronizado."
   repeatEnabled: 1
 --- !u!1 &555192378
 GameObject:
