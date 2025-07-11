@@ -1,6 +1,8 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using StarterAssets;
+using UnityEngine.InputSystem;
 
 public class PalancaJackpotFisico : MonoBehaviour
 {
@@ -9,6 +11,7 @@ public class PalancaJackpotFisico : MonoBehaviour
     public Transform ruedaSimbolo;
     public Transform ruedaNumero;
 
+    [Header("Animador de palanca")]
     public Animator animator;
 
     [Header("Activación final")]
@@ -24,7 +27,16 @@ public class PalancaJackpotFisico : MonoBehaviour
     public AudioClip audio32Marti;
 
     [Header("Povs")]
-    public GameObject povC;
+    public GameObject povC;                    // <— aquí
+
+    [Header("Cámaras")]
+    public Camera playerCamera;
+    public Camera jackpotCamera;
+
+    [Header("Animación de cámara")]
+    public Transform jackpotCamTarget;
+    public float cameraMoveSpeed = 2f;
+    public float cameraReturnSpeed = 2f;
 
     [Header("Sonidos combinados")]
     public AudioSource audioSource;
@@ -36,7 +48,7 @@ public class PalancaJackpotFisico : MonoBehaviour
     public AudioClip ambientClipPostJackpot;
     public float fadeDuration = 1.5f;
 
-    [Header("Objetos al resolver la segunda rueda (Símbolo) Último")]
+    [Header("Objetos al resolver (Símbolo) Último")]
     public List<GameObject> objetosADesactivar;
     public List<GameObject> objetosAActivar;
 
@@ -52,14 +64,25 @@ public class PalancaJackpotFisico : MonoBehaviour
     public GameObject clickCanvas;
     public float pickupRange = 3f;
 
+    // Internals
     private bool isRolling = false;
     private bool isJackpotCompleted = false;
     private bool primerFalloYaOcurrido = false;
-    private bool letraNarracionReproducida = false;   // Flag para la narración de letra
-    private bool numeroNarracionReproducida = false; // Flag para la narración de número
+    private bool letraNarracionReproducida = false;
+    private bool numeroNarracionReproducida = false;
 
     private Coroutine spinLetra, spinSimbolo, spinNumero;
     private Camera mainCamera;
+
+    // Para deshabilitar/mantener controles
+    private FirstPersonController playerController;
+    private StarterAssetsInputs inputScript;
+    private PlayerInput playerInput;
+
+    // Para animación de cámara
+    private Vector3 originalCamPos;
+    private Quaternion originalCamRot;
+    private bool movingCamera = false;
 
     private readonly float[] alternativas = new float[] { 78f, 145f, 222f, 292f };
     private const float resultadoCorrecto = 0f;
@@ -67,33 +90,52 @@ public class PalancaJackpotFisico : MonoBehaviour
     void Start()
     {
         mainCamera = Camera.main;
-        if (clickCanvas != null)
-            clickCanvas.SetActive(false);
+        if (clickCanvas != null) clickCanvas.SetActive(false);
+        if (jackpotCamera != null) jackpotCamera.gameObject.SetActive(false);
+
+        playerController = FindObjectOfType<FirstPersonController>();
+        inputScript = playerController ? playerController.GetComponent<StarterAssetsInputs>() : null;
+        playerInput = playerController ? playerController.GetComponent<PlayerInput>() : null;
+    }
+
+    void Update()
+    {
+        if (movingCamera && jackpotCamera != null && jackpotCamTarget != null)
+        {
+            jackpotCamera.transform.position = Vector3.Lerp(
+                jackpotCamera.transform.position,
+                jackpotCamTarget.position,
+                Time.deltaTime * cameraMoveSpeed
+            );
+            jackpotCamera.transform.rotation = Quaternion.Slerp(
+                jackpotCamera.transform.rotation,
+                jackpotCamTarget.rotation,
+                Time.deltaTime * cameraMoveSpeed
+            );
+            if (Vector3.Distance(jackpotCamera.transform.position, jackpotCamTarget.position) < 0.05f &&
+                Quaternion.Angle(jackpotCamera.transform.rotation, jackpotCamTarget.rotation) < 1f)
+            {
+                movingCamera = false;
+            }
+        }
     }
 
     private void OnMouseEnter()
     {
         if (!isRolling && !isJackpotCompleted &&
-            mainCamera != null && clickCanvas != null &&
             Vector3.Distance(mainCamera.transform.position, transform.position) <= pickupRange)
-        {
-            clickCanvas.SetActive(true);
-        }
+            clickCanvas?.SetActive(true);
     }
 
     private void OnMouseExit()
     {
-        if (clickCanvas != null)
-            clickCanvas.SetActive(false);
+        clickCanvas?.SetActive(false);
     }
 
     void OnMouseDown()
     {
-        if (clickCanvas != null)
-            clickCanvas.SetActive(false);
-
-        if (isRolling || isJackpotCompleted)
-            return;
+        clickCanvas?.SetActive(false);
+        if (isRolling || isJackpotCompleted) return;
 
         animator.SetTrigger("PlayClick");
         StartCoroutine(StartJackpot());
@@ -103,28 +145,40 @@ public class PalancaJackpotFisico : MonoBehaviour
     {
         isRolling = true;
 
+        // Desactivar controles
+        if (playerController != null) playerController.enabled = false;
+        if (inputScript != null) inputScript.enabled = false;
+        if (playerInput != null) playerInput.enabled = false;
+
+        // Configurar cámaras
+        originalCamPos = playerCamera.transform.position;
+        originalCamRot = playerCamera.transform.rotation;
+        jackpotCamera.transform.position = originalCamPos;
+        jackpotCamera.transform.rotation = originalCamRot;
+        jackpotCamera.gameObject.SetActive(true);
+        playerCamera.gameObject.SetActive(false);
+
+        // Animar a target
+        movingCamera = true;
+        yield return new WaitUntil(() => movingCamera == false);
+
+        // Narración primer fallo + activar povC
         bool esJackpot = JackpotManager.Instance.forceLetterC &&
                          JackpotManager.Instance.forceSymbolStar &&
                          JackpotManager.Instance.forceNumber12;
-
-        // Narración especial si es el primer fallo
         if (!esJackpot && !primerFalloYaOcurrido && audio23Marti != null)
         {
             NarrationManager.Instance.PlayNarration(audio23Marti);
             primerFalloYaOcurrido = true;
-
-            if (povC != null)
+            if (povC != null)            // <— aquí
                 povC.SetActive(true);
         }
 
+        // Sonido compuesto
         if (audioSource)
         {
-            AudioClip clipElegido = esJackpot ? sonidoCompletoWin : sonidoCompletoFail;
-            if (clipElegido != null)
-            {
-                audioSource.clip = clipElegido;
-                audioSource.PlayDelayed(0.05f);
-            }
+            var clip = esJackpot ? sonidoCompletoWin : sonidoCompletoFail;
+            if (clip != null) audioSource.PlayOneShot(clip);
         }
 
         yield return new WaitForSeconds(0.03f);
@@ -134,20 +188,14 @@ public class PalancaJackpotFisico : MonoBehaviour
         spinSimbolo = StartCoroutine(GirarLibre(ruedaSimbolo));
         spinNumero = StartCoroutine(GirarLibre(ruedaNumero));
 
+        // Frenar letra
         yield return new WaitForSeconds(1.2f);
         StopCoroutine(spinLetra);
         yield return StartCoroutine(FrenarSoloDiff(ruedaLetra, JackpotManager.Instance.forceLetterC));
-
-        // Activar/desactivar objetos al resolver la primera rueda
         if (JackpotManager.Instance.forceLetterC)
         {
-            foreach (var obj in objetosADesactivarLetra)
-                if (obj != null) obj.SetActive(false);
-
-            foreach (var obj in objetosAActivarLetra)
-                if (obj != null) obj.SetActive(true);
-
-            // Solo la primera vez que sale la letra correcta
+            objetosADesactivarLetra.ForEach(o => o?.SetActive(false));
+            objetosAActivarLetra.ForEach(o => o?.SetActive(true));
             if (!letraNarracionReproducida && audio33Marti != null)
             {
                 NarrationManager.Instance.PlayNarration(audio33Marti);
@@ -155,24 +203,19 @@ public class PalancaJackpotFisico : MonoBehaviour
             }
         }
 
+        // Frenar símbolo
         yield return new WaitForSeconds(0.4f);
         StopCoroutine(spinSimbolo);
         yield return StartCoroutine(FrenarSoloDiff(ruedaSimbolo, JackpotManager.Instance.forceSymbolStar));
 
+        // Frenar número
         yield return new WaitForSeconds(0.4f);
         StopCoroutine(spinNumero);
         yield return StartCoroutine(FrenarSoloDiff(ruedaNumero, JackpotManager.Instance.forceNumber12));
-
-        // Activar/desactivar objetos al resolver la tercera rueda (Número)
         if (JackpotManager.Instance.forceNumber12)
         {
-            foreach (var obj in objetosADesactivarNumero)
-                if (obj != null) obj.SetActive(false);
-
-            foreach (var obj in objetosAActivarNumero)
-                if (obj != null) obj.SetActive(true);
-
-            // Solo la primera vez que sale el número correcto
+            objetosADesactivarNumero.ForEach(o => o?.SetActive(false));
+            objetosAActivarNumero.ForEach(o => o?.SetActive(true));
             if (!numeroNarracionReproducida && audio32Marti != null)
             {
                 NarrationManager.Instance.PlayNarration(audio32Marti);
@@ -180,25 +223,36 @@ public class PalancaJackpotFisico : MonoBehaviour
             }
         }
 
+        // Lógica jackpot completo
         if (esJackpot)
         {
             isJackpotCompleted = true;
-
-            if (audio3Marti != null)
-                NarrationManager.Instance.PlayNarration(audio3Marti);
-
-            if (specialObject != null)
-                specialObject.SetActive(true);
-
+            if (audio3Marti != null) NarrationManager.Instance.PlayNarration(audio3Marti);
+            specialObject?.SetActive(true);
             if (ambientAudioSource != null && ambientClipPostJackpot != null)
                 StartCoroutine(CrossfadeAmbientAudio(ambientAudioSource, ambientClipPostJackpot, fadeDuration));
-
-            foreach (var obj in objetosADesactivar)
-                if (obj != null) obj.SetActive(false);
-
-            foreach (var obj in objetosAActivar)
-                if (obj != null) obj.SetActive(true);
+            objetosADesactivar.ForEach(o => o?.SetActive(false));
+            objetosAActivar.ForEach(o => o?.SetActive(true));
         }
+
+        // Animar vuelta de cámara
+        float t = 0f;
+        Vector3 startPos = jackpotCamera.transform.position;
+        Quaternion startRot = jackpotCamera.transform.rotation;
+        while (t < 1f)
+        {
+            t += Time.deltaTime * cameraReturnSpeed;
+            jackpotCamera.transform.position = Vector3.Lerp(startPos, originalCamPos, t);
+            jackpotCamera.transform.rotation = Quaternion.Slerp(startRot, originalCamRot, t);
+            yield return null;
+        }
+
+        // Restaurar controles y cámara jugador
+        jackpotCamera.gameObject.SetActive(false);
+        playerCamera.gameObject.SetActive(true);
+        if (playerController != null) playerController.enabled = true;
+        if (inputScript != null) inputScript.enabled = true;
+        if (playerInput != null) playerInput.enabled = true;
 
         isRolling = false;
     }
@@ -215,26 +269,20 @@ public class PalancaJackpotFisico : MonoBehaviour
 
     IEnumerator FrenarSoloDiff(Transform rueda, bool forceCorrect)
     {
-        float destinoZ = forceCorrect
-            ? resultadoCorrecto
-            : alternativas[Random.Range(0, alternativas.Length)];
-
+        float destinoZ = forceCorrect ? resultadoCorrecto : alternativas[Random.Range(0, alternativas.Length)];
         float zNorm = (rueda.localEulerAngles.z % 360f + 360f) % 360f;
         float diff = (zNorm - destinoZ + 360f) % 360f;
-
         float startZ = rueda.localEulerAngles.z;
         float endZ = startZ - diff;
-
         float spinSpeed = 720f;
-        float baseDur = diff / spinSpeed;
-        float duration = Mathf.Max(baseDur, 0.5f);
+        float duration = Mathf.Max(diff / spinSpeed, 0.5f);
         float elapsed = 0f;
 
         while (elapsed < duration)
         {
             elapsed += Time.deltaTime;
-            float t = Mathf.Clamp01(elapsed / duration);
-            float eased = 1f - (1f - t) * (1f - t);
+            float tParam = Mathf.Clamp01(elapsed / duration);
+            float eased = 1f - (1f - tParam) * (1f - tParam);
             float z = Mathf.Lerp(startZ, endZ, eased);
             rueda.localEulerAngles = new Vector3(0, 0, z);
             yield return null;
@@ -245,13 +293,12 @@ public class PalancaJackpotFisico : MonoBehaviour
 
     IEnumerator CrossfadeAmbientAudio(AudioSource source, AudioClip newClip, float duration)
     {
-        float startVolume = source.volume;
+        float startVol = source.volume;
         float timer = 0f;
-
         while (timer < duration)
         {
             timer += Time.deltaTime;
-            source.volume = Mathf.Lerp(startVolume, 0f, timer / duration);
+            source.volume = Mathf.Lerp(startVol, 0f, timer / duration);
             yield return null;
         }
 
@@ -263,10 +310,9 @@ public class PalancaJackpotFisico : MonoBehaviour
         while (timer < duration)
         {
             timer += Time.deltaTime;
-            source.volume = Mathf.Lerp(0f, startVolume, timer / duration);
+            source.volume = Mathf.Lerp(0f, startVol, timer / duration);
             yield return null;
         }
-
-        source.volume = startVolume;
+        source.volume = startVol;
     }
 }

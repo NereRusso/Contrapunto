@@ -3152,6 +3152,11 @@ MonoBehaviour:
   audio33Marti: {fileID: 8300000, guid: 07b20554e4a61e940b3bab75bba1f618, type: 3}
   audio32Marti: {fileID: 8300000, guid: 4d2486858d9757648bdf8eb1fb3a70f9, type: 3}
   povC: {fileID: 1942305338}
+  playerCamera: {fileID: 1043209906}
+  jackpotCamera: {fileID: 988485467}
+  jackpotCamTarget: {fileID: 1514347661}
+  cameraMoveSpeed: 2
+  cameraReturnSpeed: 2
   audioSource: {fileID: 1041843290}
   sonidoCompletoWin: {fileID: 8300000, guid: 143fbc4241e4a824f89cd047929f0cc9, type: 3}
   sonidoCompletoFail: {fileID: 8300000, guid: 7b25d74b212c0be4aa51c1098f395fae, type: 3}
@@ -7810,7 +7815,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &988485465
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8274,6 +8279,16 @@ PrefabInstance:
       propertyPath: m_Cameras.Array.data[0]
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 4253012990419024484, guid: 035bf1ba97d19214580cfe6f5a29fdc3,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4253012990419024489, guid: 035bf1ba97d19214580cfe6f5a29fdc3,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4253012990419024490, guid: 035bf1ba97d19214580cfe6f5a29fdc3,
         type: 3}
       propertyPath: m_LocalScale.y
@@ -8406,6 +8421,12 @@ PrefabInstance:
 --- !u!4 &1043209905 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5126527961139664760, guid: 035bf1ba97d19214580cfe6f5a29fdc3,
+    type: 3}
+  m_PrefabInstance: {fileID: 1043209904}
+  m_PrefabAsset: {fileID: 0}
+--- !u!20 &1043209906 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 5126527961139664767, guid: 035bf1ba97d19214580cfe6f5a29fdc3,
     type: 3}
   m_PrefabInstance: {fileID: 1043209904}
   m_PrefabAsset: {fileID: 0}
@@ -11793,13 +11814,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1514347660}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: -76.766, y: 2.481, z: 65.637}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!1 &1514920271
 GameObject:
   m_ObjectHideFlags: 0
