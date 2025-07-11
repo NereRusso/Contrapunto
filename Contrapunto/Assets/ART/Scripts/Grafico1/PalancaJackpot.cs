@@ -19,7 +19,9 @@ public class PalancaJackpotFisico : MonoBehaviour
     [Tooltip("Narración especial solo para el primer intento fallido")]
     public AudioClip audio23Marti;
     [Tooltip("Narración que suena al resolver la primera rueda (Letra)")]
-    public AudioClip audioLetraNarracion;
+    public AudioClip audio33Marti;
+    [Tooltip("Narración que suena al resolver la tercera rueda (Número)")]
+    public AudioClip audio32Marti;
 
     [Header("Povs")]
     public GameObject povC;
@@ -53,7 +55,8 @@ public class PalancaJackpotFisico : MonoBehaviour
     private bool isRolling = false;
     private bool isJackpotCompleted = false;
     private bool primerFalloYaOcurrido = false;
-    private bool letraNarracionReproducida = false;  // Flag para la primera narración de letra
+    private bool letraNarracionReproducida = false;   // Flag para la narración de letra
+    private bool numeroNarracionReproducida = false; // Flag para la narración de número
 
     private Coroutine spinLetra, spinSimbolo, spinNumero;
     private Camera mainCamera;
@@ -145,9 +148,9 @@ public class PalancaJackpotFisico : MonoBehaviour
                 if (obj != null) obj.SetActive(true);
 
             // Solo la primera vez que sale la letra correcta
-            if (!letraNarracionReproducida && audioLetraNarracion != null)
+            if (!letraNarracionReproducida && audio33Marti != null)
             {
-                NarrationManager.Instance.PlayNarration(audioLetraNarracion);
+                NarrationManager.Instance.PlayNarration(audio33Marti);
                 letraNarracionReproducida = true;
             }
         }
@@ -168,6 +171,13 @@ public class PalancaJackpotFisico : MonoBehaviour
 
             foreach (var obj in objetosAActivarNumero)
                 if (obj != null) obj.SetActive(true);
+
+            // Solo la primera vez que sale el número correcto
+            if (!numeroNarracionReproducida && audio32Marti != null)
+            {
+                NarrationManager.Instance.PlayNarration(audio32Marti);
+                numeroNarracionReproducida = true;
+            }
         }
 
         if (esJackpot)
