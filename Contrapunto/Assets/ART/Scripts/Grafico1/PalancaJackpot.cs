@@ -17,7 +17,9 @@ public class PalancaJackpotFisico : MonoBehaviour
     [Header("Narración")]
     public AudioClip audio3Marti;
     [Tooltip("Narración especial solo para el primer intento fallido")]
-    public AudioClip audio32Marti;
+    public AudioClip audio23Marti;
+    [Tooltip("Narración que suena al resolver la primera rueda (Letra)")]
+    public AudioClip audioLetraNarracion;
 
     [Header("Povs")]
     public GameObject povC;
@@ -32,7 +34,7 @@ public class PalancaJackpotFisico : MonoBehaviour
     public AudioClip ambientClipPostJackpot;
     public float fadeDuration = 1.5f;
 
-    [Header("Objetos al resolver la segunda rueda (Síombolo) Último")]
+    [Header("Objetos al resolver la segunda rueda (Símbolo) Último")]
     public List<GameObject> objetosADesactivar;
     public List<GameObject> objetosAActivar;
 
@@ -51,6 +53,7 @@ public class PalancaJackpotFisico : MonoBehaviour
     private bool isRolling = false;
     private bool isJackpotCompleted = false;
     private bool primerFalloYaOcurrido = false;
+    private bool letraNarracionReproducida = false;  // Flag para la primera narración de letra
 
     private Coroutine spinLetra, spinSimbolo, spinNumero;
     private Camera mainCamera;
@@ -102,9 +105,9 @@ public class PalancaJackpotFisico : MonoBehaviour
                          JackpotManager.Instance.forceNumber12;
 
         // Narración especial si es el primer fallo
-        if (!esJackpot && !primerFalloYaOcurrido && audio32Marti != null)
+        if (!esJackpot && !primerFalloYaOcurrido && audio23Marti != null)
         {
-            NarrationManager.Instance.PlayNarration(audio32Marti);
+            NarrationManager.Instance.PlayNarration(audio23Marti);
             primerFalloYaOcurrido = true;
 
             if (povC != null)
@@ -140,6 +143,13 @@ public class PalancaJackpotFisico : MonoBehaviour
 
             foreach (var obj in objetosAActivarLetra)
                 if (obj != null) obj.SetActive(true);
+
+            // Solo la primera vez que sale la letra correcta
+            if (!letraNarracionReproducida && audioLetraNarracion != null)
+            {
+                NarrationManager.Instance.PlayNarration(audioLetraNarracion);
+                letraNarracionReproducida = true;
+            }
         }
 
         yield return new WaitForSeconds(0.4f);

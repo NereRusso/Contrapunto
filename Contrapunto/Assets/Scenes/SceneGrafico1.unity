@@ -791,6 +791,27 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 681670757}
   m_PrefabAsset: {fileID: 0}
+--- !u!95 &54326076
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 54326072}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: fdd8f74e073dee946a048b4b19ffcbe1, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &55414933
 GameObject:
   m_ObjectHideFlags: 0
@@ -2187,7 +2208,7 @@ Transform:
   m_GameObject: {fileID: 198157432}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -125.9, y: -4.3616567, z: 53.11}
+  m_LocalPosition: {x: -125.9, y: -4.3616567, z: 53.73}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3127,7 +3148,7 @@ MonoBehaviour:
   animator: {fileID: 249900226}
   specialObject: {fileID: 619394747}
   audio3Marti: {fileID: 8300000, guid: ff632af0c0d3df541bf9078e5c9f623b, type: 3}
-  audio32Marti: {fileID: 8300000, guid: 4d2486858d9757648bdf8eb1fb3a70f9, type: 3}
+  audio23Marti: {fileID: 8300000, guid: 1cb17078f78621b4cad6494f64c30302, type: 3}
   povC: {fileID: 1942305338}
   audioSource: {fileID: 1041843290}
   sonidoCompletoWin: {fileID: 8300000, guid: 143fbc4241e4a824f89cd047929f0cc9, type: 3}
@@ -4965,17 +4986,17 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 36ff0cbbb2e8ad141bd5cf295ac67bed,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 223.31
+      value: 217
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 36ff0cbbb2e8ad141bd5cf295ac67bed,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 223.31
+      value: 217
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 36ff0cbbb2e8ad141bd5cf295ac67bed,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 223.31
+      value: 217
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 36ff0cbbb2e8ad141bd5cf295ac67bed,
         type: 3}
@@ -5055,7 +5076,11 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 36ff0cbbb2e8ad141bd5cf295ac67bed,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 54326076}
   m_SourcePrefab: {fileID: 100100000, guid: 36ff0cbbb2e8ad141bd5cf295ac67bed, type: 3}
 --- !u!1 &696517733
 GameObject:
@@ -5652,14 +5677,14 @@ MonoBehaviour:
   minPitch: -5
   maxPitch: 5
   targetObject: {fileID: 1275145535}
-  centeringThreshold: 0.02
+  centeringThreshold: 0.015
   visorCamera: {fileID: 1988634573}
   player: {fileID: 1043209907}
   videoCanvasGroup: {fileID: 802448405}
   videoPlayer: {fileID: 967604737}
   sonidoAprobado: {fileID: 247615979}
   useManualSnap: 1
-  manualSnapPosition: {x: -68.12, y: 4.99, z: 79.3}
+  manualSnapPosition: {x: -68.12, y: 4.255, z: 79.3}
   manualSnapEulerRotation: {x: 0, y: 90, z: 0}
 --- !u!4 &810861259
 Transform:
@@ -5670,7 +5695,7 @@ Transform:
   m_GameObject: {fileID: 810861257}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -68.12, y: 4.99, z: 79.3}
+  m_LocalPosition: {x: -68.12, y: 4.255, z: 79.3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -7566,7 +7591,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 100
   m_TargetDisplay: 0
 --- !u!224 &942923300
 RectTransform:
@@ -8806,6 +8831,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 5f5a7809549536747a0d68aba0cc524f,
         type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 5f5a7809549536747a0d68aba0cc524f,
+        type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
@@ -8832,7 +8862,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1140743594}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: fdd8f74e073dee946a048b4b19ffcbe1, type: 2}
   m_CullingMode: 0
@@ -9655,7 +9685,7 @@ Transform:
   m_GameObject: {fileID: 1275145534}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -216.46, y: 45.53, z: -14.74}
+  m_LocalPosition: {x: -216.46, y: 45.33, z: -14.74}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -9680,8 +9710,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 0.031291954}
-  m_Center: {x: -2.083434e-14, y: 0, z: -9.4660845}
+  m_Size: {x: 1, y: 0.43500876, z: 0.031291954}
+  m_Center: {x: -2.083434e-14, y: -0.28249562, z: -9.4660845}
 --- !u!1 &1275750728 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -2045257923548263128, guid: 7729e2853cb2f6c448448a3317b42151,
@@ -11374,14 +11404,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1453121858}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.004533559, y: -0.50029546, z: 0.002619562, w: 0.865839}
+  m_LocalRotation: {x: 0.0048252423, y: -0.3882341, z: 0.0020328055, w: 0.9215459}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 908467104}
   m_Father: {fileID: 1470788154}
-  m_LocalEulerAnglesHint: {x: 0.6, y: -60.04, z: 0}
+  m_LocalEulerAnglesHint: {x: 0.6, y: -45.69, z: 0}
 --- !u!1 &1470788152
 GameObject:
   m_ObjectHideFlags: 0
@@ -11429,8 +11459,8 @@ MonoBehaviour:
   videoPlayer: {fileID: 967604737}
   sonidoAprobado: {fileID: 247615979}
   useManualSnap: 1
-  manualSnapPosition: {x: -54.87, y: 4.119, z: 70.319}
-  manualSnapEulerRotation: {x: 0.6, y: -60.04, z: 0}
+  manualSnapPosition: {x: -55.498, y: 4.07, z: 67.46}
+  manualSnapEulerRotation: {x: 0.6, y: -45.69, z: 0}
 --- !u!4 &1470788154
 Transform:
   m_ObjectHideFlags: 0
@@ -11440,7 +11470,7 @@ Transform:
   m_GameObject: {fileID: 1470788152}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -54.87, y: 4.119, z: 70.319}
+  m_LocalPosition: {x: -55.498, y: 4.07, z: 67.921}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -12881,7 +12911,7 @@ Transform:
   m_GameObject: {fileID: 1799646658}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0.34464288, z: 0, w: 0.9387339}
-  m_LocalPosition: {x: -227.73, y: 46.07, z: -18.84}
+  m_LocalPosition: {x: -227.73, y: 46.07, z: -20.578}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -14307,6 +14337,9 @@ MonoBehaviour:
       Por favor, sacame de aca, necesito volver con mis amigas. No puedo seguir viendo
       esto, me sangran los ojos. No siguen una puta l\xEDnea ac\xE1 \xBFQu\xE9 les
       pasa?"
+  - clip: {fileID: 8300000, guid: 1cb17078f78621b4cad6494f64c30302, type: 3}
+    subtitle: "Marti:\nMir\xE1! ah\xED apareci\xF3 un visor como esos para mirar
+      paisajes, vamos a ver?"
   repeatEnabled: 1
 --- !u!1 &1978836225 stripped
 GameObject:
