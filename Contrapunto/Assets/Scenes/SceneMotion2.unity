@@ -855,7 +855,7 @@ MonoBehaviour:
   fadeCanvas: {fileID: 1123065997}
   fadeDuration: 1.5
   delayBeforeFade: 1
-  audio1Mili: {fileID: 8300000, guid: ec8f6d409850a3d40b731278d524f43a, type: 3}
+  audio1Mili: {fileID: 8300000, guid: 7fac9e5d7dd61854eb21c664d39ddbf8, type: 3}
   videosPausados:
   - {fileID: 1035689614}
   - {fileID: 825182562}
@@ -1565,7 +1565,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!224 &144012030
 RectTransform:
@@ -2255,6 +2255,7 @@ Transform:
   - {fileID: 1265857364}
   - {fileID: 1350159070}
   - {fileID: 139153033}
+  - {fileID: 763517348}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &283901855
@@ -2360,7 +2361,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: ded33e25dc53deb449d1fc03c491cd1a,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 4.2317
+      value: 3.29
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ded33e25dc53deb449d1fc03c491cd1a,
         type: 3}
@@ -2370,12 +2371,12 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: ded33e25dc53deb449d1fc03c491cd1a,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 43.95
+      value: 45.49
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ded33e25dc53deb449d1fc03c491cd1a,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.081466205
+      value: -0.008595578
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ded33e25dc53deb449d1fc03c491cd1a,
         type: 3}
@@ -2385,12 +2386,12 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: ded33e25dc53deb449d1fc03c491cd1a,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.99667615
+      value: -0.99996305
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ded33e25dc53deb449d1fc03c491cd1a,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ded33e25dc53deb449d1fc03c491cd1a,
         type: 3}
@@ -2400,7 +2401,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: ded33e25dc53deb449d1fc03c491cd1a,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: -170.654
+      value: -180.985
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ded33e25dc53deb449d1fc03c491cd1a,
         type: 3}
@@ -3080,7 +3081,7 @@ MonoBehaviour:
   rawImageVideo: {fileID: 1665768578}
   player: {fileID: 1675757697}
   objetoParaHabilitar: {fileID: 1122556325}
-  audio2Mili: {fileID: 8300000, guid: 5b13bc2115e19d04da7b140401721401, type: 3}
+  audio2Mili: {fileID: 8300000, guid: f976c7c0c304e854ab517665831495c8, type: 3}
   audioSourceParaFadeIn: {fileID: 1295612706}
   nuevoAudioClip: {fileID: 8300000, guid: 24b66250abed4c7419004e0344be321e, type: 3}
   videosAReactivar:
@@ -3097,6 +3098,14 @@ MonoBehaviour:
     newClip: {fileID: 32900000, guid: 86b724d214d10b14ba9a73478ca0c2e6, type: 3}
   - player: {fileID: 674003071}
     newClip: {fileID: 32900000, guid: 78b2119aa95c0ea4f832d9aa9322e8f6, type: 3}
+  - player: {fileID: 1265857365}
+    newClip: {fileID: 32900000, guid: 42c9a9f3353713445800817ab336b555, type: 3}
+  - player: {fileID: 1350159071}
+    newClip: {fileID: 32900000, guid: 725baf1b61e3ecd46a8ff3b26aacad83, type: 3}
+  - player: {fileID: 139153034}
+    newClip: {fileID: 32900000, guid: 20d07983f4d4ccb4a9f3d520ba28311b, type: 3}
+  - player: {fileID: 763517349}
+    newClip: {fileID: 32900000, guid: 20d07983f4d4ccb4a9f3d520ba28311b, type: 3}
   motionDosManager: {fileID: 69231970}
   managerOpOne: {fileID: 681120828}
   objetoRenderer: {fileID: 1727611587}
@@ -6594,6 +6603,74 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -257278029260952120, guid: ded33e25dc53deb449d1fc03c491cd1a, type: 3}
+--- !u!1 &763517347
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 763517348}
+  - component: {fileID: 763517349}
+  m_Layer: 0
+  m_Name: Techo4
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &763517348
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 763517347}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 277231255}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!328 &763517349
+VideoPlayer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 763517347}
+  m_Enabled: 1
+  m_VideoClip: {fileID: 32900000, guid: da9330cb1313858489c5fb4ab23b2dbe, type: 3}
+  m_TargetCameraAlpha: 1
+  m_TargetCamera3DLayout: 0
+  m_TargetCamera: {fileID: 0}
+  m_TargetTexture: {fileID: 8400000, guid: 0619df9c6d2c7e54f8754c1a9ad78915, type: 2}
+  m_TimeReference: 0
+  m_TargetMaterialRenderer: {fileID: 0}
+  m_TargetMaterialProperty: <noninit>
+  m_RenderMode: 2
+  m_AspectRatio: 2
+  m_DataSource: 0
+  m_TimeUpdateMode: 2
+  m_PlaybackSpeed: 1
+  m_AudioOutputMode: 2
+  m_TargetAudioSources:
+  - {fileID: 0}
+  m_DirectAudioVolumes:
+  - 1
+  m_Url: 
+  m_EnabledAudioTracks: 01
+  m_DirectAudioMutes: 01
+  m_ControlledAudioTrackCount: 1
+  m_PlayOnAwake: 1
+  m_SkipOnDrop: 1
+  m_Looping: 1
+  m_WaitForFirstFrame: 1
+  m_FrameReadyEventEnabled: 0
+  m_VideoShaders: []
 --- !u!1001 &791288086
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9861,7 +9938,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92d824faa2145464cbab96c1eeb4c7b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioMili4: {fileID: 8300000, guid: ff632af0c0d3df541bf9078e5c9f623b, type: 3}
+  audioMili4: {fileID: 8300000, guid: 977ae40af8889a04a8da8aa7b960ded7, type: 3}
   delayBeforeSound: 0.5
 --- !u!1 &1123065996
 GameObject:
@@ -16420,6 +16497,11 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: a6dc31269c261944ca9a8a452803bd22, type: 2}
+    - target: {fileID: -1983839502212879842, guid: bcc71840f9b23c0459603b62f57efb4e,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 4215f064202304a4e8c7bff1c9063561, type: 2}
     - target: {fileID: -1893805169705210964, guid: bcc71840f9b23c0459603b62f57efb4e,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -16485,6 +16567,16 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 2d36dc64008e3a847bd065ac7a764270, type: 2}
+    - target: {fileID: 6752826668550093567, guid: bcc71840f9b23c0459603b62f57efb4e,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 4215f064202304a4e8c7bff1c9063561, type: 2}
+    - target: {fileID: 7003736966412997278, guid: bcc71840f9b23c0459603b62f57efb4e,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 4215f064202304a4e8c7bff1c9063561, type: 2}
     - target: {fileID: 7400409042103111257, guid: bcc71840f9b23c0459603b62f57efb4e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -18551,21 +18643,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   narrationSource: {fileID: 2090729042}
+  distantVolumeFactor: 0.5
+  distantSpatialBlend: 1
+  normalSpatialBlend: 0
   subtitleText: {fileID: 419094746}
   subtitleBackgroundGroup: {fileID: 88512195}
   backgroundFadeDuration: 0.5
   extraText: {fileID: 2023726344}
   subtitles:
-  - clip: {fileID: 8300000, guid: ec8f6d409850a3d40b731278d524f43a, type: 3}
-    subtitle: "Mili:\nA bueeee, mira quien volvi\xF3\u2026 \xBFA vos te parece dejarme
-      hablando sola? Bueno mientras vos no estabas, esto se ilumin\xF3. Me encanta..
-      \xBFY si te jugas una partidita? Por algo debe estar."
-  - clip: {fileID: 8300000, guid: 5b13bc2115e19d04da7b140401721401, type: 3}
-    subtitle: "Mili:\n\xBF\xBFQue?? \xA1Todo volvi\xF3 a sincronizarse! Posta, que
-      bien se ven las cosas con movimiento."
-  - clip: {fileID: 8300000, guid: ff632af0c0d3df541bf9078e5c9f623b, type: 3}
-    subtitle: "Mili:\n\xA1Otra vez el objeto brillante! Esta vez tiene que hacer
-      algo bueno\u2026"
+  - clip: {fileID: 8300000, guid: 7fac9e5d7dd61854eb21c664d39ddbf8, type: 3}
+    subtitle: "Mili:\nAh bueeee, mira quien volvi\xF3\u2026 \xBFA vos te parece dejarme
+      hablando sola? Bueno, mientras vos no estabas, esto se ilumin\xF3. Me encanta...
+      \xBFY si te jugas una partidita? Que por algo debe estar."
+  - clip: {fileID: 8300000, guid: f976c7c0c304e854ab517665831495c8, type: 3}
+    subtitle: "Mili:\n\xBFQue? \xA1No! \xA1Mira! \xA1Los videos se ven re bien ahora!
+      Todo volvi\xF3 a sincronizarse."
+  - clip: {fileID: 8300000, guid: 977ae40af8889a04a8da8aa7b960ded7, type: 3}
+    subtitle: "Mili:\n\xA1Otra vez la s\xEDntesis de contrapunto! Esta vez tiene
+      que hacer algo bueno\u2026"
   repeatEnabled: 1
 --- !u!1 &2100994567
 GameObject:

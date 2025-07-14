@@ -1385,7 +1385,7 @@ Transform:
   m_GameObject: {fileID: 106725015}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -125.9, y: -4.3616567, z: 43.96}
+  m_LocalPosition: {x: -125.9, y: -4.3616567, z: 47.84}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1424,7 +1424,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b66e05c72d69984bb190af76b7c3087, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioTrigger: {fileID: 8300000, guid: ec8f6d409850a3d40b731278d524f43a, type: 3}
+  audioTrigger: {fileID: 8300000, guid: 79c8e748016a0884ca7e16d1273c259d, type: 3}
 --- !u!1 &112233528
 GameObject:
   m_ObjectHideFlags: 0
@@ -2181,73 +2181,6 @@ MonoBehaviour:
   m_Offset: {x: 0, y: 0, z: 0.5}
   m_Size: {x: 10, y: 10, z: 1}
   m_FadeFactor: 1
---- !u!1 &198157432
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 198157433}
-  - component: {fileID: 198157435}
-  - component: {fileID: 198157434}
-  m_Layer: 0
-  m_Name: TriggerAudio2
-  m_TagString: Trigger
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &198157433
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 198157432}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -125.9, y: -4.3616567, z: 53.73}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 819919785}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &198157434
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 198157432}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8b66e05c72d69984bb190af76b7c3087, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  audioTrigger: {fileID: 8300000, guid: 5b13bc2115e19d04da7b140401721401, type: 3}
---- !u!65 &198157435
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 198157432}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 50.013954, y: 1, z: 1.3718014}
-  m_Center: {x: 1.9858284, y: 0, z: 0.18590069}
 --- !u!1 &198887203
 GameObject:
   m_ObjectHideFlags: 0
@@ -3147,10 +3080,10 @@ MonoBehaviour:
   ruedaNumero: {fileID: 89316923}
   animator: {fileID: 249900226}
   specialObject: {fileID: 619394747}
-  audio3Marti: {fileID: 8300000, guid: ff632af0c0d3df541bf9078e5c9f623b, type: 3}
-  audio23Marti: {fileID: 8300000, guid: 1cb17078f78621b4cad6494f64c30302, type: 3}
-  audio33Marti: {fileID: 8300000, guid: 07b20554e4a61e940b3bab75bba1f618, type: 3}
-  audio32Marti: {fileID: 8300000, guid: 4d2486858d9757648bdf8eb1fb3a70f9, type: 3}
+  audio3Marti: {fileID: 8300000, guid: cb0a2cf14da53b8408fae7482c3bbb8e, type: 3}
+  audio23Marti: {fileID: 8300000, guid: 5e6faa0633c0490499e77118465e4617, type: 3}
+  audio33Marti: {fileID: 8300000, guid: d08c1fec75b65d347ab23bf1cf0a0105, type: 3}
+  audio32Marti: {fileID: 8300000, guid: f7ac283424d91564e8827d980f34d3cd, type: 3}
   povC: {fileID: 1942305338}
   playerCamera: {fileID: 1043209906}
   jackpotCamera: {fileID: 988485467}
@@ -4742,6 +4675,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 619394749}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 12e7f2856c921824d9953080b6cd30f4,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 619394753}
   m_SourcePrefab: {fileID: 100100000, guid: 12e7f2856c921824d9953080b6cd30f4, type: 3}
 --- !u!1 &619394747 stripped
 GameObject:
@@ -4788,7 +4725,7 @@ MonoBehaviour:
   player: {fileID: 1043209907}
   sonidoAmbiente: {fileID: 137934271}
   logoAmbiente: {fileID: 136486925}
-  audio4Marti: {fileID: 8300000, guid: 824777673a55ec745b1c19df66ce5ccc, type: 3}
+  audio4Marti: {fileID: 8300000, guid: f7666f6c90df2e043ba945a53ad9d1de, type: 3}
   videoCanvas: {fileID: 942923296}
   videoPlayer: {fileID: 112233530}
   delayBeforeVideo: 2
@@ -4836,6 +4773,20 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &619394753
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 619394747}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92d824faa2145464cbab96c1eeb4c7b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioMili4: {fileID: 8300000, guid: 6536807b5783f3943b12f16419653946, type: 3}
+  delayBeforeSound: 0.5
 --- !u!1 &646007251 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 281855664364225751, guid: 7729e2853cb2f6c448448a3317b42151,
@@ -5898,7 +5849,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 106725016}
-  - {fileID: 198157433}
   - {fileID: 247615978}
   - {fileID: 521933379}
   - {fileID: 1041843289}
@@ -13882,9 +13832,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6343eb0259aa6c47a7ff3a6cf12b960, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audio1: {fileID: 8300000, guid: e56d5919f2f8b2647868b8b65cac8bf9, type: 3}
-  audio2: {fileID: 8300000, guid: e84888d8a87119843a4aba195d111b7d, type: 3}
-  audio3: {fileID: 8300000, guid: 154c942a2ee822c48a9955f9ece48a00, type: 3}
+  audio1: {fileID: 8300000, guid: e578aaae55b14e747848f975e02705e9, type: 3}
+  audio2: {fileID: 8300000, guid: c42589e9584d8a64596b4c49ef6bea38, type: 3}
+  audio3: {fileID: 8300000, guid: a754cb92f07048a4ca4f5a98b6e9db68, type: 3}
 --- !u!1 &1845861173
 GameObject:
   m_ObjectHideFlags: 0
@@ -14526,7 +14476,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1962303718
 Transform:
   m_ObjectHideFlags: 0
@@ -14552,7 +14502,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: ee2b8b118fb2ed64ba9fa8e9b9c22698, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 12e39dcdd3294ee4a8c3eeab3779acdb, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -14651,48 +14601,48 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   narrationSource: {fileID: 1962303719}
+  distantVolumeFactor: 0.5
+  distantSpatialBlend: 1
+  normalSpatialBlend: 0
   subtitleText: {fileID: 1451064890}
   subtitleBackgroundGroup: {fileID: 1589375442}
   backgroundFadeDuration: 0.5
   extraText: {fileID: 833255196}
   subtitles:
-  - clip: {fileID: 8300000, guid: ec8f6d409850a3d40b731278d524f43a, type: 3}
-    subtitle: "Marti:\nEste lugar es un desastre, mira las paredes, los objetos,
-      TODO DESINCRONIZADO. Lo \xFAnico normal es ese jackpot. Estuve tirando la palanca
-      pero solo me tir\xF3."
-  - clip: {fileID: 8300000, guid: 5b13bc2115e19d04da7b140401721401, type: 3}
-    subtitle: "Marti:\nTambi\xE9n est\xE1n esos tres visores, mire en ellos y no
-      veo nada \xBFPor que no probas vos a ver si tenes suerte?"
-  - clip: {fileID: 8300000, guid: e56d5919f2f8b2647868b8b65cac8bf9, type: 3}
-    subtitle: "Marti:\nAaaaah pero tenes una vista, ni en mil a\xF1os hubiese conectado
-      como vos. Vayamos al otro a ver qu\xE9 pasa."
-  - clip: {fileID: 8300000, guid: e84888d8a87119843a4aba195d111b7d, type: 3}
-    subtitle: "Marti:\nNo puede ser, mil horas intentando y a vos te sale al toque.
-      Y\u2026 \xBFsi tiramos la palanca del jackpot? \xBFPasar\xE1 algo?"
-  - clip: {fileID: 8300000, guid: 4d2486858d9757648bdf8eb1fb3a70f9, type: 3}
-    subtitle: "Marti:\nOKEY\u2026 creo que ya se por donde viene la mano. Hagamos
-      una \xFAltima prueba. Vayamos al \xFAltimo visor, esto tiene que funcionar."
-  - clip: {fileID: 8300000, guid: 154c942a2ee822c48a9955f9ece48a00, type: 3}
-    subtitle: "Marti:\nAhora si, esto tiene que funcionar. Tiremos la palanca por
-      \xFAltima vez."
-  - clip: {fileID: 8300000, guid: ff632af0c0d3df541bf9078e5c9f623b, type: 3}
-    subtitle: "Marti:\n\xA1\xA1LO SAB\xCDA!! La C , la estrella y el 12, \xA1\xA1son
-      las cosas que pudiste ver!!. Ahora si, esto est\xE1 un poco mejor, bueno tampoco
-      tanto\u2026 un 50% sincronizado \xBFdigamos?... \xBF\xBFY eso brillante??"
-  - clip: {fileID: 8300000, guid: 824777673a55ec745b1c19df66ce5ccc, type: 3}
-    subtitle: "Marti:\nPero \xBFQu\xE9 onda? \xBFEsto no anda? \xA1Para para! \xBFA
-      d\xF3nde te vas?"
-  - clip: {fileID: 8300000, guid: ee2b8b118fb2ed64ba9fa8e9b9c22698, type: 3}
+  - clip: {fileID: 8300000, guid: 12e39dcdd3294ee4a8c3eeab3779acdb, type: 3}
     subtitle: "Marti:\nAy, por fin apareci\xF3 ALGUIEN. No lo puedo creer. \xA1Hola!
-      Por favor, sacame de aca, necesito volver con mis amigas. No puedo seguir viendo
-      esto, me sangran los ojos. No siguen una puta l\xEDnea ac\xE1 \xBFQu\xE9 les
-      pasa?"
-  - clip: {fileID: 8300000, guid: 1cb17078f78621b4cad6494f64c30302, type: 3}
-    subtitle: "Marti:\nMir\xE1! ah\xED apareci\xF3 un visor como esos para mirar
-      paisajes, vamos a ver?"
-  - clip: {fileID: 8300000, guid: 07b20554e4a61e940b3bab75bba1f618, type: 3}
-    subtitle: "Marti:\nEsaaa, apareci\xF3 otro visor ah\xED cerca de la escalera,
-      pegale una ojeada."
+      Por favor, sacame de aca, necesito volver con mis amigas, est\xE1bamos discutiendo
+      una idea y pum! Ac\xE1 estoy. No puedo seguir viendo esto, me sangran los ojos.
+      No siguen una puta l\xEDnea ac\xE1 \xBFQu\xE9 les pasa?"
+  - clip: {fileID: 8300000, guid: 79c8e748016a0884ca7e16d1273c259d, type: 3}
+    subtitle: "Marti:\nEste lugar es un desastre, mira las paredes, los objetos,
+      \xA1todo desincronizado! Lo \xFAnico normal es ese jackpot pero no puedo tocarlo\u2026
+      \xBFPor qu\xE9 no probas vos a ver si ten\xE9s suerte?"
+  - clip: {fileID: 8300000, guid: 5e6faa0633c0490499e77118465e4617, type: 3}
+    subtitle: "Marti:\n\xA1Mir\xE1! Apareci\xF3 un visor ah\xED arriba, de esos para
+      mirar paisajes. \xBFVamos a ver?"
+  - clip: {fileID: 8300000, guid: e578aaae55b14e747848f975e02705e9, type: 3}
+    subtitle: "Marti:\nAhhh, pero tenes una vista. Ni en mil a\xF1os hubiese conectado
+      como vos. Vayamos al jackpot a ver qu\xE9 pasa."
+  - clip: {fileID: 8300000, guid: d08c1fec75b65d347ab23bf1cf0a0105, type: 3}
+    subtitle: "Marti:\nApareci\xF3 otro visor ah\xED cerca de las escaleras, \xBFvemos
+      qu\xE9 onda?"
+  - clip: {fileID: 8300000, guid: c42589e9584d8a64596b4c49ef6bea38, type: 3}
+    subtitle: "Marti:\nEsaaa, volvamos al jackpot, \xBFpasar\xE1 algo?"
+  - clip: {fileID: 8300000, guid: f7ac283424d91564e8827d980f34d3cd, type: 3}
+    subtitle: "Marti:\nOkey\u2026 creo que ya se por donde viene la mano. Apareci\xF3
+      un visor ah\xED al lado. Hagamos una \xFAltima prueba, esto tiene que funcionar."
+  - clip: {fileID: 8300000, guid: a754cb92f07048a4ca4f5a98b6e9db68, type: 3}
+    subtitle: "Marti:\n\xA1Ahora si! Tiremos la palanca por \xFAltima vez."
+  - clip: {fileID: 8300000, guid: cb0a2cf14da53b8408fae7482c3bbb8e, type: 3}
+    subtitle: "Marti:\n\xA1Lo sab\xEDa! \xA1La C , la estrella, el 12! \xA1Son las
+      cosas que pudiste ver! Ahora si, esto est\xE1 un poco mejor. Mmm... Bueno tampoco
+      tanto... un 50% sincronizado, digamos."
+  - clip: {fileID: 8300000, guid: 6536807b5783f3943b12f16419653946, type: 3}
+    subtitle: "Marti:\n\xBFY eso brillante?"
+  - clip: {fileID: 8300000, guid: f7666f6c90df2e043ba945a53ad9d1de, type: 3}
+    subtitle: "Marti:\nPero, \xBFqu\xE9 onda? \xBFEsto no anda? \xA1Para, para! \xBFA
+      d\xF3nde te vas?"
   repeatEnabled: 1
 --- !u!1 &1978836225 stripped
 GameObject:

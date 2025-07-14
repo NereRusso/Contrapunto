@@ -1,3 +1,4 @@
+// MotionManager.cs
 using UnityEngine;
 
 public class MotionManager : MonoBehaviour
@@ -8,11 +9,10 @@ public class MotionManager : MonoBehaviour
     public int totalCubes = 5;
 
     [Header("Sonidos")]
-    public AudioClip pickupSound; // Sonido al recoger
-    public AudioClip[] narracionesPorOrden; // 4 audios, en el orden deseado
+    public AudioClip pickupSound;              // Sonido al recoger
+    public AudioClip[] narracionesPorOrden;    // 4 audios, en el orden deseado
 
     private AudioSource audioSource;
-
     private int collected = 0;
 
     void Awake()
@@ -26,9 +26,7 @@ public class MotionManager : MonoBehaviour
     public void CollectCube()
     {
         collected++;
-
         UIMoManager.Instance.UpdateCubesRemaining(totalCubes - collected);
-
         PlayPickupSound();
 
         // Reproducir narración según el orden de recogida
@@ -37,28 +35,19 @@ public class MotionManager : MonoBehaviour
             AudioClip narracion = narracionesPorOrden[collected - 1];
             if (narracion != null && !NarrationManager.Instance.IsNarrationPlaying())
             {
-                NarrationManager.Instance.PlayNarration(narracion);
+                // Sólo la 2ª y la 4ª van a lo lejos
+                bool isDistant = (collected == 2 || collected == 4);
+                NarrationManager.Instance.PlayNarration(narracion, isDistant);
             }
         }
-
     }
-
 
     void PlayPickupSound()
     {
         if (pickupSound != null && audioSource != null)
-        {
             audioSource.PlayOneShot(pickupSound);
-        }
     }
 
-    public int GetRemainingCubes()
-    {
-        return totalCubes - collected;
-    }
-
-    public bool AllCubesCollected()
-    {
-        return collected >= totalCubes;
-    }
+    public int GetRemainingCubes() => totalCubes - collected;
+    public bool AllCubesCollected() => collected >= totalCubes;
 }

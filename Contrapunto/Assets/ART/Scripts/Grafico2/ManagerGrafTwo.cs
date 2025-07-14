@@ -1,3 +1,4 @@
+// Assets/ART/Scripts/Grafico2/ManagerGrafTwo.cs
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
@@ -7,7 +8,7 @@ using UnityEngine.InputSystem;
 public class ManagerGrafTwo : MonoBehaviour
 {
     [Header("Referencias")]
-    public GameObject playerObject; // ? arrastrá el objeto raíz del jugador
+    public GameObject playerObject; // arrastrá el objeto raíz del jugador
     public CanvasGroup fadeCanvas;
     public float fadeDuration = 1.5f;
     public float delayBeforeFade = 1.0f;
@@ -53,10 +54,11 @@ public class ManagerGrafTwo : MonoBehaviour
         fadeCanvas.alpha = 0;
         fadeCanvas.blocksRaycasts = false;
 
-        // Iniciar narración
+        // Iniciar narración con callback; false = sonido normal (no lejano)
         if (audio1Marti != null)
         {
-            NarrationManager.Instance.PlayNarration(audio1Marti, OnNarrationEnded);
+            NarrationManager.Instance
+                .PlayNarration(audio1Marti, OnNarrationEnded, false);
         }
     }
 

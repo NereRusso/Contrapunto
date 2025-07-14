@@ -1,3 +1,4 @@
+// NarrationManager.cs
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,6 +14,11 @@ public class NarrationManager : MonoBehaviour
     public AudioSource narrationSource;
     private AudioClip lastNarrationClip;
     private bool isPlayingNarration;
+
+    [Header("Efecto de distancia")]
+    [Range(0, 1)] public float distantVolumeFactor = 0.5f;
+    [Range(0, 1)] public float distantSpatialBlend = 1f;
+    [Range(0, 1)] public float normalSpatialBlend = 0f;
 
     [Header("Subtítulos UI")]
     public TextMeshProUGUI subtitleText;
@@ -33,15 +39,14 @@ public class NarrationManager : MonoBehaviour
     [Header("Definición de subtítulos")]
     public List<ClipSubtitle> subtitles = new List<ClipSubtitle>();
 
-    private Coroutine subtitleCoroutine;
-    private Coroutine blinkCoroutine;
+    [HideInInspector] public bool repeatEnabled = true;
 
-    [HideInInspector]
-    public bool repeatEnabled = true;
-
-    // NUEVO: Cola de narraciones
-    private Queue<(AudioClip clip, Action onComplete)> narrationQueue = new Queue<(AudioClip, Action)>();
+    // Cola de narraciones: clip, callback, isDistant
+    private Queue<(AudioClip clip, Action onComplete, bool isDistant)> narrationQueue
+        = new Queue<(AudioClip, Action, bool)>();
     private bool isQueueProcessing = false;
+
+    private Coroutine blinkCoroutine;
 
     private void Awake()
     {
@@ -54,44 +59,31 @@ public class NarrationManager : MonoBehaviour
         if (isPlayingNarration && !narrationSource.isPlaying)
             isPlayingNarration = false;
 
-        if (repeatEnabled &&
-            Input.GetKeyDown(KeyCode.E) &&
-            !isPlayingNarration)
+        if (repeatEnabled && Input.GetKeyDown(KeyCode.E) && !isPlayingNarration)
         {
-            if (lastNarrationClip != null)
-            {
-                PlayNarration(lastNarrationClip);
-            }
-            else if (narrationSource.clip != null)
-            {
-                PlayNarration(narrationSource.clip);
-            }
+            AudioClip clipToRepeat = lastNarrationClip ?? narrationSource.clip;
+            if (clipToRepeat != null)
+                PlayNarration(clipToRepeat, false);
         }
     }
 
-    // PUBLIC INTERFACE
+    // --- INTERFAZ PÚBLICA ---
     public void PlayNarration(AudioClip clip)
-    {
-        EnqueueNarration(clip, null);
-    }
+        => PlayNarration(clip, false);
 
-    public void PlayNarration(AudioClip clip, Action onComplete)
-    {
-        EnqueueNarration(clip, onComplete);
-    }
+    public void PlayNarration(AudioClip clip, bool isDistant)
+        => EnqueueNarration(clip, null, isDistant);
 
-    public bool IsNarrationPlaying()
-    {
-        return isPlayingNarration;
-    }
+    public void PlayNarration(AudioClip clip, Action onComplete, bool isDistant)
+        => EnqueueNarration(clip, onComplete, isDistant);
 
-    // QUEUE SYSTEM
-    private void EnqueueNarration(AudioClip clip, Action onComplete)
+    public bool IsNarrationPlaying() => isPlayingNarration;
+
+    // --- COLA Y PROCESAMIENTO ---
+    private void EnqueueNarration(AudioClip clip, Action onComplete, bool isDistant)
     {
         if (clip == null) return;
-
-        narrationQueue.Enqueue((clip, onComplete));
-
+        narrationQueue.Enqueue((clip, onComplete, isDistant));
         if (!isQueueProcessing)
             StartCoroutine(ProcessNarrationQueue());
     }
@@ -99,79 +91,86 @@ public class NarrationManager : MonoBehaviour
     private IEnumerator ProcessNarrationQueue()
     {
         isQueueProcessing = true;
-
         while (narrationQueue.Count > 0)
         {
-            var (clip, onComplete) = narrationQueue.Dequeue();
+            var (clip, onComplete, isDistant) = narrationQueue.Dequeue();
             lastNarrationClip = clip;
-            yield return StartCoroutine(PlayNarrationWithDelay(clip, onComplete));
+            yield return StartCoroutine(
+                PlayNarrationWithDelay(clip, onComplete, isDistant));
         }
-
         isQueueProcessing = false;
     }
 
-    // NARRATION WITH SUBTITLES + EFFECTS
-    private IEnumerator PlayNarrationWithDelay(AudioClip clip, Action onComplete = null)
+    private IEnumerator PlayNarrationWithDelay(
+        AudioClip clip, Action onComplete = null, bool isDistant = false)
     {
+        // Fade in subtítulos
         if (subtitleBackgroundGroup != null)
-            yield return StartCoroutine(FadeCanvasGroup(subtitleBackgroundGroup, 0f, 1f, backgroundFadeDuration));
+            yield return StartCoroutine(
+                FadeCanvasGroup(subtitleBackgroundGroup, 0f, 1f, backgroundFadeDuration));
 
+        // Ajuste de volumen y spatialBlend
         narrationSource.Stop();
         narrationSource.clip = clip;
+        narrationSource.volume = isDistant ? distantVolumeFactor : 1f;
+        narrationSource.spatialBlend = isDistant ? distantSpatialBlend : normalSpatialBlend;
         narrationSource.Play();
         isPlayingNarration = true;
 
+        // Extra text blink
         if (extraText != null)
         {
-            var c = extraText.color;
+            Color c = extraText.color;
             extraText.color = new Color(c.r, c.g, c.b, 0f);
             extraText.gameObject.SetActive(true);
             blinkCoroutine = StartCoroutine(BlinkExtraText());
         }
 
+        // Subtítulo
         var entry = subtitles.Find(s => s.clip == clip);
         if (entry != null && subtitleText != null)
         {
             subtitleText.text = entry.subtitle;
             subtitleText.gameObject.SetActive(true);
+        }
 
-            yield return new WaitForSeconds(clip.length);
+        yield return new WaitForSeconds(clip.length);
 
+        // Limpio subtítulos
+        if (subtitleText != null)
+        {
             subtitleText.text = "";
             subtitleText.gameObject.SetActive(false);
-
-            if (subtitleBackgroundGroup != null)
-                yield return StartCoroutine(FadeCanvasGroup(subtitleBackgroundGroup, 1f, 0f, backgroundFadeDuration));
         }
-        else
-        {
-            yield return new WaitForSeconds(clip.length);
-            if (subtitleBackgroundGroup != null)
-                yield return StartCoroutine(FadeCanvasGroup(subtitleBackgroundGroup, 1f, 0f, backgroundFadeDuration));
-        }
+        if (subtitleBackgroundGroup != null)
+            yield return StartCoroutine(
+                FadeCanvasGroup(subtitleBackgroundGroup, 1f, 0f, backgroundFadeDuration));
 
+        // Apago blink
         if (blinkCoroutine != null)
             StopCoroutine(blinkCoroutine);
-
         if (extraText != null)
             extraText.gameObject.SetActive(false);
 
         onComplete?.Invoke();
     }
 
-    // ANIMACIONES Y FADES
+    // --- ANIMACIONES AUXILIARES ---
     private IEnumerator BlinkExtraText()
     {
         while (isPlayingNarration)
         {
-            yield return StartCoroutine(FadeTextAlpha(extraText, 0f, 1f, backgroundFadeDuration));
+            yield return StartCoroutine(
+                FadeTextAlpha(extraText, 0f, 1f, backgroundFadeDuration));
             yield return new WaitForSeconds(1f);
-            yield return StartCoroutine(FadeTextAlpha(extraText, 1f, 0f, backgroundFadeDuration));
+            yield return StartCoroutine(
+                FadeTextAlpha(extraText, 1f, 0f, backgroundFadeDuration));
             yield return new WaitForSeconds(2f);
         }
     }
 
-    private IEnumerator FadeTextAlpha(TextMeshProUGUI text, float from, float to, float duration)
+    private IEnumerator FadeTextAlpha(
+        TextMeshProUGUI text, float from, float to, float duration)
     {
         float elapsed = 0f;
         Color c = text.color;
@@ -185,7 +184,8 @@ public class NarrationManager : MonoBehaviour
         text.color = new Color(c.r, c.g, c.b, to);
     }
 
-    private IEnumerator FadeCanvasGroup(CanvasGroup group, float start, float end, float duration)
+    private IEnumerator FadeCanvasGroup(
+        CanvasGroup group, float start, float end, float duration)
     {
         float elapsed = 0f;
         group.alpha = start;

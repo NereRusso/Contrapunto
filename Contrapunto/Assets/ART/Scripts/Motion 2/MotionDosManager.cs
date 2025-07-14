@@ -1,3 +1,4 @@
+// Assets/ART/Scripts/Motion 2/MotionDosManager.cs
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
@@ -9,7 +10,7 @@ using UnityEngine.Video;
 public class MotionDosManager : MonoBehaviour
 {
     [Header("Jugador y Fade")]
-    public GameObject playerObject; // <-- arrastrá el GameObject raíz del jugador
+    public GameObject playerObject;         // <-- arrastrá el GameObject raíz del jugador
     public CanvasGroup fadeCanvas;
     public float fadeDuration = 1.5f;
     public float delayBeforeFade = 1.0f;
@@ -43,21 +44,16 @@ public class MotionDosManager : MonoBehaviour
 
         // Pausar videos normales
         foreach (var vp in videosPausados)
-        {
-            if (vp != null)
-                vp.Pause();
-        }
+            if (vp != null) vp.Pause();
 
         // Iniciar glitch en videos
         foreach (var vp in videosConGlitch)
-        {
             if (vp != null)
             {
                 vp.Pause();
-                Coroutine c = StartCoroutine(PlaySteppedVideo(vp));
+                var c = StartCoroutine(PlaySteppedVideo(vp));
                 glitchCoroutines.Add(c);
             }
-        }
 
         // Empezar fade in
         StartCoroutine(FadeIn());
@@ -81,10 +77,11 @@ public class MotionDosManager : MonoBehaviour
         fadeCanvas.alpha = 0;
         fadeCanvas.blocksRaycasts = false;
 
-        // Reproducir narración, controles se activan cuando termina
+        // Reproducir narración, callback y sonido normal
         if (audio1Mili != null)
         {
-            NarrationManager.Instance.PlayNarration(audio1Mili, OnNarrationEnded);
+            NarrationManager.Instance
+                .PlayNarration(audio1Mili, OnNarrationEnded, false);
         }
     }
 
@@ -107,23 +104,14 @@ public class MotionDosManager : MonoBehaviour
     public void RestaurarTodosVideos()
     {
         foreach (var c in glitchCoroutines)
-        {
-            if (c != null)
-                StopCoroutine(c);
-        }
+            if (c != null) StopCoroutine(c);
 
         glitchCoroutines.Clear();
 
         foreach (var vp in videosPausados)
-        {
-            if (vp != null)
-                vp.Play();
-        }
+            if (vp != null) vp.Play();
 
         foreach (var vp in videosConGlitch)
-        {
-            if (vp != null)
-                vp.Play();
-        }
+            if (vp != null) vp.Play();
     }
 }

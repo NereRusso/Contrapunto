@@ -14,7 +14,6 @@ public class ColocarObjeto : MonoBehaviour
     public float pickupRange = 3f;
 
     [Header("Narraciones por paso")]
-    public AudioClip audio4Reni;
     public AudioClip audio12Reni;
     public AudioClip audio22Reni;
 
@@ -69,9 +68,7 @@ public class ColocarObjeto : MonoBehaviour
             // ? Reproducir narración por orden de colocación
             if (NarrationManager.Instance != null)
             {
-                if (objetosColocados == 0 && audio4Reni != null)
-                    NarrationManager.Instance.PlayNarration(audio4Reni);
-                else if (objetosColocados == 1 && audio12Reni != null)
+                if (objetosColocados == 1 && audio12Reni != null)
                     NarrationManager.Instance.PlayNarration(audio12Reni);
                 else if (objetosColocados == 2 && audio22Reni != null)
                     NarrationManager.Instance.PlayNarration(audio22Reni);
