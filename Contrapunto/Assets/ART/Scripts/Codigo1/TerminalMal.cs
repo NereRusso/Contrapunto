@@ -87,6 +87,7 @@ public class TerminalMal : MonoBehaviour
 
     [Header("Extra")]
     public GameObject objectToDisable;
+    public GameObject postProcesoMal;
 
     [Header("Prompt de click")]
     public GameObject clickCanvas;
@@ -427,6 +428,7 @@ public class TerminalMal : MonoBehaviour
         FindObjectOfType<AudioTriggerFinal>()?.CambiarYReproducir();
         FindObjectOfType<MaterialChangerFinal>()?.CambiarMaterial();
         videoPlayer.loopPointReached += _ => StartCoroutine(CloseCanvasCoroutine());
+        postProcesoMal.SetActive(false);
     }
 
     IEnumerator CloseCanvasCoroutine()
