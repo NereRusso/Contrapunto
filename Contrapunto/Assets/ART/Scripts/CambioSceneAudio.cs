@@ -73,19 +73,26 @@ public class CambioSceneAudio : MonoBehaviour
             clickCanvas.SetActive(false);
     }
 
-    private void OnMouseEnter()
+    void Update()
     {
-        if (mainCamera != null && clickCanvas != null &&
-            Vector3.Distance(mainCamera.transform.position, transform.position) <= pickupRange)
-        {
-            clickCanvas.SetActive(true);
-        }
-    }
+        if (mainCamera == null || clickCanvas == null)
+            return;
 
-    private void OnMouseExit()
-    {
-        if (clickCanvas != null)
+        // Chequeo de distancia
+        float d = Vector3.Distance(mainCamera.transform.position, transform.position);
+        if (d <= pickupRange)
+        {
+            // Raycast desde el centro de la cámara
+            Ray ray = new Ray(mainCamera.transform.position, mainCamera.transform.forward);
+            if (Physics.Raycast(ray, out RaycastHit hit, pickupRange) && hit.transform == transform)
+                clickCanvas.SetActive(true);
+            else
+                clickCanvas.SetActive(false);
+        }
+        else
+        {
             clickCanvas.SetActive(false);
+        }
     }
 
     void OnMouseDown()
@@ -125,7 +132,6 @@ public class CambioSceneAudio : MonoBehaviour
 
             StartCoroutine(FadeInWhilePlaying());
         }
-
         else
         {
             LoadScene();

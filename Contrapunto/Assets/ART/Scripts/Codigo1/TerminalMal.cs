@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
 using UnityEngine.Video;
 using StarterAssets;
 
@@ -132,6 +131,25 @@ public class TerminalMal : MonoBehaviour
 
     void Update()
     {
+        // === Prompt de click (igual a PalancaJackpot) ===
+        if (!hasActivated && mainCameraRef != null && clickCanvas != null)
+        {
+            float dist = Vector3.Distance(mainCameraRef.transform.position, transform.position);
+            if (dist <= pickupRange)
+            {
+                Ray rayPrompt = new Ray(mainCameraRef.transform.position, mainCameraRef.transform.forward);
+                if (Physics.Raycast(rayPrompt, out RaycastHit hitPrompt, pickupRange) && hitPrompt.transform == transform)
+                    clickCanvas.SetActive(true);
+                else
+                    clickCanvas.SetActive(false);
+            }
+            else
+            {
+                clickCanvas.SetActive(false);
+            }
+        }
+
+        // Activación original con clic en mouse
         if (!hasActivated && Input.GetMouseButtonDown(0))
         {
             var ray = mainCameraRef.ScreenPointToRay(Input.mousePosition);
@@ -142,6 +160,7 @@ public class TerminalMal : MonoBehaviour
             }
         }
 
+        // Apertura de pantalla
         if (screenOpening)
         {
             screenCanvas.transform.localScale = Vector3.Lerp(
@@ -156,6 +175,7 @@ public class TerminalMal : MonoBehaviour
             }
         }
 
+        // Movimiento de cámara de evento
         if (movingCamera)
         {
             eventCamera.transform.position = Vector3.Lerp(
@@ -175,25 +195,9 @@ public class TerminalMal : MonoBehaviour
             }
         }
 
+        // Envío con ENTER
         if (screenCanvas.activeSelf && Input.GetKeyDown(KeyCode.Return))
             CheckWord();
-    }
-
-    private void OnMouseEnter()
-    {
-        if (hasActivated) return;
-        if (mainCameraRef != null && clickCanvas != null &&
-            Vector3.Distance(mainCameraRef.transform.position, transform.position) <= pickupRange)
-        {
-            clickCanvas.SetActive(true);
-        }
-    }
-
-    private void OnMouseExit()
-    {
-        if (hasActivated) return;
-        if (clickCanvas != null)
-            clickCanvas.SetActive(false);
     }
 
     void ActivateScreen()
@@ -225,11 +229,11 @@ public class TerminalMal : MonoBehaviour
 
         NarrationManager.Instance.repeatEnabled = false;
 
+        // Preparar palabras y posiciones
         baseWords = fullText.Split(' ');
         int nEntries = glitchEntries.Length;
         glitchPositions = new List<int>[nEntries];
         extraPositions = new List<int>[nEntries];
-
         for (int k = 0; k < nEntries; k++)
         {
             glitchPositions[k] = new List<int>();
@@ -244,10 +248,10 @@ public class TerminalMal : MonoBehaviour
                         extraPositions[k].Add(i);
             }
         }
-
         writtenPositions.Clear();
         pendingScramble.Clear();
 
+        // Iniciar glitches pendientes
         for (int k = currentWordIndex; k < nEntries; k++)
         {
             for (int j = 0; j < glitchPositions[k].Count; j++)
@@ -335,12 +339,17 @@ public class TerminalMal : MonoBehaviour
         {
             if (writtenPositions.Contains(i))
                 disp[i] = baseWords[i];
-            else if (currentMarkup != null && currentWordIndex < glitchPositions.Length &&
+            else if (currentMarkup != null &&
+                     currentWordIndex < glitchPositions.Length &&
                      glitchPositions[currentWordIndex].Count > 0 &&
                      i == glitchPositions[currentWordIndex][0])
+            {
                 disp[i] = currentMarkup;
+            }
             else if (pendingScramble.ContainsKey(i))
+            {
                 disp[i] = pendingScramble[i];
+            }
         }
         fullTextDisplay.text = string.Join(" ", disp);
     }
@@ -350,7 +359,9 @@ public class TerminalMal : MonoBehaviour
         if (currentWordIndex < glitchPositions.Length &&
             glitchPositions[currentWordIndex].Count > 0 &&
             scrollRect != null)
+        {
             StartCoroutine(SmoothScroll(glitchPositions[currentWordIndex][0], baseWords.Length));
+        }
     }
 
     IEnumerator SmoothScroll(int targetIdx, int total)
@@ -380,6 +391,7 @@ public class TerminalMal : MonoBehaviour
             foreach (int pos in glitchPositions[currentWordIndex])
                 if (!writtenPositions.Contains(pos))
                     writtenPositions.Add(pos);
+
             foreach (var extra in entry.extraWords)
                 for (int i = 0; i < baseWords.Length; i++)
                     if (baseWords[i].Trim(',', '.', '!', '?', ':', ';')
@@ -392,7 +404,6 @@ public class TerminalMal : MonoBehaviour
             currentWordIndex++;
             inputField.text = "";
 
-            // Nueva narración solo al acertar la primera palabra
             if (currentWordIndex == 1 && audio3Nere != null && NarrationManager.Instance != null)
                 NarrationManager.Instance.PlayNarration(audio3Nere);
 
@@ -401,20 +412,19 @@ public class TerminalMal : MonoBehaviour
                 PlayVideoAndClose();
                 return;
             }
+
             ScrollToCurrentWord();
             inputField.ActivateInputField();
         }
         else
         {
             errorSound.Play();
-
             if (audio12Nere != null && NarrationManager.Instance != null)
                 NarrationManager.Instance.PlayNarration(audio12Nere);
             inputField.text = "";
             inputField.ActivateInputField();
         }
     }
-
 
     void PlayVideoAndClose()
     {
@@ -459,8 +469,10 @@ public class TerminalMal : MonoBehaviour
         NarrationManager.Instance.repeatEnabled = true;
         eventCamera.gameObject.SetActive(false);
         playerCamera.gameObject.SetActive(true);
+
         if (audio13Nere != null && NarrationManager.Instance != null)
             NarrationManager.Instance.PlayNarration(audio13Nere);
+
         if (playerController != null) playerController.enabled = true;
         if (objectToDisable != null) objectToDisable.SetActive(true);
         if (objetoOriginalRenderer != null && objetoNuevoRenderer != null)

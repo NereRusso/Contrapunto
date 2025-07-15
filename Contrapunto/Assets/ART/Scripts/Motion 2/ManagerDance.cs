@@ -9,6 +9,7 @@ public class ManagerDance : MonoBehaviour
     public GameObject canvasDDR;
     public GameObject player;
     public RawImage rawImage;
+    public GameObject fondoNegroDance;
 
     [Header("Videos")]
     public VideoPlayer videoIntro;
@@ -90,9 +91,11 @@ public class ManagerDance : MonoBehaviour
         videoCarga.gameObject.SetActive(false);
 
         pantallaCanciones.SetActive(true);
-
+        
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
+
+        fondoNegroDance.gameObject.SetActive(true);
     }
 
     IEnumerator FadeAndSwitchVideo(VideoPlayer current, VideoPlayer next, System.Action onFinish)

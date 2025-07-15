@@ -27,7 +27,7 @@ public class PalancaJackpotFisico : MonoBehaviour
     public AudioClip audio32Marti;
 
     [Header("Povs")]
-    public GameObject povC;                    // <— aquí
+    public GameObject povC;
 
     [Header("Cámaras")]
     public Camera playerCamera;
@@ -100,6 +100,7 @@ public class PalancaJackpotFisico : MonoBehaviour
 
     void Update()
     {
+        // movimiento de la cámara de jackpot
         if (movingCamera && jackpotCamera != null && jackpotCamTarget != null)
         {
             jackpotCamera.transform.position = Vector3.Lerp(
@@ -118,23 +119,37 @@ public class PalancaJackpotFisico : MonoBehaviour
                 movingCamera = false;
             }
         }
-    }
 
-    private void OnMouseEnter()
-    {
-        if (!isRolling && !isJackpotCompleted &&
-            Vector3.Distance(mainCamera.transform.position, transform.position) <= pickupRange)
-            clickCanvas?.SetActive(true);
-    }
-
-    private void OnMouseExit()
-    {
-        clickCanvas?.SetActive(false);
+        // lógica de prompt de click (igual a ColocarObjeto)
+        if (mainCamera != null && clickCanvas != null)
+        {
+            if (!isRolling && !isJackpotCompleted)
+            {
+                float d = Vector3.Distance(mainCamera.transform.position, transform.position);
+                if (d <= pickupRange)
+                {
+                    Ray ray = new Ray(mainCamera.transform.position, mainCamera.transform.forward);
+                    if (Physics.Raycast(ray, out RaycastHit hit, pickupRange) && hit.transform == transform)
+                        clickCanvas.SetActive(true);
+                    else
+                        clickCanvas.SetActive(false);
+                }
+                else
+                {
+                    clickCanvas.SetActive(false);
+                }
+            }
+            else
+            {
+                clickCanvas.SetActive(false);
+            }
+        }
     }
 
     void OnMouseDown()
     {
-        clickCanvas?.SetActive(false);
+        if (clickCanvas != null)
+            clickCanvas.SetActive(false);
         if (isRolling || isJackpotCompleted) return;
 
         animator.SetTrigger("PlayClick");
@@ -170,7 +185,7 @@ public class PalancaJackpotFisico : MonoBehaviour
         {
             NarrationManager.Instance.PlayNarration(audio23Marti);
             primerFalloYaOcurrido = true;
-            if (povC != null)            // <— aquí
+            if (povC != null)
                 povC.SetActive(true);
         }
 

@@ -26,26 +26,24 @@ public class PovInteractionTwo : MonoBehaviour
             clickCanvas.SetActive(false);
     }
 
-    private void OnMouseEnter()
+    void Update()
     {
-        // Si ya fue clickeado, no mostramos más el prompt
-        if (hasBeenClicked) return;
+        if (hasBeenClicked || mainCamera == null || clickCanvas == null)
+            return;
 
-        // Mostrar prompt solo si estamos dentro de pickupRange
-        if (mainCamera != null && clickCanvas != null &&
-            Vector3.Distance(mainCamera.transform.position, transform.position) <= pickupRange)
+        float d = Vector3.Distance(mainCamera.transform.position, transform.position);
+        if (d <= pickupRange)
         {
-            clickCanvas.SetActive(true);
+            Ray ray = new Ray(mainCamera.transform.position, mainCamera.transform.forward);
+            if (Physics.Raycast(ray, out RaycastHit hit, pickupRange) && hit.transform == transform)
+                clickCanvas.SetActive(true);
+            else
+                clickCanvas.SetActive(false);
         }
-    }
-
-    private void OnMouseExit()
-    {
-        // Si ya fue clickeado, no ocultamos (ya está oculto)
-        if (hasBeenClicked) return;
-
-        if (clickCanvas != null)
+        else
+        {
             clickCanvas.SetActive(false);
+        }
     }
 
     void OnMouseDown()

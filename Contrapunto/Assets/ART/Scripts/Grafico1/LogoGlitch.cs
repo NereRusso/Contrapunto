@@ -22,8 +22,8 @@ public class LogoGlitch : MonoBehaviour
     public AudioClip audio4Marti;
 
     [Header("Video")]
-    public GameObject videoCanvas;           // Canvas con RawImage y VideoPlayer
-    public VideoPlayer videoPlayer;          // VideoPlayer que usa RenderTexture
+    public GameObject videoCanvas;
+    public VideoPlayer videoPlayer;
     public float delayBeforeVideo = 2f;
 
     [Header("Prompt de click")]
@@ -43,7 +43,6 @@ public class LogoGlitch : MonoBehaviour
 
     void Start()
     {
-        // Setup del jugador y audio
         if (player != null)
         {
             fpsController = player.GetComponent<FirstPersonController>();
@@ -53,44 +52,37 @@ public class LogoGlitch : MonoBehaviour
 
         if (sonidoAmbiente != null) sonidoAmbienteSource = sonidoAmbiente.GetComponent<AudioSource>();
         if (logoAmbiente != null) logoAmbienteSource = logoAmbiente.GetComponent<AudioSource>();
-
-        // Desactivamos el video al inicio
         if (videoCanvas != null) videoCanvas.SetActive(false);
 
-        // Inicialización del prompt de click
         mainCamera = Camera.main;
         if (clickCanvas != null)
             clickCanvas.SetActive(false);
     }
 
-    private void OnMouseEnter()
+    void Update()
     {
-        // No mostramos si ya clickeamos
-        if (clicked) return;
+        if (clicked || mainCamera == null || clickCanvas == null)
+            return;
 
-        // Si estamos cerca, activamos el prompt
-        if (mainCamera != null && clickCanvas != null &&
-            Vector3.Distance(mainCamera.transform.position, transform.position) <= pickupRange)
+        float d = Vector3.Distance(mainCamera.transform.position, transform.position);
+        if (d <= pickupRange)
         {
-            clickCanvas.SetActive(true);
+            Ray ray = new Ray(mainCamera.transform.position, mainCamera.transform.forward);
+            if (Physics.Raycast(ray, out RaycastHit hit, pickupRange) && hit.transform == transform)
+                clickCanvas.SetActive(true);
+            else
+                clickCanvas.SetActive(false);
         }
-    }
-
-    private void OnMouseExit()
-    {
-        // No ocultamos si ya clickeamos
-        if (clicked) return;
-
-        if (clickCanvas != null)
+        else
+        {
             clickCanvas.SetActive(false);
+        }
     }
 
     void OnMouseDown()
     {
         if (clicked) return;
         clicked = true;
-
-        // Ocultamos el prompt al clickear
         if (clickCanvas != null)
             clickCanvas.SetActive(false);
 
@@ -112,7 +104,6 @@ public class LogoGlitch : MonoBehaviour
         yield return new WaitForSeconds(delayBeforeVideo);
 
         if (videoCanvas != null) videoCanvas.SetActive(true);
-
         if (videoPlayer != null)
         {
             videoPlayer.Play();

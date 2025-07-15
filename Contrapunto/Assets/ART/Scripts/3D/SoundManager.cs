@@ -10,7 +10,6 @@ public class SoundManager : MonoBehaviour
     public AudioClip successClip;
 
     [Header("Narración de error")]
-    public AudioClip audio22Reni;
     public AudioClip audio32Reni;
 
     private void Awake()
@@ -50,14 +49,6 @@ public class SoundManager : MonoBehaviour
         if (audio32Reni != null && NarrationManager.Instance != null)
         {
             NarrationManager.Instance.PlayNarration(audio32Reni);
-        }
-    }
-
-    public void PlayFinalNarration()
-    {
-        if (audio22Reni != null)
-        {
-            NarrationManager.Instance.PlayNarration(audio22Reni);
         }
     }
 }

@@ -27,19 +27,24 @@ public class ColocarObjeto : MonoBehaviour
             clickCanvas.SetActive(false);
     }
 
-    private void OnMouseEnter()
+    private void Update()
     {
-        if (mainCamera != null && clickCanvas != null &&
-            Vector3.Distance(mainCamera.transform.position, transform.position) <= pickupRange)
-        {
-            clickCanvas.SetActive(true);
-        }
-    }
+        if (mainCamera == null || clickCanvas == null)
+            return;
 
-    private void OnMouseExit()
-    {
-        if (clickCanvas != null)
+        float d = Vector3.Distance(mainCamera.transform.position, transform.position);
+        if (d <= pickupRange)
+        {
+            Ray ray = new Ray(mainCamera.transform.position, mainCamera.transform.forward);
+            if (Physics.Raycast(ray, out RaycastHit hit, pickupRange) && hit.transform == transform)
+                clickCanvas.SetActive(true);
+            else
+                clickCanvas.SetActive(false);
+        }
+        else
+        {
             clickCanvas.SetActive(false);
+        }
     }
 
     private void OnMouseDown()
@@ -65,7 +70,7 @@ public class ColocarObjeto : MonoBehaviour
             if (controlador != null)
                 controlador.IniciarSecuencia();
 
-            // ? Reproducir narración por orden de colocación
+            // Reproducir narración por orden de colocación
             if (NarrationManager.Instance != null)
             {
                 if (objetosColocados == 1 && audio12Reni != null)

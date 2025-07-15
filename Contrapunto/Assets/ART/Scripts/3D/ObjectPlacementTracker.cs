@@ -31,7 +31,6 @@ public class ObjectPlacementTracker : MonoBehaviour
         if (placedObjectsCount >= totalObjectsToPlace)
         {
             Debug.Log("¡Todos los objetos colocados!");
-            SoundManager.Instance.PlayFinalNarration();
 
             foreach (GameObject obj in objetosAHabilitar)
             {

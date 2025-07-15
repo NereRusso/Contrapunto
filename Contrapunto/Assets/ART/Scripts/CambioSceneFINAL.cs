@@ -71,25 +71,24 @@ public class CambioSceneFINAL : MonoBehaviour
             clickCanvas.SetActive(false);
     }
 
-    private void OnMouseEnter()
+    void Update()
     {
-        // No mostrar prompt si ya clickeamos
-        if (clicked) return;
+        if (clicked || mainCamera == null || clickCanvas == null)
+            return;
 
-        if (mainCamera != null && clickCanvas != null &&
-            Vector3.Distance(mainCamera.transform.position, transform.position) <= pickupRange)
+        float d = Vector3.Distance(mainCamera.transform.position, transform.position);
+        if (d <= pickupRange)
         {
-            clickCanvas.SetActive(true);
+            Ray ray = new Ray(mainCamera.transform.position, mainCamera.transform.forward);
+            if (Physics.Raycast(ray, out RaycastHit hit, pickupRange) && hit.transform == transform)
+                clickCanvas.SetActive(true);
+            else
+                clickCanvas.SetActive(false);
         }
-    }
-
-    private void OnMouseExit()
-    {
-        // No ocultar si ya clickeamos
-        if (clicked) return;
-
-        if (clickCanvas != null)
+        else
+        {
             clickCanvas.SetActive(false);
+        }
     }
 
     void OnMouseDown()

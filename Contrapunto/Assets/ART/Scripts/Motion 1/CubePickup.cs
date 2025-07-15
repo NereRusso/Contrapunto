@@ -10,12 +10,17 @@ public class CubePickup : MonoBehaviour
     public GameObject clickPrompt;
 
     private Transform player;
+    private Camera cam;
 
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player")?.transform;
         if (player == null)
             Debug.LogError("No se encontró un objeto con Tag 'Player'");
+
+        cam = Camera.main;
+        if (cam == null)
+            Debug.LogError("No se encontró la cámara principal con tag MainCamera");
 
         if (clickPrompt != null)
             clickPrompt.SetActive(false);
@@ -25,60 +30,50 @@ public class CubePickup : MonoBehaviour
 
     void Update()
     {
-        // Si ya se ocultó y te alejás, no pasa nada.
-        if (player == null || clickPrompt == null) return;
-
-        if (clickPrompt.activeSelf)
-        {
-            float d = Vector3.Distance(transform.position, player.position);
-            if (d > pickupRange)
-                clickPrompt.SetActive(false);
-        }
-    }
-
-    void OnMouseOver()
-    {
-        if (player == null || clickPrompt == null) return;
+        if (player == null || clickPrompt == null || cam == null)
+            return;
 
         float d = Vector3.Distance(transform.position, player.position);
+        // Si estás dentro de rango, lanzá un raycast desde el centro de la cámara:
         if (d <= pickupRange)
-            clickPrompt.SetActive(true);
-    }
-
-    void OnMouseExit()
-    {
-        if (clickPrompt != null)
+        {
+            Ray ray = new Ray(cam.transform.position, cam.transform.forward);
+            if (Physics.Raycast(ray, out RaycastHit hit, pickupRange) && hit.transform == transform)
+            {
+                clickPrompt.SetActive(true);
+            }
+            else
+            {
+                clickPrompt.SetActive(false);
+            }
+        }
+        else
+        {
             clickPrompt.SetActive(false);
+        }
     }
 
     void OnMouseDown()
     {
-        if (player == null || clickPrompt == null) return;
+        if (player == null) return;
 
         float d = Vector3.Distance(transform.position, player.position);
         if (d <= pickupRange)
         {
-            // 1) Oculto el prompt inmediatamente
             clickPrompt.SetActive(false);
-
-            // 2) Llamo al manager
             MotionManager.Instance.CollectCube();
-
-            // 3) Destruyo este cubo
             Destroy(gameObject);
         }
     }
 
     void OnDisable()
     {
-        // Por si el script/cubo se desactiva sin pasar por OnMouseDown
         if (clickPrompt != null)
             clickPrompt.SetActive(false);
     }
 
     void OnDestroy()
     {
-        // Refuerzo extra: si llega a destruirse el objeto
         if (clickPrompt != null)
             clickPrompt.SetActive(false);
     }

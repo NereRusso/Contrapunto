@@ -8391,7 +8391,7 @@ PrefabInstance:
     - target: {fileID: 4253012990419024484, guid: 035bf1ba97d19214580cfe6f5a29fdc3,
         type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4253012990419024489, guid: 035bf1ba97d19214580cfe6f5a29fdc3,
         type: 3}
@@ -9564,7 +9564,7 @@ MonoBehaviour:
   visorController: {fileID: 810861257}
   clickSound: {fileID: 521933380}
   clickCanvas: {fileID: 202347509}
-  pickupRange: 20
+  pickupRange: 10
 --- !u!65 &1206572336
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -11521,7 +11521,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0, y: 39.65}
+  m_AnchoredPosition: {x: 0, y: 60}
   m_SizeDelta: {x: -120, y: 79.3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1451064890
@@ -12772,7 +12772,7 @@ MonoBehaviour:
   visorController: {fileID: 1470788152}
   clickSound: {fileID: 521933380}
   clickCanvas: {fileID: 202347509}
-  pickupRange: 20
+  pickupRange: 10
 --- !u!1 &1719593663
 GameObject:
   m_ObjectHideFlags: 0
@@ -14374,7 +14374,7 @@ MonoBehaviour:
   visorController: {fileID: 671013176}
   clickSound: {fileID: 521933380}
   clickCanvas: {fileID: 202347509}
-  pickupRange: 20
+  pickupRange: 10
 --- !u!1 &1948299955 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2829333810493571341, guid: 7729e2853cb2f6c448448a3317b42151,
