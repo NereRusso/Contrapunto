@@ -2,7 +2,10 @@ using UnityEngine;
 
 public class AgarrarObjeto : MonoBehaviour
 {
+    [Header("Identificador")]
     public string objectID;
+
+    [Header("Silhouette")]
     public GameObject silhouetteToActivate;
 
     [Header("Ajustes visuales para el inventario")]
@@ -22,8 +25,6 @@ public class AgarrarObjeto : MonoBehaviour
     public float pickupRange = 3f;
 
     private Camera mainCamera;
-
-    // ? Bandera estática para detectar si ya se agarró el primero
     private static bool primerObjetoAgarrado = false;
 
     private void Start()
@@ -33,34 +34,48 @@ public class AgarrarObjeto : MonoBehaviour
             clickCanvas.SetActive(false);
     }
 
-    private void OnMouseEnter()
+    private void Update()
     {
-        if (mainCamera != null && clickCanvas != null &&
-            Vector3.Distance(mainCamera.transform.position, transform.position) <= pickupRange)
+        if (mainCamera == null || clickCanvas == null)
+            return;
+
+        float d = Vector3.Distance(mainCamera.transform.position, transform.position);
+        if (d <= pickupRange)
         {
-            clickCanvas.SetActive(true);
+            Ray ray = new Ray(mainCamera.transform.position, mainCamera.transform.forward);
+            if (Physics.Raycast(ray, out RaycastHit hit, pickupRange) && hit.transform == transform)
+                clickCanvas.SetActive(true);
+            else
+                clickCanvas.SetActive(false);
+        }
+        else
+        {
+            clickCanvas.SetActive(false);
         }
     }
 
-    private void OnMouseExit()
+    void OnMouseDown()
     {
-        if (clickCanvas != null)
-            clickCanvas.SetActive(false);
-    }
-
-    private void OnMouseDown()
-    {
+        // Ocultamos el prompt
         if (clickCanvas != null)
             clickCanvas.SetActive(false);
 
+        // Solo intentamos recoger si estamos dentro del rango
+        if (mainCamera == null ||
+            Vector3.Distance(mainCamera.transform.position, transform.position) > pickupRange)
+            return;
+
+        // Intentamos añadir al inventario
         if (HeldInventory.Instance != null && HeldInventory.Instance.AddObject(this))
         {
+            // Activar la silueta en el UI
             if (silhouetteToActivate != null)
                 silhouetteToActivate.SetActive(true);
 
+            // Sonido de pickup
             SoundManager.Instance.PlayPickupSound();
 
-            // ? Si es el primer objeto que se agarra
+            // Lógica solo para el primer objeto Agarrado
             if (!primerObjetoAgarrado)
             {
                 primerObjetoAgarrado = true;
@@ -69,14 +84,13 @@ public class AgarrarObjeto : MonoBehaviour
                 if (audio2Reni != null && NarrationManager.Instance != null)
                     NarrationManager.Instance.PlayNarration(audio2Reni);
 
-                // Activar los objetos
+                // Activar objetos configurados
                 foreach (var obj in objetosAActivar)
-                {
                     if (obj != null)
                         obj.SetActive(true);
-                }
             }
 
+            // Destruir el objeto en escena
             Destroy(gameObject);
         }
     }

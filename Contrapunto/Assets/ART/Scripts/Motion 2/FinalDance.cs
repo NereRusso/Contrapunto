@@ -53,6 +53,13 @@ public class FinalDance : MonoBehaviour
     void Awake()
     {
         instance = this;
+
+        // Me aseguro de suscribirme sólo UNA vez al evento
+        if (videoFelicitaciones != null)
+        {
+            videoFelicitaciones.loopPointReached -= VolverAlMapa;
+            videoFelicitaciones.loopPointReached += VolverAlMapa;
+        }
     }
 
     public void FinDelJuego()
@@ -63,7 +70,7 @@ public class FinalDance : MonoBehaviour
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
 
-        // Fade out del audio del VideoPlayer
+        // Fade out del audio del VideoPlayer de fondo
         if (managerOpOne != null && managerOpOne.videoFondo != null)
         {
             StartCoroutine(FadeOutVideoAudio(managerOpOne.videoFondo, 1f));
@@ -75,29 +82,32 @@ public class FinalDance : MonoBehaviour
             objetoRenderer.material = nuevoMaterial;
         }
 
+        // Mostrar felicitaciones y reproducir video
         canvasFelicitaciones.SetActive(true);
         rawImageVideo.texture = videoFelicitaciones.targetTexture;
         videoFelicitaciones.gameObject.SetActive(true);
         rawImageVideo.gameObject.SetActive(true);
-
         videoFelicitaciones.Play();
-        videoFelicitaciones.loopPointReached += VolverAlMapa;
     }
 
     void VolverAlMapa(VideoPlayer vp)
     {
+        // Desuscribirse para garantizar que no se vuelva a llamar
+        vp.loopPointReached -= VolverAlMapa;
+
         canvasFelicitaciones.SetActive(false);
         canvasDDR.SetActive(false);
 
         player.SetActive(true);
         objetoParaHabilitar.SetActive(true);
 
+        // Reproducir narración una sola vez
         if (audio2Mili != null)
         {
             NarrationManager.Instance.PlayNarration(audio2Mili);
         }
 
-        // Fade in del nuevo audio
+        // Fade-in del nuevo audio
         if (audioSourceParaFadeIn != null && nuevoAudioClip != null)
         {
             audioSourceParaFadeIn.clip = nuevoAudioClip;
@@ -106,6 +116,7 @@ public class FinalDance : MonoBehaviour
             StartCoroutine(FadeInAudio(audioSourceParaFadeIn, 1f));
         }
 
+        // Restaurar videos gestionados por MotionDosManager
         if (motionDosManager != null)
         {
             motionDosManager.RestaurarTodosVideos();

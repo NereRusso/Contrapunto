@@ -31,7 +31,7 @@ public class PovInteraction : MonoBehaviour
         if (hasBeenClicked || mainCamera == null || clickCanvas == null)
             return;
 
-        float d = Vector3.Distance(mainCamera.transform.position, transform.position);
+        /* float d = Vector3.Distance(mainCamera.transform.position, transform.position);
         if (d <= pickupRange)
         {
             // Raycast desde la cámara hacia adelante
@@ -44,7 +44,7 @@ public class PovInteraction : MonoBehaviour
         else
         {
             clickCanvas.SetActive(false);
-        }
+        }*/
     }
 
     void OnMouseDown()

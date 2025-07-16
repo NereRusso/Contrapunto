@@ -16,6 +16,7 @@ public class ColocarObjeto : MonoBehaviour
     [Header("Narraciones por paso")]
     public AudioClip audio12Reni;
     public AudioClip audio22Reni;
+    public AudioClip audio32Reni;
 
     private static int objetosColocados = 0; // Lleva la cuenta total de colocados válidos
     private Camera mainCamera;
@@ -75,8 +76,10 @@ public class ColocarObjeto : MonoBehaviour
             {
                 if (objetosColocados == 1 && audio12Reni != null)
                     NarrationManager.Instance.PlayNarration(audio12Reni);
-                else if (objetosColocados == 2 && audio22Reni != null)
+                else if (objetosColocados == 2 && audio22Reni != null) { 
                     NarrationManager.Instance.PlayNarration(audio22Reni);
+                    NarrationManager.Instance.PlayNarration(audio32Reni);}
+                    
             }
 
             objetosColocados++; // Incrementamos después
