@@ -426,7 +426,7 @@ public class TerminalMal : MonoBehaviour
         }
     }
 
-    void PlayVideoAndClose()
+    public void PlayVideoAndClose()
     {
         videoPanel.SetActive(true);
         var glitchers = FindObjectsOfType<FloatingTextGlitcher>();

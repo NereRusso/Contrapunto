@@ -50,11 +50,15 @@ public class FinalDance : MonoBehaviour
     public Renderer objetoRenderer;      // Objeto al que se le cambia el material
     public Material nuevoMaterial;       // Material nuevo a aplicar
 
+    [Header("Managers de Visibilidad")]
+    [Tooltip("Arrastrá acá cada VideoVisibilityManagerAdvanced (o VideoVisibilityManager) que quieras activar")]
+    public List<VideoVisibilityManagerAdvanced> visibilityManagers;
+
     void Awake()
     {
         instance = this;
 
-        // Me aseguro de suscribirme sólo UNA vez al evento
+        // Nos aseguramos de suscribirnos solo una vez
         if (videoFelicitaciones != null)
         {
             videoFelicitaciones.loopPointReached -= VolverAlMapa;
@@ -92,12 +96,14 @@ public class FinalDance : MonoBehaviour
 
     void VolverAlMapa(VideoPlayer vp)
     {
-        // Desuscribirse para garantizar que no se vuelva a llamar
+        // Desuscribirse para no volver a llamar
         vp.loopPointReached -= VolverAlMapa;
 
+        // Ocultar UI de felicitaciones y DDR
         canvasFelicitaciones.SetActive(false);
         canvasDDR.SetActive(false);
 
+        // Reactivar al jugador y objetos del mapa
         player.SetActive(true);
         objetoParaHabilitar.SetActive(true);
 
@@ -122,14 +128,14 @@ public class FinalDance : MonoBehaviour
             motionDosManager.RestaurarTodosVideos();
         }
 
-        // Reactivar videos existentes
+        // 1) Reactivar videos existentes
         foreach (var video in videosAReactivar)
         {
             if (video != null)
                 video.Play();
         }
 
-        // Cambiar clips y reactivar en paralelo
+        // 2) Cambiar clips y reactivar en paralelo
         foreach (var entry in videosAReproducirConCambio)
         {
             if (entry.player != null && entry.newClip != null)
@@ -137,6 +143,13 @@ public class FinalDance : MonoBehaviour
                 entry.player.clip = entry.newClip;
                 entry.player.Play();
             }
+        }
+
+        // 3) Activar los VideoVisibilityManagers
+        foreach (var vm in visibilityManagers)
+        {
+            if (vm != null)
+                vm.enabled = true;
         }
     }
 

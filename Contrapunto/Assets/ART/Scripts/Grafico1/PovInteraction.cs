@@ -25,16 +25,14 @@ public class PovInteraction : MonoBehaviour
             clickCanvas.SetActive(false);
     }
 
-    void Update()
+    private void Update()
     {
-        // Si ya clickeamos o falta config, no hacemos nada
-        if (hasBeenClicked || mainCamera == null || clickCanvas == null)
+        if (mainCamera == null || clickCanvas == null)
             return;
 
-        /* float d = Vector3.Distance(mainCamera.transform.position, transform.position);
+        float d = Vector3.Distance(mainCamera.transform.position, transform.position);
         if (d <= pickupRange)
         {
-            // Raycast desde la cámara hacia adelante
             Ray ray = new Ray(mainCamera.transform.position, mainCamera.transform.forward);
             if (Physics.Raycast(ray, out RaycastHit hit, pickupRange) && hit.transform == transform)
                 clickCanvas.SetActive(true);
@@ -44,30 +42,27 @@ public class PovInteraction : MonoBehaviour
         else
         {
             clickCanvas.SetActive(false);
-        }*/
+        }
     }
 
     void OnMouseDown()
     {
-        // Ocultamos el prompt al clickear
-        if (clickCanvas != null)
-            clickCanvas.SetActive(false);
-
         if (hasBeenClicked) return;
         hasBeenClicked = true;
 
-        // Reproducir sonido de click
-        if (clickSound != null)
-            clickSound.Play();
-        else
-            Debug.LogWarning("No se asignó ningún AudioSource para el sonido de click.");
+        // oculto prompt propio (si lo tuvieras)
+        if (clickCanvas != null)
+            clickCanvas.SetActive(false);
 
-        // Activo el modo visor
+        // deshabilito el script para que PromptClickDG ya no lo detecte
+        this.enabled = false;
+
+        // resto de tu lógica...
+        if (clickSound != null) clickSound.Play();
         player.SetActive(false);
         visorController.SetActive(true);
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-
-        this.enabled = false;
     }
+
 }

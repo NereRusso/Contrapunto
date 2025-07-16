@@ -24,6 +24,8 @@ public class VideoVisibilityManagerAdvanced : MonoBehaviour
         videoPlayer.playOnAwake = false;
         videoPlayer.waitForFirstFrame = true;
         videoPlayer.skipOnDrop = true;
+
+        enabled = false;
     }
 
     void Start()

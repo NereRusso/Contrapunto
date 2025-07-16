@@ -8,19 +8,17 @@ public class PromptClickDG : MonoBehaviour
     public float pickupRange = 3f;
 
     Camera cam;
-    Transform player;
 
     void Start()
     {
         cam = Camera.main;
-        player = GameObject.FindWithTag("Player")?.transform;
         if (clickPrompt != null) clickPrompt.SetActive(false);
         else Debug.LogError("No asignaste clickPrompt en PromptManager");
     }
 
     void Update()
     {
-        if (cam == null || player == null) return;
+        if (cam == null) return;
 
         // Ray desde el centro de pantalla
         Ray ray = cam.ScreenPointToRay(new Vector3(Screen.width / 2f, Screen.height / 2f));
@@ -30,14 +28,14 @@ public class PromptClickDG : MonoBehaviour
         PovInteraction nearest = null;
         foreach (var h in hits)
         {
-            nearest = h.collider.GetComponent<PovInteraction>();
-            if (nearest != null) break;
+            // solo nos quedamos con los PovInteraction que SIGAN habilitados
+            if (h.collider.TryGetComponent<PovInteraction>(out var pov) && pov.enabled)
+            {
+                nearest = pov;
+                break;
+            }
         }
 
-        // Solo activar/desactivar el prompt; no tocamos su posición ni rotación
-        if (nearest != null)
-            clickPrompt.SetActive(true);
-        else
-            clickPrompt.SetActive(false);
+        clickPrompt.SetActive(nearest != null);
     }
 }
