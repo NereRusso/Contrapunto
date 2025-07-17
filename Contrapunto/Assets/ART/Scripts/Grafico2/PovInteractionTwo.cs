@@ -26,9 +26,9 @@ public class PovInteractionTwo : MonoBehaviour
             clickCanvas.SetActive(false);
     }
 
-    void Update()
+    /*private void Update()
     {
-        if (hasBeenClicked || mainCamera == null || clickCanvas == null)
+        if (mainCamera == null || clickCanvas == null)
             return;
 
         float d = Vector3.Distance(mainCamera.transform.position, transform.position);
@@ -44,7 +44,7 @@ public class PovInteractionTwo : MonoBehaviour
         {
             clickCanvas.SetActive(false);
         }
-    }
+    }*/
 
     void OnMouseDown()
     {

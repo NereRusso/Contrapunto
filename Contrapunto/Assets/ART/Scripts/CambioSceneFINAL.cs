@@ -20,6 +20,7 @@ public class CambioSceneFINAL : MonoBehaviour
     [Header("Referencias de sonido")]
     public GameObject sonidoAmbiente;
     public GameObject logoAmbiente;
+    public GameObject logoFinal;
 
     public float fadeTime = 1f;
 
@@ -29,12 +30,21 @@ public class CambioSceneFINAL : MonoBehaviour
     [Tooltip("Distancia máxima para que aparezca el prompt")]
     public float pickupRange = 3f;
 
+    [Header("Pantalla Final")]
+    [Tooltip("Canvas con fondo negro y un Button para redirigir")]
+    public GameObject finalScreenCanvas;
+    [Tooltip("Botón dentro de finalScreenCanvas")]
+    public Button redirectButton;
+    [Tooltip("URL externa a la que quieres ir")]
+    public string redirectURL;
+
     private FirstPersonController fpsController;
     private StarterAssetsInputs starterInputs;
     private PlayerInput playerInput;
 
     private AudioSource sonidoAmbienteSource;
     private AudioSource logoAmbienteSource;
+    private AudioSource logoFinalSource;
 
     private Camera mainCamera;
     private bool clicked = false;
@@ -58,6 +68,8 @@ public class CambioSceneFINAL : MonoBehaviour
             sonidoAmbienteSource = sonidoAmbiente.GetComponent<AudioSource>();
         if (logoAmbiente != null)
             logoAmbienteSource = logoAmbiente.GetComponent<AudioSource>();
+        if (logoFinal != null)
+            logoFinalSource = logoFinal.GetComponent<AudioSource>();
 
         // Hide video images
         if (videoImage != null)
@@ -69,6 +81,10 @@ public class CambioSceneFINAL : MonoBehaviour
         mainCamera = Camera.main;
         if (clickCanvas != null)
             clickCanvas.SetActive(false);
+
+        // Final screen setup
+        if (finalScreenCanvas != null)
+            finalScreenCanvas.SetActive(false);
     }
 
     void Update()
@@ -112,6 +128,8 @@ public class CambioSceneFINAL : MonoBehaviour
             StartCoroutine(FadeOutAudio(sonidoAmbienteSource, fadeTime));
         if (logoAmbienteSource != null)
             StartCoroutine(FadeOutAudio(logoAmbienteSource, fadeTime));
+        if (logoFinalSource != null)
+            StartCoroutine(FadeOutAudio(logoFinalSource, fadeTime));
 
         // Reproducir primer video
         if (videoPlayer != null && videoImage != null)
@@ -134,6 +152,10 @@ public class CambioSceneFINAL : MonoBehaviour
         if (segundoVideoPlayer != null && segundoVideoImage != null)
         {
             segundoVideoImage.gameObject.SetActive(true);
+
+            // Subscribirse al final del segundo video
+            segundoVideoPlayer.loopPointReached += OnFinalVideoEnded;
+
             segundoVideoPlayer.gameObject.SetActive(true);
             segundoVideoPlayer.Play();
 
@@ -142,6 +164,39 @@ public class CambioSceneFINAL : MonoBehaviour
             // luego de mostrar el segundo video, desactivamos el primero
             videoPlayer.gameObject.SetActive(false);
             videoImage.gameObject.SetActive(false);
+        }
+    }
+
+    // Se ejecuta cuando termina el segundo video
+    void OnFinalVideoEnded(VideoPlayer vp)
+    {
+        // Desuscribirse para que no se llame varias veces
+        vp.loopPointReached -= OnFinalVideoEnded;
+
+        
+
+        // Mostrar la pantalla negra con botón
+        if (finalScreenCanvas != null)
+        {
+            finalScreenCanvas.SetActive(true);
+            // Ocultar el segundo video
+            if (segundoVideoImage != null)
+            segundoVideoImage.gameObject.SetActive(false);
+            if (segundoVideoPlayer != null)
+            segundoVideoPlayer.gameObject.SetActive(false);
+
+            // Habilitar cursor
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+
+            if (redirectButton != null && !string.IsNullOrEmpty(redirectURL))
+            {
+                redirectButton.onClick.AddListener(() =>
+                {
+                    Application.OpenURL(redirectURL);
+                    Application.Quit();
+                });
+            }
         }
     }
 

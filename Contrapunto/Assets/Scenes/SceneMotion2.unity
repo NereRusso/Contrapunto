@@ -2918,6 +2918,9 @@ MonoBehaviour:
     newClip: {fileID: 32900000, guid: 20d07983f4d4ccb4a9f3d520ba28311b, type: 3}
   motionDosManager: {fileID: 69231970}
   managerOpOne: {fileID: 681120828}
+  managerOpTwo: {fileID: 2075459735}
+  managerOpThree: {fileID: 244859209}
+  managerOpFour: {fileID: 467967283}
   objetoRenderer: {fileID: 1727611587}
   nuevoMaterial: {fileID: 2100000, guid: c910df2479b4b854b874a49913c4912f, type: 2}
   visibilityManagers:
@@ -5551,7 +5554,7 @@ GameObject:
   - component: {fileID: 513043092}
   - component: {fileID: 513043093}
   m_Layer: 5
-  m_Name: VideoFondoO1
+  m_Name: VideoMusicaLigera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5584,7 +5587,7 @@ VideoPlayer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 513043091}
   m_Enabled: 1
-  m_VideoClip: {fileID: 32900000, guid: 10087f224c60ba648be321e4362799a1, type: 3}
+  m_VideoClip: {fileID: 32900000, guid: c598d9384f2d8c84899041fda6fafa5d, type: 3}
   m_TargetCameraAlpha: 1
   m_TargetCamera3DLayout: 0
   m_TargetCamera: {fileID: 0}
@@ -8423,7 +8426,7 @@ GameObject:
   - component: {fileID: 869847066}
   - component: {fileID: 869847067}
   m_Layer: 5
-  m_Name: VideoFondoO3
+  m_Name: VideoQuieroVerte
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8456,7 +8459,7 @@ VideoPlayer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 869847065}
   m_Enabled: 1
-  m_VideoClip: {fileID: 32900000, guid: cb49ba7f6d932294e81def8bfd98bdd4, type: 3}
+  m_VideoClip: {fileID: 32900000, guid: c2a738fab9f94434aa3d71887026e92c, type: 3}
   m_TargetCameraAlpha: 1
   m_TargetCamera3DLayout: 0
   m_TargetCamera: {fileID: 0}
@@ -8470,12 +8473,14 @@ VideoPlayer:
   m_TimeUpdateMode: 2
   m_PlaybackSpeed: 1
   m_AudioOutputMode: 2
-  m_TargetAudioSources: []
-  m_DirectAudioVolumes: []
+  m_TargetAudioSources:
+  - {fileID: 0}
+  m_DirectAudioVolumes:
+  - 1
   m_Url: 
-  m_EnabledAudioTracks: 
-  m_DirectAudioMutes: 
-  m_ControlledAudioTrackCount: 0
+  m_EnabledAudioTracks: 01
+  m_DirectAudioMutes: 00
+  m_ControlledAudioTrackCount: 1
   m_PlayOnAwake: 0
   m_SkipOnDrop: 1
   m_Looping: 1
@@ -18537,7 +18542,7 @@ GameObject:
   - component: {fileID: 1838797624}
   - component: {fileID: 1838797625}
   m_Layer: 5
-  m_Name: VideoFondoO2
+  m_Name: VideoQuienTeQuiere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18570,7 +18575,7 @@ VideoPlayer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1838797623}
   m_Enabled: 1
-  m_VideoClip: {fileID: 32900000, guid: 025092c3f5ff88e4c9e0aa75078c09f0, type: 3}
+  m_VideoClip: {fileID: 32900000, guid: c1a275611e3f8f74992fdeda865b2a0b, type: 3}
   m_TargetCameraAlpha: 1
   m_TargetCamera3DLayout: 0
   m_TargetCamera: {fileID: 0}
@@ -18584,12 +18589,14 @@ VideoPlayer:
   m_TimeUpdateMode: 2
   m_PlaybackSpeed: 1
   m_AudioOutputMode: 2
-  m_TargetAudioSources: []
-  m_DirectAudioVolumes: []
+  m_TargetAudioSources:
+  - {fileID: 0}
+  m_DirectAudioVolumes:
+  - 1
   m_Url: 
-  m_EnabledAudioTracks: 
-  m_DirectAudioMutes: 
-  m_ControlledAudioTrackCount: 0
+  m_EnabledAudioTracks: 01
+  m_DirectAudioMutes: 00
+  m_ControlledAudioTrackCount: 1
   m_PlayOnAwake: 0
   m_SkipOnDrop: 1
   m_Looping: 1
@@ -19726,7 +19733,7 @@ GameObject:
   - component: {fileID: 2010928829}
   - component: {fileID: 2010928830}
   m_Layer: 5
-  m_Name: VideoFondoO4
+  m_Name: VideoRevolution
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -19759,7 +19766,7 @@ VideoPlayer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2010928828}
   m_Enabled: 1
-  m_VideoClip: {fileID: 32900000, guid: 3e5accf996f4f7c4d95d2264998a3119, type: 3}
+  m_VideoClip: {fileID: 32900000, guid: 097c486f5ffbb5e44a7acb1d5425e8a4, type: 3}
   m_TargetCameraAlpha: 1
   m_TargetCamera3DLayout: 0
   m_TargetCamera: {fileID: 0}
@@ -19773,12 +19780,14 @@ VideoPlayer:
   m_TimeUpdateMode: 2
   m_PlaybackSpeed: 1
   m_AudioOutputMode: 2
-  m_TargetAudioSources: []
-  m_DirectAudioVolumes: []
+  m_TargetAudioSources:
+  - {fileID: 0}
+  m_DirectAudioVolumes:
+  - 1
   m_Url: 
-  m_EnabledAudioTracks: 
-  m_DirectAudioMutes: 
-  m_ControlledAudioTrackCount: 0
+  m_EnabledAudioTracks: 01
+  m_DirectAudioMutes: 00
+  m_ControlledAudioTrackCount: 1
   m_PlayOnAwake: 0
   m_SkipOnDrop: 1
   m_Looping: 1

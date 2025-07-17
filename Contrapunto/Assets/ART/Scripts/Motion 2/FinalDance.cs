@@ -44,7 +44,10 @@ public class FinalDance : MonoBehaviour
     public MotionDosManager motionDosManager;
 
     [Header("Video con audio a bajar")]
-    public ManagerOpOne managerOpOne; // Asignalo desde el inspector
+    public ManagerOpOne managerOpOne;
+    public ManagerOpOne managerOpTwo;
+    public ManagerOpOne managerOpThree;
+    public ManagerOpOne managerOpFour;// Asignalo desde el inspector
 
     [Header("Cambio de Material")]
     public Renderer objetoRenderer;      // Objeto al que se le cambia el material
@@ -78,6 +81,21 @@ public class FinalDance : MonoBehaviour
         if (managerOpOne != null && managerOpOne.videoFondo != null)
         {
             StartCoroutine(FadeOutVideoAudio(managerOpOne.videoFondo, 1f));
+        }
+
+        if (managerOpTwo != null && managerOpTwo.videoFondo != null)
+        {
+            StartCoroutine(FadeOutVideoAudio(managerOpTwo.videoFondo, 1f));
+        }
+
+        if (managerOpThree != null && managerOpThree.videoFondo != null)
+        {
+            StartCoroutine(FadeOutVideoAudio(managerOpThree.videoFondo, 1f));
+        }
+
+        if (managerOpFour != null && managerOpFour.videoFondo != null)
+        {
+            StartCoroutine(FadeOutVideoAudio(managerOpFour.videoFondo, 1f));
         }
 
         // Cambiar el material del objeto
