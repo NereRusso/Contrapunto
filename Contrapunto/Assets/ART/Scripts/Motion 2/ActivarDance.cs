@@ -11,17 +11,18 @@ public class ActivarDance : MonoBehaviour
     public AudioSource audioSource; // Asigná el AudioSource desde el inspector
     public float fadeDuration = 1f;
 
-    private bool activado = false;
+    // Flag estático: compartido por todas las instancias
+    private static bool alreadyActivated = false;
 
     void OnMouseDown()
     {
-        if (activado) return;
+        // Si ya se activó uno, salimos directamente
+        if (alreadyActivated) return;
 
         float distancia = Vector3.Distance(transform.position, playerCamera.transform.position);
-
         if (distancia <= maxDistance)
         {
-            activado = true;
+            alreadyActivated = true;              // Marcamos la activación global
             StartCoroutine(FadeOutAudio());
             videoManager.ActivarDDR();
         }
@@ -34,8 +35,8 @@ public class ActivarDance : MonoBehaviour
     private IEnumerator FadeOutAudio()
     {
         float startVolume = audioSource.volume;
+        float t = 0f;
 
-        float t = 0;
         while (t < fadeDuration)
         {
             t += Time.deltaTime;

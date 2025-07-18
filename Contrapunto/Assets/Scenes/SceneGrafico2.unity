@@ -3551,6 +3551,130 @@ MonoBehaviour:
   m_Offset: {x: 0, y: 0, z: 0.5}
   m_Size: {x: 5, y: 6, z: 1}
   m_FadeFactor: 1
+--- !u!1001 &736665849
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 4b14350e8b393ea42854e43000067456,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 55.806
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 4b14350e8b393ea42854e43000067456,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 55.80602
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 4b14350e8b393ea42854e43000067456,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 55.80602
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 4b14350e8b393ea42854e43000067456,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -48.584
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 4b14350e8b393ea42854e43000067456,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 3.6399994
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 4b14350e8b393ea42854e43000067456,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 56.44
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 4b14350e8b393ea42854e43000067456,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 4b14350e8b393ea42854e43000067456,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 4b14350e8b393ea42854e43000067456,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 4b14350e8b393ea42854e43000067456,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 4b14350e8b393ea42854e43000067456,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -89.99396
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 4b14350e8b393ea42854e43000067456,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 57.62889
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 4b14350e8b393ea42854e43000067456,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 4b14350e8b393ea42854e43000067456,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 42c668b23cf38f64185be2b998bfab69, type: 2}
+    - target: {fileID: 919132149155446097, guid: 4b14350e8b393ea42854e43000067456,
+        type: 3}
+      propertyPath: m_Name
+      value: flechaDG (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 4b14350e8b393ea42854e43000067456,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 4b14350e8b393ea42854e43000067456,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 736665851}
+  m_SourcePrefab: {fileID: 100100000, guid: 4b14350e8b393ea42854e43000067456, type: 3}
+--- !u!1 &736665850 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 4b14350e8b393ea42854e43000067456,
+    type: 3}
+  m_PrefabInstance: {fileID: 736665849}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &736665851
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 736665850}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 24006f206b0061d4a85fba35b3eb9afc, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &742880176
 GameObject:
   m_ObjectHideFlags: 0
@@ -5536,7 +5660,7 @@ PrefabInstance:
     - target: {fileID: 6556307555316582679, guid: 035bf1ba97d19214580cfe6f5a29fdc3,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -6.620323
+      value: -8.44
       objectReference: {fileID: 0}
     - target: {fileID: 6556307555316582679, guid: 035bf1ba97d19214580cfe6f5a29fdc3,
         type: 3}
@@ -5607,6 +5731,12 @@ PrefabInstance:
       addedObject: {fileID: 1470027668}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 035bf1ba97d19214580cfe6f5a29fdc3, type: 3}
+--- !u!20 &1047575564 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 5126527961139664767, guid: 035bf1ba97d19214580cfe6f5a29fdc3,
+    type: 3}
+  m_PrefabInstance: {fileID: 1047575563}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1047575565 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5126527961139664760, guid: 035bf1ba97d19214580cfe6f5a29fdc3,
@@ -7536,7 +7666,7 @@ MonoBehaviour:
   pickupRange: 3
   finalScreenCanvas: {fileID: 2093370293}
   redirectButton: {fileID: 1773129296}
-  redirectURL: https://nererusso.github.io/faerie-soerie/index.html
+  redirectURL: https://reniipp.github.io/contrapunto/
 --- !u!114 &1377775170
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7550,6 +7680,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioMili4: {fileID: 8300000, guid: b4f7ebaee11ed4e4884ee2021056f444, type: 3}
+  mainCamera: {fileID: 1047575564}
   delayBeforeSound: 0.5
 --- !u!114 &1377775171
 MonoBehaviour:
@@ -12023,6 +12154,7 @@ MonoBehaviour:
   visorCamera: {fileID: 1574001743}
   player: {fileID: 1047575566}
   visorController: {fileID: 1441702348}
+  flecha: {fileID: 736665850}
   audioSource: {fileID: 640409767}
   clickSound: {fileID: 8300000, guid: 475b2d6569a8e804f87c89fd3d7d25ad, type: 3}
   clickCanvas: {fileID: 1562418155}
@@ -12489,6 +12621,7 @@ SceneRoots:
   - {fileID: 370771735}
   - {fileID: 1562418159}
   - {fileID: 1973267059}
+  - {fileID: 736665849}
   - {fileID: 1005061180}
   - {fileID: 146127919}
   - {fileID: 1979719984}

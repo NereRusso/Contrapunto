@@ -5,29 +5,45 @@ public class LogoAparece : MonoBehaviour
     [Header("Narración al ver la esfera (solo 1 vez)")]
     public AudioClip audioMili4;
     private AudioSource audioSource;
-    private Camera mainCamera;
+
+    [Header("Cámara principal (opcional: arrástrala aquí)")]
+    public Camera mainCamera;
 
     [Header("Delay")]
-    public float delayBeforeSound = 0.5f; // cuanto tarda antes de sonar
+    public float delayBeforeSound = 0.5f;
 
     private bool hasPlayed = false;
     private bool isWaiting = false;
 
     void Start()
     {
+        // Buscamos el AudioSource en un hijo llamado "AudioMili4"
         Transform narrationTransform = transform.Find("AudioMili4");
         if (narrationTransform != null)
-        {
             audioSource = narrationTransform.GetComponent<AudioSource>();
-        }
 
         if (audioSource == null)
         {
-            Debug.LogError("No se encontró AudioSource en NarrationSound.");
+            Debug.LogError("LogoAparece: no se encontró AudioSource en el hijo 'AudioMili4'.");
+            enabled = false;
             return;
         }
 
-        mainCamera = Camera.main;
+        // Si no arrastraste la cámara en el Inspector, intentamos Camera.main
+        if (mainCamera == null)
+            mainCamera = Camera.main;
+
+        // Último recurso: buscamos cualquier cámara en la escena
+        if (mainCamera == null)
+            mainCamera = FindObjectOfType<Camera>();
+
+        if (mainCamera == null)
+        {
+            Debug.LogError("LogoAparece: no se encontró ninguna cámara en escena. " +
+                           "Arrastra tu cámara al campo 'mainCamera' o etiqueta tu cámara como MainCamera.");
+            enabled = false;
+            return;
+        }
     }
 
     void Update()
@@ -49,7 +65,6 @@ public class LogoAparece : MonoBehaviour
     void PlayNarration()
     {
         if (hasPlayed) return;
-
         NarrationManager.Instance.PlayNarration(audioMili4);
         hasPlayed = true;
     }

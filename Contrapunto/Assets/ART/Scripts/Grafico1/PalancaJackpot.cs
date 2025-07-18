@@ -28,6 +28,7 @@ public class PalancaJackpotFisico : MonoBehaviour
 
     [Header("Povs")]
     public GameObject povC;
+    public GameObject flechaC;
 
     [Header("Cámaras")]
     public Camera playerCamera;
@@ -71,6 +72,10 @@ public class PalancaJackpotFisico : MonoBehaviour
     private bool letraNarracionReproducida = false;
     private bool numeroNarracionReproducida = false;
 
+    // Nuevos flags para controlar activaciones únicas
+    private bool letraActivacionHecha = false;
+    private bool numeroActivacionHecha = false;
+
     private Coroutine spinLetra, spinSimbolo, spinNumero;
     private Camera mainCamera;
 
@@ -100,7 +105,7 @@ public class PalancaJackpotFisico : MonoBehaviour
 
     void Update()
     {
-        // movimiento de la cámara de jackpot
+        // Cámara jackpot
         if (movingCamera && jackpotCamera != null && jackpotCamTarget != null)
         {
             jackpotCamera.transform.position = Vector3.Lerp(
@@ -120,7 +125,7 @@ public class PalancaJackpotFisico : MonoBehaviour
             }
         }
 
-        // lógica de prompt de click (igual a ColocarObjeto)
+        // Prompt click
         if (mainCamera != null && clickCanvas != null)
         {
             if (!isRolling && !isJackpotCompleted)
@@ -173,11 +178,10 @@ public class PalancaJackpotFisico : MonoBehaviour
         jackpotCamera.gameObject.SetActive(true);
         playerCamera.gameObject.SetActive(false);
 
-        // Animar a target
         movingCamera = true;
         yield return new WaitUntil(() => movingCamera == false);
 
-        // Narración primer fallo + activar povC
+        // Narración primer fallo
         bool esJackpot = JackpotManager.Instance.forceLetterC &&
                          JackpotManager.Instance.forceSymbolStar &&
                          JackpotManager.Instance.forceNumber12;
@@ -186,7 +190,10 @@ public class PalancaJackpotFisico : MonoBehaviour
             NarrationManager.Instance.PlayNarration(audio23Marti);
             primerFalloYaOcurrido = true;
             if (povC != null)
+            {
                 povC.SetActive(true);
+                flechaC.SetActive(true);
+            }
         }
 
         // Sonido compuesto
@@ -209,8 +216,14 @@ public class PalancaJackpotFisico : MonoBehaviour
         yield return StartCoroutine(FrenarSoloDiff(ruedaLetra, JackpotManager.Instance.forceLetterC));
         if (JackpotManager.Instance.forceLetterC)
         {
-            objetosADesactivarLetra.ForEach(o => o?.SetActive(false));
-            objetosAActivarLetra.ForEach(o => o?.SetActive(true));
+            // Activar/desactivar LETRA sólo una vez
+            if (!letraActivacionHecha)
+            {
+                objetosADesactivarLetra.ForEach(o => o?.SetActive(false));
+                objetosAActivarLetra.ForEach(o => o?.SetActive(true));
+                letraActivacionHecha = true;
+            }
+            // Narración LETRA sólo una vez
             if (!letraNarracionReproducida && audio33Marti != null)
             {
                 NarrationManager.Instance.PlayNarration(audio33Marti);
@@ -229,8 +242,14 @@ public class PalancaJackpotFisico : MonoBehaviour
         yield return StartCoroutine(FrenarSoloDiff(ruedaNumero, JackpotManager.Instance.forceNumber12));
         if (JackpotManager.Instance.forceNumber12)
         {
-            objetosADesactivarNumero.ForEach(o => o?.SetActive(false));
-            objetosAActivarNumero.ForEach(o => o?.SetActive(true));
+            // Activar/desactivar NÚMERO sólo una vez
+            if (!numeroActivacionHecha)
+            {
+                objetosADesactivarNumero.ForEach(o => o?.SetActive(false));
+                objetosAActivarNumero.ForEach(o => o?.SetActive(true));
+                numeroActivacionHecha = true;
+            }
+            // Narración NÚMERO sólo una vez
             if (!numeroNarracionReproducida && audio32Marti != null)
             {
                 NarrationManager.Instance.PlayNarration(audio32Marti);
@@ -238,7 +257,7 @@ public class PalancaJackpotFisico : MonoBehaviour
             }
         }
 
-        // Lógica jackpot completo
+        // Jackpot completo
         if (esJackpot)
         {
             isJackpotCompleted = true;
@@ -250,7 +269,7 @@ public class PalancaJackpotFisico : MonoBehaviour
             objetosAActivar.ForEach(o => o?.SetActive(true));
         }
 
-        // Animar vuelta de cámara
+        // Volver cámara
         float t = 0f;
         Vector3 startPos = jackpotCamera.transform.position;
         Quaternion startRot = jackpotCamera.transform.rotation;
@@ -262,7 +281,7 @@ public class PalancaJackpotFisico : MonoBehaviour
             yield return null;
         }
 
-        // Restaurar controles y cámara jugador
+        // Restaurar controles y cámara
         jackpotCamera.gameObject.SetActive(false);
         playerCamera.gameObject.SetActive(true);
         if (playerController != null) playerController.enabled = true;

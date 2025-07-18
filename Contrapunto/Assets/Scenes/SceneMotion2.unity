@@ -2088,15 +2088,15 @@ MonoBehaviour:
   - {fileID: 719518607}
   - {fileID: 396352285}
   - {fileID: 1127250166}
-  rangoPerfecto: 15
-  rangoBueno: 30
+  rangoPerfecto: 50
+  rangoBueno: 80
   feedbackImage: {fileID: 1644335235}
   spritePerfecto: {fileID: 21300000, guid: 623ad10ebc882b344a9bbc02821d7296, type: 3}
   spriteBien: {fileID: 21300000, guid: 2b35fc30e54a3e34eaa4f6a6bc53a144, type: 3}
   spriteFallo: {fileID: 21300000, guid: 36687576a93d8954ba6419253028eb4a, type: 3}
   barraRendimiento: {fileID: 704180966}
   puntosPorPerfecto: 6
-  puntosPorBien: 2
+  puntosPorBien: 3
 --- !u!114 &244859209
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2483,10 +2483,18 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 286804934}
+    - targetCorrespondingSourceObject: {fileID: -7494929799176371243, guid: ded33e25dc53deb449d1fc03c491cd1a,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 286804937}
     - targetCorrespondingSourceObject: {fileID: 4470441844611919273, guid: ded33e25dc53deb449d1fc03c491cd1a,
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 286804933}
+    - targetCorrespondingSourceObject: {fileID: 4470441844611919273, guid: ded33e25dc53deb449d1fc03c491cd1a,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 286804936}
     - targetCorrespondingSourceObject: {fileID: 7874717877171951767, guid: ded33e25dc53deb449d1fc03c491cd1a,
         type: 3}
       insertIndex: -1
@@ -2734,6 +2742,40 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 421759309250123084, guid: ded33e25dc53deb449d1fc03c491cd1a, type: 3}
+--- !u!114 &286804936
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 286804928}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fb56db8b5519a74e89172d263bb4437, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  videoManager: {fileID: 1283221147}
+  playerCamera: {fileID: 967642195}
+  maxDistance: 5
+  audioSource: {fileID: 1295612706}
+  fadeDuration: 1
+--- !u!114 &286804937
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 286804929}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fb56db8b5519a74e89172d263bb4437, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  videoManager: {fileID: 1283221147}
+  playerCamera: {fileID: 967642195}
+  maxDistance: 5
+  audioSource: {fileID: 1295612706}
+  fadeDuration: 1
 --- !u!1 &292564741
 GameObject:
   m_ObjectHideFlags: 0
@@ -4830,15 +4872,15 @@ MonoBehaviour:
   - {fileID: 719518607}
   - {fileID: 396352285}
   - {fileID: 1127250166}
-  rangoPerfecto: 15
-  rangoBueno: 30
+  rangoPerfecto: 50
+  rangoBueno: 80
   feedbackImage: {fileID: 1644335235}
   spritePerfecto: {fileID: 21300000, guid: 623ad10ebc882b344a9bbc02821d7296, type: 3}
   spriteBien: {fileID: 21300000, guid: 2b35fc30e54a3e34eaa4f6a6bc53a144, type: 3}
   spriteFallo: {fileID: 21300000, guid: 36687576a93d8954ba6419253028eb4a, type: 3}
   barraRendimiento: {fileID: 704180966}
   puntosPorPerfecto: 6
-  puntosPorBien: 2
+  puntosPorBien: 3
 --- !u!114 &467967283
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5587,7 +5629,7 @@ VideoPlayer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 513043091}
   m_Enabled: 1
-  m_VideoClip: {fileID: 32900000, guid: c598d9384f2d8c84899041fda6fafa5d, type: 3}
+  m_VideoClip: {fileID: 32900000, guid: 186a127ae0fae3540845cfcc258acde1, type: 3}
   m_TargetCameraAlpha: 1
   m_TargetCamera3DLayout: 0
   m_TargetCamera: {fileID: 0}
@@ -5604,7 +5646,7 @@ VideoPlayer:
   m_TargetAudioSources:
   - {fileID: 0}
   m_DirectAudioVolumes:
-  - 0.4
+  - 0.5
   m_Url: 
   m_EnabledAudioTracks: 01
   m_DirectAudioMutes: 00
@@ -7059,15 +7101,15 @@ MonoBehaviour:
   - {fileID: 719518607}
   - {fileID: 396352285}
   - {fileID: 1127250166}
-  rangoPerfecto: 15
-  rangoBueno: 30
+  rangoPerfecto: 50
+  rangoBueno: 80
   feedbackImage: {fileID: 1644335235}
   spritePerfecto: {fileID: 21300000, guid: 623ad10ebc882b344a9bbc02821d7296, type: 3}
   spriteBien: {fileID: 21300000, guid: 2b35fc30e54a3e34eaa4f6a6bc53a144, type: 3}
   spriteFallo: {fileID: 21300000, guid: 36687576a93d8954ba6419253028eb4a, type: 3}
   barraRendimiento: {fileID: 704180966}
   puntosPorPerfecto: 6
-  puntosPorBien: 2
+  puntosPorBien: 3
 --- !u!64 &681619063
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -8137,7 +8179,7 @@ VideoPlayer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 829785662}
   m_Enabled: 1
-  m_VideoClip: {fileID: 32900000, guid: cfee49644bc095648b1287d9f643ef3e, type: 3}
+  m_VideoClip: {fileID: 32900000, guid: 546fb25301e11974699ab9a39807189f, type: 3}
   m_TargetCameraAlpha: 1
   m_TargetCamera3DLayout: 0
   m_TargetCamera: {fileID: 967642195}
@@ -8459,7 +8501,7 @@ VideoPlayer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 869847065}
   m_Enabled: 1
-  m_VideoClip: {fileID: 32900000, guid: c2a738fab9f94434aa3d71887026e92c, type: 3}
+  m_VideoClip: {fileID: 32900000, guid: 783de0d488c83e443b1d868a6c8a2e3b, type: 3}
   m_TargetCameraAlpha: 1
   m_TargetCamera3DLayout: 0
   m_TargetCamera: {fileID: 0}
@@ -8476,7 +8518,7 @@ VideoPlayer:
   m_TargetAudioSources:
   - {fileID: 0}
   m_DirectAudioVolumes:
-  - 1
+  - 0.5
   m_Url: 
   m_EnabledAudioTracks: 01
   m_DirectAudioMutes: 00
@@ -10772,7 +10814,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 12e7f2856c921824d9953080b6cd30f4,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5.61
+      value: -5.58
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 12e7f2856c921824d9953080b6cd30f4,
         type: 3}
@@ -10782,7 +10824,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 12e7f2856c921824d9953080b6cd30f4,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 49.04
+      value: 50.41
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 12e7f2856c921824d9953080b6cd30f4,
         type: 3}
@@ -10921,7 +10963,7 @@ MonoBehaviour:
   logoAmbiente: {fileID: 1871364732}
   fadeTime: 1
   clickCanvas: {fileID: 511052048}
-  pickupRange: 3
+  pickupRange: 5
 --- !u!95 &1122556330
 Animator:
   serializedVersion: 5
@@ -10977,6 +11019,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioMili4: {fileID: 8300000, guid: 977ae40af8889a04a8da8aa7b960ded7, type: 3}
+  mainCamera: {fileID: 967642195}
   delayBeforeSound: 0.5
 --- !u!1 &1123065996
 GameObject:
@@ -18575,7 +18618,7 @@ VideoPlayer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1838797623}
   m_Enabled: 1
-  m_VideoClip: {fileID: 32900000, guid: c1a275611e3f8f74992fdeda865b2a0b, type: 3}
+  m_VideoClip: {fileID: 32900000, guid: 7c77ff7b33ae5864e873138613f1a564, type: 3}
   m_TargetCameraAlpha: 1
   m_TargetCamera3DLayout: 0
   m_TargetCamera: {fileID: 0}
@@ -18592,7 +18635,7 @@ VideoPlayer:
   m_TargetAudioSources:
   - {fileID: 0}
   m_DirectAudioVolumes:
-  - 1
+  - 0.5
   m_Url: 
   m_EnabledAudioTracks: 01
   m_DirectAudioMutes: 00
@@ -19766,7 +19809,7 @@ VideoPlayer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2010928828}
   m_Enabled: 1
-  m_VideoClip: {fileID: 32900000, guid: 097c486f5ffbb5e44a7acb1d5425e8a4, type: 3}
+  m_VideoClip: {fileID: 32900000, guid: 7cedcef9c9d23a644b11af156d2ba871, type: 3}
   m_TargetCameraAlpha: 1
   m_TargetCamera3DLayout: 0
   m_TargetCamera: {fileID: 0}
@@ -19783,7 +19826,7 @@ VideoPlayer:
   m_TargetAudioSources:
   - {fileID: 0}
   m_DirectAudioVolumes:
-  - 1
+  - 0.5
   m_Url: 
   m_EnabledAudioTracks: 01
   m_DirectAudioMutes: 00
@@ -20454,15 +20497,15 @@ MonoBehaviour:
   - {fileID: 719518607}
   - {fileID: 396352285}
   - {fileID: 1127250166}
-  rangoPerfecto: 15
-  rangoBueno: 30
+  rangoPerfecto: 50
+  rangoBueno: 80
   feedbackImage: {fileID: 1644335235}
   spritePerfecto: {fileID: 21300000, guid: 623ad10ebc882b344a9bbc02821d7296, type: 3}
   spriteBien: {fileID: 21300000, guid: 2b35fc30e54a3e34eaa4f6a6bc53a144, type: 3}
   spriteFallo: {fileID: 21300000, guid: 36687576a93d8954ba6419253028eb4a, type: 3}
   barraRendimiento: {fileID: 704180966}
   puntosPorPerfecto: 6
-  puntosPorBien: 2
+  puntosPorBien: 3
 --- !u!114 &2075459735
 MonoBehaviour:
   m_ObjectHideFlags: 0

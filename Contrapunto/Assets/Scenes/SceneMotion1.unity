@@ -12774,7 +12774,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 12e7f2856c921824d9953080b6cd30f4,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 64.33
+      value: 56.29
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 12e7f2856c921824d9953080b6cd30f4,
         type: 3}
@@ -12954,7 +12954,7 @@ MonoBehaviour:
   audioNarracion: {fileID: 1696815256}
   fadeDuration: 0
   clickCanvas: {fileID: 1979193275}
-  pickupRange: 3
+  pickupRange: 5
 --- !u!114 &1535741821
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12968,6 +12968,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioMili4: {fileID: 8300000, guid: 3b1bd90b830b7714f83c2d083c735328, type: 3}
+  mainCamera: {fileID: 947453835}
   delayBeforeSound: 0.5
 --- !u!65 &1535741822
 BoxCollider:
@@ -15883,7 +15884,7 @@ MonoBehaviour:
     subtitle: "Mili:\n\xA1Ay! \xA1Esto cambi\xF3! \xA1Ven\xED, ven\xED! \xA1Dice
       sincronizar!"
   - clip: {fileID: 8300000, guid: f7a9852937762c245903a8fed72d8227, type: 3}
-    subtitle: "Mili:\n\xA1Naaa! \xA1Pero sos una inminencia! Ahora si, todo se ve
+    subtitle: "Mili:\n\xA1Naaa! \xA1Pero sos una eminencia! Ahora si, todo se ve
       mejor.\r\n"
   - clip: {fileID: 8300000, guid: 3b1bd90b830b7714f83c2d083c735328, type: 3}
     subtitle: "Mili:\n\xBFQu\xE9 es ese ruido? Ah nooo, \xA1mira! \xA1Mira eso que

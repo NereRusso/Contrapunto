@@ -5,6 +5,7 @@ public class PovInteractionTwo : MonoBehaviour
     public Camera visorCamera;
     public GameObject player;
     public GameObject visorController;
+    public GameObject flecha;
 
     [Header("Sonido al hacer click")]
     public AudioSource audioSource;
@@ -62,6 +63,7 @@ public class PovInteractionTwo : MonoBehaviour
         // Activo el modo visor
         player.SetActive(false);
         visorController.SetActive(true);
+        flecha.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 

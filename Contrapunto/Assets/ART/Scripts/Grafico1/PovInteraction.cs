@@ -5,6 +5,7 @@ public class PovInteraction : MonoBehaviour
     public Camera visorCamera;
     public GameObject player;
     public GameObject visorController;
+    public GameObject flecha;
 
     [Header("Audio al hacer click")]
     public AudioSource clickSound;  // Asigná el AudioSource con el sonido en el Inspector
@@ -61,6 +62,7 @@ public class PovInteraction : MonoBehaviour
         if (clickSound != null) clickSound.Play();
         player.SetActive(false);
         visorController.SetActive(true);
+        flecha.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
