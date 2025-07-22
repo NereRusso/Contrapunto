@@ -25,6 +25,9 @@ public class ManagerOpOne : MonoBehaviour
     public AudioClip sonidoAcierto;
     public AudioClip sonidoFallo;
 
+    [Header("Inputs del minijuego")]
+    public MonoBehaviour scriptInputFlechas; // Asigná acá el script que escucha los inputs de flechas
+
     void Awake()
     {
         Instance = this;
@@ -33,6 +36,9 @@ public class ManagerOpOne : MonoBehaviour
     void Start()
     {
         canvasJuego.SetActive(false);
+
+        if (scriptInputFlechas != null)
+            scriptInputFlechas.enabled = false;
 
         if (rawImageFade != null)
         {
@@ -112,6 +118,9 @@ public class ManagerOpOne : MonoBehaviour
 
         // Esperar 1 segundo antes de empezar el juego
         yield return new WaitForSeconds(2f);
+
+        if (scriptInputFlechas != null)
+            scriptInputFlechas.enabled = true;
 
         arrowSpawner.IniciarSpawner();
     }

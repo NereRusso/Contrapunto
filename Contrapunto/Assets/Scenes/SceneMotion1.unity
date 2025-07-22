@@ -3219,10 +3219,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1979193279}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 63.9, y: 27.4}
+  m_SizeDelta: {x: 0, y: 27.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &368113196
 MonoBehaviour:
@@ -3272,8 +3272,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 25
-  m_fontSizeBase: 25
+  m_fontSize: 30
+  m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -4243,7 +4243,7 @@ Canvas:
   m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 0
-  m_Camera: {fileID: 947453835}
+  m_Camera: {fileID: 5126527960641813564}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
@@ -5442,7 +5442,7 @@ VideoPlayer:
   m_VideoClip: {fileID: 32900000, guid: 58b2b9946c0731c4f99fb567f743ce17, type: 3}
   m_TargetCameraAlpha: 1
   m_TargetCamera3DLayout: 0
-  m_TargetCamera: {fileID: 947453835}
+  m_TargetCamera: {fileID: 5126527960641813564}
   m_TargetTexture: {fileID: 0}
   m_TimeReference: 0
   m_TargetMaterialRenderer: {fileID: 0}
@@ -7016,6 +7016,11 @@ PrefabInstance:
       propertyPath: m_LocalScale.y
       value: 1.5
       objectReference: {fileID: 0}
+    - target: {fileID: 2862278905927072854, guid: 035bf1ba97d19214580cfe6f5a29fdc3,
+        type: 3}
+      propertyPath: m_Lens.FieldOfView
+      value: 55
+      objectReference: {fileID: 0}
     - target: {fileID: 2862278905927072855, guid: 035bf1ba97d19214580cfe6f5a29fdc3,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -7040,6 +7045,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.y
       value: 11.147317
+      objectReference: {fileID: 0}
+    - target: {fileID: 5126527961139664767, guid: 035bf1ba97d19214580cfe6f5a29fdc3,
+        type: 3}
+      propertyPath: field of view
+      value: 55
+      objectReference: {fileID: 0}
+    - target: {fileID: 5126527961139664767, guid: 035bf1ba97d19214580cfe6f5a29fdc3,
+        type: 3}
+      propertyPath: far clip plane
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 5126527961139664767, guid: 035bf1ba97d19214580cfe6f5a29fdc3,
+        type: 3}
+      propertyPath: near clip plane
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 5126527961139664767, guid: 035bf1ba97d19214580cfe6f5a29fdc3,
         type: 3}
@@ -8113,12 +8133,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: a8321e9a7aafa1445a8633806bd2a0be,
     type: 3}
   m_PrefabInstance: {fileID: 947338102}
-  m_PrefabAsset: {fileID: 0}
---- !u!20 &947453835 stripped
-Camera:
-  m_CorrespondingSourceObject: {fileID: 5126527961139664767, guid: 035bf1ba97d19214580cfe6f5a29fdc3,
-    type: 3}
-  m_PrefabInstance: {fileID: 805301059}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &995183679
 GameObject:
@@ -9266,7 +9280,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clickPrompt: {fileID: 1979193275}
-  pickupRange: 45
+  pickupRange: 35
 --- !u!1 &1134206938
 GameObject:
   m_ObjectHideFlags: 0
@@ -12968,7 +12982,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioMili4: {fileID: 8300000, guid: 3b1bd90b830b7714f83c2d083c735328, type: 3}
-  mainCamera: {fileID: 947453835}
+  mainCamera: {fileID: 5126527960641813564}
   delayBeforeSound: 0.5
 --- !u!65 &1535741822
 BoxCollider:
@@ -16466,8 +16480,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 3.3932304, y: 1, z: 6.526314}
-  m_Center: {x: 0.2415657, y: 0, z: -2.763157}
+  m_Size: {x: 3.3932304, y: 1, z: 8.897888}
+  m_Center: {x: 0.2415657, y: 0, z: -3.948944}
 --- !u!114 &1922466472
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18336,6 +18350,12 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5743382698629736957}
   m_Mesh: {fileID: 5074941243508514199, guid: 1f95b7de1bb3dce41968062902df0e90, type: 3}
+--- !u!20 &5126527960641813564 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 5126527961139664767, guid: 035bf1ba97d19214580cfe6f5a29fdc3,
+    type: 3}
+  m_PrefabInstance: {fileID: 805301059}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &5743382698629736957
 GameObject:
   m_ObjectHideFlags: 0

@@ -3,6 +3,7 @@ using UnityEngine.Video;
 using StarterAssets;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using System.Collections;
 
 public class CambioSceneFINAL : MonoBehaviour
 {
@@ -21,6 +22,7 @@ public class CambioSceneFINAL : MonoBehaviour
     public GameObject sonidoAmbiente;
     public GameObject logoAmbiente;
     public GameObject logoFinal;
+    public GameObject fondoNegro;
 
     public float fadeTime = 1f;
 
@@ -37,6 +39,9 @@ public class CambioSceneFINAL : MonoBehaviour
     public Button redirectButton;
     [Tooltip("URL externa a la que quieres ir")]
     public string redirectURL;
+
+    // Nuevo: CanvasGroup para controlar alpha e interactividad
+    private CanvasGroup finalScreenCanvasGroup;
 
     private FirstPersonController fpsController;
     private StarterAssetsInputs starterInputs;
@@ -64,27 +69,32 @@ public class CambioSceneFINAL : MonoBehaviour
         }
 
         // Audio sources
-        if (sonidoAmbiente != null)
-            sonidoAmbienteSource = sonidoAmbiente.GetComponent<AudioSource>();
-        if (logoAmbiente != null)
-            logoAmbienteSource = logoAmbiente.GetComponent<AudioSource>();
-        if (logoFinal != null)
-            logoFinalSource = logoFinal.GetComponent<AudioSource>();
+        if (sonidoAmbiente != null) sonidoAmbienteSource = sonidoAmbiente.GetComponent<AudioSource>();
+        if (logoAmbiente != null) logoAmbienteSource = logoAmbiente.GetComponent<AudioSource>();
+        if (logoFinal != null) logoFinalSource = logoFinal.GetComponent<AudioSource>();
 
         // Hide video images
-        if (videoImage != null)
-            videoImage.color = new Color(1f, 1f, 1f, 0f);
-        if (segundoVideoImage != null)
-            segundoVideoImage.color = new Color(1f, 1f, 1f, 0f);
+        if (videoImage != null) videoImage.color = new Color(1, 1, 1, 0);
+        if (segundoVideoImage != null) segundoVideoImage.color = new Color(1, 1, 1, 0);
 
         // Prompt setup
         mainCamera = Camera.main;
-        if (clickCanvas != null)
-            clickCanvas.SetActive(false);
+        if (clickCanvas != null) clickCanvas.SetActive(false);
 
-        // Final screen setup
+        // Final screen setup con CanvasGroup
         if (finalScreenCanvas != null)
-            finalScreenCanvas.SetActive(false);
+        {
+            // Asegurarse de que esté activo (pero invisible) para que CanvasGroup funcione
+            finalScreenCanvas.SetActive(true);
+
+            finalScreenCanvasGroup = finalScreenCanvas.GetComponent<CanvasGroup>();
+            if (finalScreenCanvasGroup == null)
+                finalScreenCanvasGroup = finalScreenCanvas.AddComponent<CanvasGroup>();
+
+            finalScreenCanvasGroup.alpha = 0f;
+            finalScreenCanvasGroup.interactable = false;
+            finalScreenCanvasGroup.blocksRaycasts = false;
+        }
     }
 
     void Update()
@@ -109,7 +119,6 @@ public class CambioSceneFINAL : MonoBehaviour
 
     void OnMouseDown()
     {
-        // Ocultamos prompt al clickear
         if (clickCanvas != null)
             clickCanvas.SetActive(false);
 
@@ -124,12 +133,9 @@ public class CambioSceneFINAL : MonoBehaviour
         // Fade out de ambientes
         if (AmbientManager.Instance != null)
             AmbientManager.Instance.StopAllAmbients();
-        if (sonidoAmbienteSource != null)
-            StartCoroutine(FadeOutAudio(sonidoAmbienteSource, fadeTime));
-        if (logoAmbienteSource != null)
-            StartCoroutine(FadeOutAudio(logoAmbienteSource, fadeTime));
-        if (logoFinalSource != null)
-            StartCoroutine(FadeOutAudio(logoFinalSource, fadeTime));
+        if (sonidoAmbienteSource != null) StartCoroutine(FadeOutAudio(sonidoAmbienteSource, fadeTime));
+        if (logoAmbienteSource != null) StartCoroutine(FadeOutAudio(logoAmbienteSource, fadeTime));
+        if (logoFinalSource != null) StartCoroutine(FadeOutAudio(logoFinalSource, fadeTime));
 
         // Reproducir primer video
         if (videoPlayer != null && videoImage != null)
@@ -147,13 +153,13 @@ public class CambioSceneFINAL : MonoBehaviour
         StartCoroutine(CambiarAVideoFinal());
     }
 
-    System.Collections.IEnumerator CambiarAVideoFinal()
+    IEnumerator CambiarAVideoFinal()
     {
         if (segundoVideoPlayer != null && segundoVideoImage != null)
         {
             segundoVideoImage.gameObject.SetActive(true);
 
-            // Subscribirse al final del segundo video
+            // Subscribir para detectar el fin (solo para ocultar el video)
             segundoVideoPlayer.loopPointReached += OnFinalVideoEnded;
 
             segundoVideoPlayer.gameObject.SetActive(true);
@@ -161,72 +167,87 @@ public class CambioSceneFINAL : MonoBehaviour
 
             yield return StartCoroutine(FadeVideoIn(segundoVideoImage));
 
-            // luego de mostrar el segundo video, desactivamos el primero
+            // Desactivar primer video
             videoPlayer.gameObject.SetActive(false);
             videoImage.gameObject.SetActive(false);
+
+            // Nuevo: empezar conteo para mostrar canvas final 7s antes
+            StartCoroutine(ShowFinalScreenBeforeEnd());
         }
     }
 
-    // Se ejecuta cuando termina el segundo video
+    // Nuevo: espera hasta (duración - 7s) y lanza el fade del canvas
+    IEnumerator ShowFinalScreenBeforeEnd()
+    {
+        double totalDuration = segundoVideoPlayer.length;
+        double waitTime = totalDuration - 7.0;
+        if (waitTime > 0)
+            yield return new WaitForSeconds((float)waitTime);
+
+        yield return StartCoroutine(FadeFinalScreenIn());
+    }
+
+    // Nuevo: fade-in del finalScreenCanvas usando CanvasGroup
+    IEnumerator FadeFinalScreenIn()
+    {
+        float timer = 0f;
+        while (timer < fadeTime)
+        {
+            timer += Time.deltaTime;
+            finalScreenCanvasGroup.alpha = timer / fadeTime;
+            yield return null;
+        }
+        finalScreenCanvasGroup.alpha = 1f;
+        finalScreenCanvasGroup.interactable = true;
+        finalScreenCanvasGroup.blocksRaycasts = true;
+
+        // Habilitar cursor y botón
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+        fondoNegro.SetActive(true);
+        if (redirectButton != null && !string.IsNullOrEmpty(redirectURL))
+        {
+            redirectButton.onClick.AddListener(() =>
+            {
+                Application.OpenURL(redirectURL);
+                Application.Quit();
+            });
+        }
+    }
+
+    // Solo oculta el video al terminar; no muestra más el canvas aquí
     void OnFinalVideoEnded(VideoPlayer vp)
     {
-        // Desuscribirse para que no se llame varias veces
         vp.loopPointReached -= OnFinalVideoEnded;
-
-        
-
-        // Mostrar la pantalla negra con botón
-        if (finalScreenCanvas != null)
-        {
-            finalScreenCanvas.SetActive(true);
-            // Ocultar el segundo video
-            if (segundoVideoImage != null)
-            segundoVideoImage.gameObject.SetActive(false);
-            if (segundoVideoPlayer != null)
-            segundoVideoPlayer.gameObject.SetActive(false);
-
-            // Habilitar cursor
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
-
-            if (redirectButton != null && !string.IsNullOrEmpty(redirectURL))
-            {
-                redirectButton.onClick.AddListener(() =>
-                {
-                    Application.OpenURL(redirectURL);
-                    Application.Quit();
-                });
-            }
-        }
+        if (segundoVideoImage != null) segundoVideoImage.gameObject.SetActive(false);
+        if (segundoVideoPlayer != null) segundoVideoPlayer.gameObject.SetActive(false);
     }
 
-    System.Collections.IEnumerator FadeVideoIn(RawImage image)
+    IEnumerator FadeVideoIn(RawImage image)
     {
         float timer = 0f;
         while (timer < fadeTime)
         {
             float alpha = timer / fadeTime;
-            Color c = image.color;
-            image.color = new Color(c.r, c.g, c.b, alpha);
+            image.color = new Color(1f, 1f, 1f, alpha);
             timer += Time.deltaTime;
             yield return null;
         }
-        image.color = new Color(image.color.r, image.color.g, image.color.b, 1f);
+        image.color = new Color(1f, 1f, 1f, 1f);
     }
 
-    System.Collections.IEnumerator FadeOutAudio(AudioSource audioSource, float duration)
+    IEnumerator FadeOutAudio(AudioSource audioSrc, float duration)
     {
-        if (audioSource == null || !audioSource.isPlaying) yield break;
-
-        float startVolume = audioSource.volume;
+        if (audioSrc == null || !audioSrc.isPlaying) yield break;
+        float startVol = audioSrc.volume;
         float timer = 0f;
         while (timer < duration)
         {
             timer += Time.deltaTime;
-            audioSource.volume = Mathf.Lerp(startVolume, 0f, timer / duration);
+            audioSrc.volume = Mathf.Lerp(startVol, 0f, timer / duration);
             yield return null;
         }
-        audioSource.Stop();
-        audioSource.volume = startVolume;
+        audioSrc.Stop();
+        audioSrc.volume = startVol;
     }
 }
